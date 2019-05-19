@@ -1,0 +1,455 @@
+<html>
+<head>
+	<META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<link rel="stylesheet" href="report.css" type="text/css"/>
+	<title>Web Wireframe - 12-crear trimestres </title>
+	<script type="text/javascript" src="report.js"></script>
+	<script type="text/javascript" src="link_popup.js"></script>
+	<script type="text/javascript" src="tooltip.js"></script>
+</head>
+<body style="margin-left: 10px; margin-right: 10px; margin-top: 10px; margin-bottom: 10px;" onload="initPage();initDiagram();initWireframeDiagram();">
+	<div style="position:absolute; z-index:2; visibility:hidden;border-top: 2px #FF0000 solid;" id="spotlight_top">
+	</div>
+	<div style="position:absolute; z-index:2; visibility:hidden;border-top: 2px #FF0000 solid;" id="spotlight_bottom">
+	</div>
+	<div style="position:absolute; z-index:2; visibility:hidden;border-left: 2px #FF0000 solid;" id="spotlight_left">
+	</div>
+	<div style="position:absolute; z-index:2; visibility:hidden;border-left: 2px #FF0000 solid;" id="spotlight_right">
+	</div>
+	<canvas width="100" style="position:absolute; z-index:2; visibility:hidden" id="spotlight_c" height="100">
+	</canvas>
+	<div style="position:absolute; width:100px; height:100px; z-index:1; visibility:hidden" id="spotLightResourcesTop">
+		<table border="0" cellpadding="0" cellspacing="0">
+			<tr>
+				<td>
+<a href="#top"><img style="border:none" src="../images/icons/BackToTop.gif" alt="Back to top"/></a>				</td>
+				<td>
+<a href="javascript:clearSpotLightFromOpenSpecButton();"><img style="border:none" src="../images/icons/OpenSpecification.gif" alt="Open specification"/></a>				</td>
+			</tr>
+		</table>
+	</div>
+	<div style="position:absolute; width:100px; height:100px; z-index:1; visibility:hidden" id="spotLightResourcesRight">
+		<table border="0" cellpadding="0" cellspacing="0">
+			<tr>
+				<td>
+<a href="#top"><img style="border:none" src="../images/icons/BackToTop.gif" alt="Back to top"/></a>				</td>
+			</tr>
+			<tr>
+				<td>
+<a href="javascript:clearSpotLightFromOpenSpecButton();"><img style="border:none" src="../images/icons/OpenSpecification.gif" alt="Open specification"/></a>				</td>
+			</tr>
+		</table>
+	</div>
+	<div style="position:absolute;z-index:4;visibility:hidden" id="linkPopupMenuLayer">
+		<table border="0" width="100%" style="border-style:solid; border-width:1px; border-color:#000000; background:#FFFFFF; width:250px" id="linkPopupMenuTable">
+		</table>
+	</div>
+	<div style="position:absolute; z-index:1; visibility:hidden; " id="referenceIconLayer">
+		<table border="0" cellpadding="3" cellspacing="0" style="font-size:1;">
+			<tr>
+				<td>
+					<img src="../images/icons/Ref.gif" style="border:none" onclick="movePopupPositionToReferenceIconPosition();resetPopupForReference();switchPopupShowHideStatus();" />				</td>
+			</tr>
+		</table>
+	</div>
+	<div style="position:absolute; z-index:1; visibility:hidden; " id="subdiagramIconLayer">
+		<table border="0" cellpadding="3" cellspacing="0" style="font-size:1;">
+			<tr>
+				<td>
+					<img src="../images/icons/Subdiagram.gif" style="border:none" onclick="movePopupPositionToSubdiagramIconPosition();resetPopupForSubdiagram();switchPopupShowHideStatus();" />				</td>
+			</tr>
+		</table>
+	</div>
+	<div style="position:absolute; z-index:1; visibility:hidden; " id="transitorIconLayer">
+		<table border="0" cellpadding="3" cellspacing="0" style="font-size:1;">
+			<tr>
+				<td>
+					<img src="../images/icons/Transitor.gif" style="border:none" onclick="movePopupPositionToTransitorIconPosition();resetPopupForTransitor();switchPopupShowHideStatus();" />				</td>
+			</tr>
+		</table>
+	</div>
+	<div style="position:absolute; z-index:1; visibility:hidden; " id="documentationIconLayer">
+		<table border="0" cellpadding="3" cellspacing="0" style="font-size:1;">
+			<tr>
+				<td>
+					<img src="../images/icons/Documentation.png" style="border:none" />				</td>
+			</tr>
+		</table>
+	</div>
+	<div class="HeaderText">
+		HOURGLASS	</div>
+	<table border="0" cellpadding="0" width="100%" cellspacing="0">
+		<tr>
+			<td class="HeaderLine1">
+			</td>
+		</tr>
+		<tr>
+			<td class="HeaderLine2">
+			</td>
+		</tr>
+		<tr>
+			<td class="HeaderLine3">
+			</td>
+		</tr>
+	</table>
+	<div style="position:absolute; z-index:21; visibility:hidden" id="referencedBys">
+		<table border="0" width="100%" style="border-style:solid; border-width:1px; border-color:#000000; background:#FFFFFF; width:250px" id="referencedBysTable">
+		</table>
+	</div>
+	<div style="position:absolute; z-index:21; visibility:hidden" id="vplink">
+		<table border="1" cellpadding="0" cellspacing="0" bordercolor="#A9BFD3">
+			<tr>
+				<td>
+					<table border="0" cellpadding="0" width="100%" cellspacing="0">
+						<tr style="background:#DDDDDD">
+							<td style="font-size: 12px;" align="left">
+								<select onchange="vpLinkToggleName()" id="vplink-linkType">
+	<option value="Project Link">Project Link</option>
+	<option value="Page URL">Page URL</option>
+</select>
+							</td>
+							<td style="font-size: 12px;" align="right">
+								<input onclick="javascript: vpLinkToggleName()" id="vplink-checkbox" type="checkbox" />
+								<label for="vplink-checkbox">with Name</label>							</td>
+						</tr>
+					</table>
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<textarea id="vplink-text" style="width: 348px; height: 60px; border-color: #7EADD9; outline: none;"></textarea>				</td>
+			</tr>
+		</table>
+	</div>
+	<p class="PageTitle">
+		<span id="PageTitleText">
+			Web Wireframe - 12-crear trimestres 		</span>
+<a onclick="javascript: showVpLink('HOURGLASS.vpp://diagram/pP3X3VaGAqBkBRsl', '12-crear trimestres \nHOURGLASS.vpp://diagram/pP3X3VaGAqBkBRsl', '12-crear trimestres ', this); return false;" style="padding-left: 16px; font-size: 12px" href="#"><img src="../images/icons/link.png" border="0"> link</a>	</p>
+	<div style="position: relative; padding-bottom: 20px;">
+		<table border="0" cellpadding="0" width="auto" cellspacing="0" style="position: absolute; top: 0; left: 0; z-index: 20;">
+			<tr>
+				<td>
+<a href="javascript:showWireframeStatesDialog()"><span class="TableContent ItemLink">Show State Overview</span></a>				</td>
+				<td width="10px">
+				</td>
+				<td>
+					<table border="0" cellpadding="0" width="100%" cellspacing="0" id="selectShapeVP3X3VaGAqBkBRsn">
+						<tr>
+							<td>
+<span class="TableContent">Jump to:</span>								<select class="TableContent" onChange="scrollWin('diagramVP3X3VaGAqBkBRsn', this.value);hideLinkPopup();showSpotLight('diagramVP3X3VaGAqBkBRsn', this.value)">
+<option value="">Please select an element</option>
+<option value="shape|2.0|2.0|1020.0|590.0|#VP3X3VaGAqBkBRsn;7_3X3VaGAqBkBRso|#VP3X3VaGAqBkBRsn;7_3X3VaGAqBkBRso|7_3X3VaGAqBkBRso" id="option7_3X3VaGAqBkBRso">Web Browser : Browser</option>
+<option value="shape|204.0|127.0|644.0|341.0|#VP3X3VaGAqBkBRsn;11l33VaGAqBkBRvW|#VP3X3VaGAqBkBRsn;11l33VaGAqBkBRvW|11l33VaGAqBkBRvW" id="option11l33VaGAqBkBRvW">Panel : Panel</option>
+<option value="shape|238.0|217.0|164.0|20.0|#VP3X3VaGAqBkBRsn;j1l33VaGAqBkBRvv|#VP3X3VaGAqBkBRsn;j1l33VaGAqBkBRvv|j1l33VaGAqBkBRvv" id="optionj1l33VaGAqBkBRvv">Nombre del trimestre
+
+
+
+ : Label</option>
+<option value="shape|427.0|147.0|245.0|20.0|#VP3X3VaGAqBkBRsn;D1l33VaGAqBkBRvr|#VP3X3VaGAqBkBRsn;D1l33VaGAqBkBRvr|D1l33VaGAqBkBRvr" id="optionD1l33VaGAqBkBRvr">crear el trimestre : Label</option>
+<option value="shape|242.0|288.0|164.0|20.0|#VP3X3VaGAqBkBRsn;D1l33VaGAqBkBRvn|#VP3X3VaGAqBkBRsn;D1l33VaGAqBkBRvn|D1l33VaGAqBkBRvn" id="optionD1l33VaGAqBkBRvn">Estado
+
+ : Label</option>
+<option value="shape|427.0|279.0|154.0|40.0|#VP3X3VaGAqBkBRsn;91l33VaGAqBkBRvi|#VP3X3VaGAqBkBRsn;91l33VaGAqBkBRvi|91l33VaGAqBkBRvi" id="option91l33VaGAqBkBRvi">Combo Box : Combo Box</option>
+<option value="shape|238.0|361.0|152.0|20.0|#VP3X3VaGAqBkBRsn;d1l33VaGAqBkBRve|#VP3X3VaGAqBkBRsn;d1l33VaGAqBkBRve|d1l33VaGAqBkBRve" id="optiond1l33VaGAqBkBRve">Jornada
+ : Label</option>
+<option value="shape|728.0|417.0|120.0|40.0|#VP3X3VaGAqBkBRsn;t1l33VaGAqBkBRvb|#VP3X3VaGAqBkBRsn;t1l33VaGAqBkBRvb|t1l33VaGAqBkBRvb" id="optiont1l33VaGAqBkBRvb">crear : Button</option>
+<option value="shape|412.0|209.0|274.0|38.0|#VP3X3VaGAqBkBRsn;N1l33VaGAqBkBRvY|#VP3X3VaGAqBkBRsn;N1l33VaGAqBkBRvY|N1l33VaGAqBkBRvY" id="optionN1l33VaGAqBkBRvY">Text Field : Text Field</option>
+<option value="shape|391.0|354.0|198.0|40.0|#VP3X3VaGAqBkBRsn;R1l33VaGAqBkBRvQ|#VP3X3VaGAqBkBRsn;R1l33VaGAqBkBRvQ|R1l33VaGAqBkBRvQ" id="optionR1l33VaGAqBkBRvQ">Combo Box : Combo Box</option>
+<option value="shape|721.0|189.0|853.0|50.0|#VP3X3VaGAqBkBRsn;lNl33VaGAqBkBRv8|#VP3X3VaGAqBkBRsn;lNl33VaGAqBkBRv8|lNl33VaGAqBkBRv8" id="optionlNl33VaGAqBkBRv8">ingrese el nombre del trimestre : Annotation</option>
+<option value="shape|649.0|267.0|978.0|41.0|#VP3X3VaGAqBkBRsn;DNl33VaGAqBkBRwA|#VP3X3VaGAqBkBRsn;DNl33VaGAqBkBRwA|DNl33VaGAqBkBRwA" id="optionDNl33VaGAqBkBRwA">ingrese el estado del trimestre : Annotation</option>
+<option value="shape|631.0|349.0|985.0|45.0|#VP3X3VaGAqBkBRsn;7Nl33VaGAqBkBRwE|#VP3X3VaGAqBkBRsn;7Nl33VaGAqBkBRwE|7Nl33VaGAqBkBRwE" id="option7Nl33VaGAqBkBRwE">ingrese la jornada del trimestre : Annotation</option>
+</select>							</td>
+						</tr>
+					</table>
+				</td>
+			</tr>
+		</table>
+		<span data-value="VP3X3VaGAqBkBRsn" style="display: none;" id="defaultState">
+		</span>
+		<span data-value="Web Wireframe - 12-crear trimestres  - abre un cuadro con todos los trimestres" style="display: none;" id="defaultPageTitleText">
+		</span>
+		<table border="0" cellpadding="0" width="100%" cellspacing="0" style="position: relative; top: 24;">
+			<tr>
+				<td>
+					<img id="diagramVP3X3VaGAqBkBRsn" src="../images/12crear_trimestres_abre_un_cuadro_con_todos_los_trimestres.png" usemap="#diagramVP3X3VaGAqBkBRsn_map" class="Image" width="1631" height="596"/>
+					<map name="diagramVP3X3VaGAqBkBRsn_map">
+<area imageId="diagramVP3X3VaGAqBkBRsn" coords="631, 349, 1616, 394" coords2="631, 349, 1616, 394" shape="rect" alt="ingrese la jornada del trimestre:Annotation" id="areadiagramVP3X3VaGAqBkBRsn_map_7Nl33VaGAqBkBRwE" href="#VP3X3VaGAqBkBRsn;7Nl33VaGAqBkBRwE" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagramVP3X3VaGAqBkBRsn" coords="649, 267, 1627, 308" coords2="649, 267, 1627, 308" shape="rect" alt="ingrese el estado del trimestre:Annotation" id="areadiagramVP3X3VaGAqBkBRsn_map_DNl33VaGAqBkBRwA" href="#VP3X3VaGAqBkBRsn;DNl33VaGAqBkBRwA" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagramVP3X3VaGAqBkBRsn" coords="721, 189, 1574, 239" coords2="721, 189, 1574, 239" shape="rect" alt="ingrese el nombre del trimestre:Annotation" id="areadiagramVP3X3VaGAqBkBRsn_map_lNl33VaGAqBkBRv8" href="#VP3X3VaGAqBkBRsn;lNl33VaGAqBkBRv8" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagramVP3X3VaGAqBkBRsn" coords="391, 354, 589, 394" coords2="391, 354, 589, 394" shape="rect" alt="Combo Box:Combo Box" id="areadiagramVP3X3VaGAqBkBRsn_map_R1l33VaGAqBkBRvQ" href="#VP3X3VaGAqBkBRsn;R1l33VaGAqBkBRvQ" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagramVP3X3VaGAqBkBRsn" coords="412, 209, 686, 247" coords2="412, 209, 686, 247" shape="rect" alt="Text Field:Text Field" id="areadiagramVP3X3VaGAqBkBRsn_map_N1l33VaGAqBkBRvY" href="#VP3X3VaGAqBkBRsn;N1l33VaGAqBkBRvY" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagramVP3X3VaGAqBkBRsn" coords="728, 417, 848, 457" coords2="728, 417, 848, 457" shape="rect" alt="crear:Button" id="areadiagramVP3X3VaGAqBkBRsn_map_t1l33VaGAqBkBRvb" href="#VP3X3VaGAqBkBRsn;t1l33VaGAqBkBRvb" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagramVP3X3VaGAqBkBRsn" coords="238, 361, 390, 381" coords2="238, 361, 390, 381" shape="rect" alt="Jornada
+:Label" id="areadiagramVP3X3VaGAqBkBRsn_map_d1l33VaGAqBkBRve" href="#VP3X3VaGAqBkBRsn;d1l33VaGAqBkBRve" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagramVP3X3VaGAqBkBRsn" coords="427, 279, 581, 319" coords2="427, 279, 581, 319" shape="rect" alt="Combo Box:Combo Box" id="areadiagramVP3X3VaGAqBkBRsn_map_91l33VaGAqBkBRvi" href="#VP3X3VaGAqBkBRsn;91l33VaGAqBkBRvi" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagramVP3X3VaGAqBkBRsn" coords="242, 288, 406, 308" coords2="242, 288, 406, 308" shape="rect" alt="Estado
+
+:Label" id="areadiagramVP3X3VaGAqBkBRsn_map_D1l33VaGAqBkBRvn" href="#VP3X3VaGAqBkBRsn;D1l33VaGAqBkBRvn" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagramVP3X3VaGAqBkBRsn" coords="427, 147, 672, 167" coords2="427, 147, 672, 167" shape="rect" alt="crear el trimestre:Label" id="areadiagramVP3X3VaGAqBkBRsn_map_D1l33VaGAqBkBRvr" href="#VP3X3VaGAqBkBRsn;D1l33VaGAqBkBRvr" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagramVP3X3VaGAqBkBRsn" coords="238, 217, 402, 237" coords2="238, 217, 402, 237" shape="rect" alt="Nombre del trimestre
+
+
+
+:Label" id="areadiagramVP3X3VaGAqBkBRsn_map_j1l33VaGAqBkBRvv" href="#VP3X3VaGAqBkBRsn;j1l33VaGAqBkBRvv" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagramVP3X3VaGAqBkBRsn" coords="204, 127, 848, 468" coords2="204, 127, 848, 468" shape="rect" alt="Panel:Panel" id="areadiagramVP3X3VaGAqBkBRsn_map_11l33VaGAqBkBRvW" href="#VP3X3VaGAqBkBRsn;11l33VaGAqBkBRvW" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagramVP3X3VaGAqBkBRsn" coords="2, 2, 1022, 592" coords2="2, 2, 1022, 592" shape="rect" alt="Web Browser:Browser" id="areadiagramVP3X3VaGAqBkBRsn_map_7_3X3VaGAqBkBRso" href="#VP3X3VaGAqBkBRsn;7_3X3VaGAqBkBRso" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+</map>
+				</td>
+			</tr>
+		</table>
+	</div>
+	<p>
+	</p>
+	<table border="0" cellpadding="0" width="100%" cellspacing="0">
+		<tr>
+			<td class="Category">
+				Elements			</td>
+		</tr>
+		<tr>
+			<td style="height: 5px">
+			</td>
+		</tr>
+	</table>
+	<table border="0" cellpadding="0" width="100%" cellspacing="0" id="elementsVP3X3VaGAqBkBRsn">
+		<tr>
+			<td colSpan="4" class="TableHeaderLine">
+			</td>
+		</tr>
+		<tr>
+			<td colSpan="4" class="TableHeaderLine1">
+			</td>
+		</tr>
+		<tr class="TableHeader">
+			<td class="TableCellSpaceHolder10Px">
+			</td>
+			<td width="30%">
+<span class="TableHeaderText">Display Text</span>			</td>
+			<td class="TableCellSpaceHolder20Px">
+			</td>
+			<td>
+<span class="TableHeaderText">Description</span>			</td>
+		</tr>
+		<tr>
+			<td colSpan="4" class="TableHeaderLine2">
+			</td>
+		</tr>
+		<tr class="TableRow1">
+			<td>
+			</td>
+			<td>
+				<span class="TableContent">
+					<div style="float: left; width: 18px !important;height: 18px !important;background-image:url(../images/icons/Browser.png) !important; background-image:url(''); filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../images/icons/Browser.png'); background-repeat: no-repeat;">
+					</div>
+					&nbsp; <span class="TableContent">Web Browser : Browser</span>				</span>
+<a name="VP3X3VaGAqBkBRsn;7_3X3VaGAqBkBRso"></a>			</td>
+			<td>
+			</td>
+			<td style="padding: 5px 0">
+<span class="TableContent Documentation"></span>			</td>
+		</tr>
+		<tr class="TableRow2">
+			<td>
+			</td>
+			<td>
+				<span class="TableContent">
+					<div style="float: left; width: 18px !important;height: 18px !important;background-image:url(../images/icons/Panel.png) !important; background-image:url(''); filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../images/icons/Panel.png'); background-repeat: no-repeat;">
+					</div>
+					&nbsp; <span class="TableContent">Panel : Panel</span>				</span>
+<a name="VP3X3VaGAqBkBRsn;11l33VaGAqBkBRvW"></a>			</td>
+			<td>
+			</td>
+			<td style="padding: 5px 0">
+<span class="TableContent Documentation"></span>			</td>
+		</tr>
+		<tr class="TableRow1">
+			<td>
+			</td>
+			<td>
+				<span class="TableContent">
+					<div style="float: left; width: 18px !important;height: 18px !important;background-image:url(../images/icons/Label.png) !important; background-image:url(''); filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../images/icons/Label.png'); background-repeat: no-repeat;">
+					</div>
+					&nbsp; <span class="TableContent">Nombre del trimestre<br><br><br><br> : Label</span>				</span>
+<a name="VP3X3VaGAqBkBRsn;j1l33VaGAqBkBRvv"></a>			</td>
+			<td>
+			</td>
+			<td style="padding: 5px 0">
+<span class="TableContent Documentation"></span>			</td>
+		</tr>
+		<tr class="TableRow2">
+			<td>
+			</td>
+			<td>
+				<span class="TableContent">
+					<div style="float: left; width: 18px !important;height: 18px !important;background-image:url(../images/icons/Label.png) !important; background-image:url(''); filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../images/icons/Label.png'); background-repeat: no-repeat;">
+					</div>
+					&nbsp; <span class="TableContent">crear el trimestre : Label</span>				</span>
+<a name="VP3X3VaGAqBkBRsn;D1l33VaGAqBkBRvr"></a>			</td>
+			<td>
+			</td>
+			<td style="padding: 5px 0">
+<span class="TableContent Documentation"></span>			</td>
+		</tr>
+		<tr class="TableRow1">
+			<td>
+			</td>
+			<td>
+				<span class="TableContent">
+					<div style="float: left; width: 18px !important;height: 18px !important;background-image:url(../images/icons/Label.png) !important; background-image:url(''); filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../images/icons/Label.png'); background-repeat: no-repeat;">
+					</div>
+					&nbsp; <span class="TableContent">Estado<br><br> : Label</span>				</span>
+<a name="VP3X3VaGAqBkBRsn;D1l33VaGAqBkBRvn"></a>			</td>
+			<td>
+			</td>
+			<td style="padding: 5px 0">
+<span class="TableContent Documentation"></span>			</td>
+		</tr>
+		<tr class="TableRow2">
+			<td>
+			</td>
+			<td>
+				<span class="TableContent">
+					<div style="float: left; width: 18px !important;height: 18px !important;background-image:url(../images/icons/ComboBox.png) !important; background-image:url(''); filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../images/icons/ComboBox.png'); background-repeat: no-repeat;">
+					</div>
+					&nbsp; <span class="TableContent">Combo Box : Combo Box</span>				</span>
+<a name="VP3X3VaGAqBkBRsn;91l33VaGAqBkBRvi"></a>			</td>
+			<td>
+			</td>
+			<td style="padding: 5px 0">
+<span class="TableContent Documentation"></span>			</td>
+		</tr>
+		<tr class="TableRow1">
+			<td>
+			</td>
+			<td>
+				<span class="TableContent">
+					<div style="float: left; width: 18px !important;height: 18px !important;background-image:url(../images/icons/Label.png) !important; background-image:url(''); filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../images/icons/Label.png'); background-repeat: no-repeat;">
+					</div>
+					&nbsp; <span class="TableContent">Jornada<br> : Label</span>				</span>
+<a name="VP3X3VaGAqBkBRsn;d1l33VaGAqBkBRve"></a>			</td>
+			<td>
+			</td>
+			<td style="padding: 5px 0">
+<span class="TableContent Documentation"></span>			</td>
+		</tr>
+		<tr class="TableRow2">
+			<td>
+			</td>
+			<td>
+				<span class="TableContent">
+					<div style="float: left; width: 18px !important;height: 18px !important;background-image:url(../images/icons/Button.png) !important; background-image:url(''); filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../images/icons/Button.png'); background-repeat: no-repeat;">
+					</div>
+					&nbsp; <span class="TableContent">crear : Button</span>				</span>
+<a name="VP3X3VaGAqBkBRsn;t1l33VaGAqBkBRvb"></a>			</td>
+			<td>
+			</td>
+			<td style="padding: 5px 0">
+<span class="TableContent Documentation"></span>			</td>
+		</tr>
+		<tr class="TableRow1">
+			<td>
+			</td>
+			<td>
+				<span class="TableContent">
+					<div style="float: left; width: 18px !important;height: 18px !important;background-image:url(../images/icons/TextField.png) !important; background-image:url(''); filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../images/icons/TextField.png'); background-repeat: no-repeat;">
+					</div>
+					&nbsp; <span class="TableContent">Text Field : Text Field</span>				</span>
+<a name="VP3X3VaGAqBkBRsn;N1l33VaGAqBkBRvY"></a>			</td>
+			<td>
+			</td>
+			<td style="padding: 5px 0">
+<span class="TableContent Documentation"></span>			</td>
+		</tr>
+		<tr class="TableRow2">
+			<td>
+			</td>
+			<td>
+				<span class="TableContent">
+					<div style="float: left; width: 18px !important;height: 18px !important;background-image:url(../images/icons/ComboBox.png) !important; background-image:url(''); filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../images/icons/ComboBox.png'); background-repeat: no-repeat;">
+					</div>
+					&nbsp; <span class="TableContent">Combo Box : Combo Box</span>				</span>
+<a name="VP3X3VaGAqBkBRsn;R1l33VaGAqBkBRvQ"></a>			</td>
+			<td>
+			</td>
+			<td style="padding: 5px 0">
+<span class="TableContent Documentation"></span>			</td>
+		</tr>
+		<tr class="TableRow1">
+			<td>
+			</td>
+			<td>
+				<span class="TableContent">
+					<div style="float: left; width: 18px !important;height: 18px !important;background-image:url(../images/icons/Annotation.png) !important; background-image:url(''); filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../images/icons/Annotation.png'); background-repeat: no-repeat;">
+					</div>
+					&nbsp; <span class="TableContent">ingrese el nombre del trimestre : Annotation</span>				</span>
+<a name="VP3X3VaGAqBkBRsn;lNl33VaGAqBkBRv8"></a>			</td>
+			<td>
+			</td>
+			<td style="padding: 5px 0">
+<span class="TableContent Documentation"></span>			</td>
+		</tr>
+		<tr class="TableRow2">
+			<td>
+			</td>
+			<td>
+				<span class="TableContent">
+					<div style="float: left; width: 18px !important;height: 18px !important;background-image:url(../images/icons/Annotation.png) !important; background-image:url(''); filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../images/icons/Annotation.png'); background-repeat: no-repeat;">
+					</div>
+					&nbsp; <span class="TableContent">ingrese el estado del trimestre : Annotation</span>				</span>
+<a name="VP3X3VaGAqBkBRsn;DNl33VaGAqBkBRwA"></a>			</td>
+			<td>
+			</td>
+			<td style="padding: 5px 0">
+<span class="TableContent Documentation"></span>			</td>
+		</tr>
+		<tr class="TableRow1">
+			<td>
+			</td>
+			<td>
+				<span class="TableContent">
+					<div style="float: left; width: 18px !important;height: 18px !important;background-image:url(../images/icons/Annotation.png) !important; background-image:url(''); filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../images/icons/Annotation.png'); background-repeat: no-repeat;">
+					</div>
+					&nbsp; <span class="TableContent">ingrese la jornada del trimestre : Annotation</span>				</span>
+<a name="VP3X3VaGAqBkBRsn;7Nl33VaGAqBkBRwE"></a>			</td>
+			<td>
+			</td>
+			<td style="padding: 5px 0">
+<span class="TableContent Documentation"></span>			</td>
+		</tr>
+	</table>
+	<table border="0" cellpadding="0" width="100%" cellspacing="0">
+		<tr>
+			<td class="TableCellSpaceHolder1PxTall">
+			</td>
+		</tr>
+		<tr>
+			<td class="TableFooter">
+			</td>
+		</tr>
+	</table>
+	<div style="width:370px; height:255px; position: fixed; _position: absolute; overflow: scroll; background-color: #F0F0F0; top: 100px; left: 100px; padding: 10px; display: none;" id="wireframeStatesDialog">
+		<span data-value="Web Wireframe - 12-crear trimestres  - abre un cuadro con todos los trimestres" style="display: none;" id="pageTitleTextVP3X3VaGAqBkBRsn">
+		</span>
+		<table border="0" cellpadding="0" width="100%" cellspacing="0" style=" left: 30; top: 30; width: 340; height: 225; position: absolute; z-index: 10; background: white; border: black 3px solid; padding: 15px 20px 10px 20px; text-align: center;">
+			<tr>
+				<td>
+<a href="javascript:okWireframeStatesDialog('selectShapeVP3X3VaGAqBkBRsn', 'diagramVP3X3VaGAqBkBRsn', 'none', 'elementsVP3X3VaGAqBkBRsn', 'PageTitleText', 'pageTitleTextVP3X3VaGAqBkBRsn')"><img src="../images/12crear_trimestres_abre_un_cuadro_con_todos_los_trimestres_preview.png" class="Image" style=" width: 300; height: 174; border: none !important;"/>
+</a>				</td>
+			</tr>
+			<tr>
+				<td>
+<a href="javascript:okWireframeStatesDialog('selectShapeVP3X3VaGAqBkBRsn', 'diagramVP3X3VaGAqBkBRsn', 'none', 'elementsVP3X3VaGAqBkBRsn', 'PageTitleText', 'pageTitleTextVP3X3VaGAqBkBRsn')"><span style="color: black !important" class="TableContent ItemLink">abre un cuadro con todos los trimestres</span></a>				</td>
+			</tr>
+		</table>
+	</div>
+	<div style="height: 20px">
+	</div>
+	<table border="0" cellpadding="0" width="100%" cellspacing="0">
+		<tr>
+			<td class="FooterLine">
+			</td>
+		</tr>
+	</table>
+	<div class="HeaderText">
+		HOURGLASS	</div>
+</body>
+</html>
