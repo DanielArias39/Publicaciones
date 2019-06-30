@@ -1,0 +1,329 @@
+<html>
+<head>
+	<META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<link rel="stylesheet" href="report.css" type="text/css"/>
+	<title>Web Wireframe - crear usuarios</title>
+	<script type="text/javascript" src="report.js"></script>
+	<script type="text/javascript" src="link_popup.js"></script>
+	<script type="text/javascript" src="tooltip.js"></script>
+</head>
+<body style="margin-left: 10px; margin-right: 10px; margin-top: 10px; margin-bottom: 10px;" onload="initPage();initDiagram();initWireframeDiagram();">
+	<div style="position:absolute; z-index:2; visibility:hidden;border-top: 2px #FF0000 solid;" id="spotlight_top">
+	</div>
+	<div style="position:absolute; z-index:2; visibility:hidden;border-top: 2px #FF0000 solid;" id="spotlight_bottom">
+	</div>
+	<div style="position:absolute; z-index:2; visibility:hidden;border-left: 2px #FF0000 solid;" id="spotlight_left">
+	</div>
+	<div style="position:absolute; z-index:2; visibility:hidden;border-left: 2px #FF0000 solid;" id="spotlight_right">
+	</div>
+	<canvas width="100" style="position:absolute; z-index:2; visibility:hidden" id="spotlight_c" height="100">
+	</canvas>
+	<div style="position:absolute; width:100px; height:100px; z-index:1; visibility:hidden" id="spotLightResourcesTop">
+		<table border="0" cellpadding="0" cellspacing="0">
+			<tr>
+				<td>
+<a href="#top"><img style="border:none" src="../images/icons/BackToTop.gif" alt="Back to top"/></a>				</td>
+				<td>
+<a href="javascript:clearSpotLightFromOpenSpecButton();"><img style="border:none" src="../images/icons/OpenSpecification.gif" alt="Open specification"/></a>				</td>
+			</tr>
+		</table>
+	</div>
+	<div style="position:absolute; width:100px; height:100px; z-index:1; visibility:hidden" id="spotLightResourcesRight">
+		<table border="0" cellpadding="0" cellspacing="0">
+			<tr>
+				<td>
+<a href="#top"><img style="border:none" src="../images/icons/BackToTop.gif" alt="Back to top"/></a>				</td>
+			</tr>
+			<tr>
+				<td>
+<a href="javascript:clearSpotLightFromOpenSpecButton();"><img style="border:none" src="../images/icons/OpenSpecification.gif" alt="Open specification"/></a>				</td>
+			</tr>
+		</table>
+	</div>
+	<div style="position:absolute;z-index:4;visibility:hidden" id="linkPopupMenuLayer">
+		<table border="0" width="100%" style="border-style:solid; border-width:1px; border-color:#000000; background:#FFFFFF; width:250px" id="linkPopupMenuTable">
+		</table>
+	</div>
+	<div style="position:absolute; z-index:1; visibility:hidden; " id="referenceIconLayer">
+		<table border="0" cellpadding="3" cellspacing="0" style="font-size:1;">
+			<tr>
+				<td>
+					<img src="../images/icons/Ref.gif" style="border:none" onclick="movePopupPositionToReferenceIconPosition();resetPopupForReference();switchPopupShowHideStatus();" />				</td>
+			</tr>
+		</table>
+	</div>
+	<div style="position:absolute; z-index:1; visibility:hidden; " id="subdiagramIconLayer">
+		<table border="0" cellpadding="3" cellspacing="0" style="font-size:1;">
+			<tr>
+				<td>
+					<img src="../images/icons/Subdiagram.gif" style="border:none" onclick="movePopupPositionToSubdiagramIconPosition();resetPopupForSubdiagram();switchPopupShowHideStatus();" />				</td>
+			</tr>
+		</table>
+	</div>
+	<div style="position:absolute; z-index:1; visibility:hidden; " id="transitorIconLayer">
+		<table border="0" cellpadding="3" cellspacing="0" style="font-size:1;">
+			<tr>
+				<td>
+					<img src="../images/icons/Transitor.gif" style="border:none" onclick="movePopupPositionToTransitorIconPosition();resetPopupForTransitor();switchPopupShowHideStatus();" />				</td>
+			</tr>
+		</table>
+	</div>
+	<div style="position:absolute; z-index:1; visibility:hidden; " id="documentationIconLayer">
+		<table border="0" cellpadding="3" cellspacing="0" style="font-size:1;">
+			<tr>
+				<td>
+					<img src="../images/icons/Documentation.png" style="border:none" />				</td>
+			</tr>
+		</table>
+	</div>
+	<div class="HeaderText">
+		HOURGLASS	</div>
+	<table border="0" cellpadding="0" width="100%" cellspacing="0">
+		<tr>
+			<td class="HeaderLine1">
+			</td>
+		</tr>
+		<tr>
+			<td class="HeaderLine2">
+			</td>
+		</tr>
+		<tr>
+			<td class="HeaderLine3">
+			</td>
+		</tr>
+	</table>
+	<div style="position:absolute; z-index:21; visibility:hidden" id="referencedBys">
+		<table border="0" width="100%" style="border-style:solid; border-width:1px; border-color:#000000; background:#FFFFFF; width:250px" id="referencedBysTable">
+		</table>
+	</div>
+	<div style="position:absolute; z-index:21; visibility:hidden" id="vplink">
+		<table border="1" cellpadding="0" cellspacing="0" bordercolor="#A9BFD3">
+			<tr>
+				<td>
+					<table border="0" cellpadding="0" width="100%" cellspacing="0">
+						<tr style="background:#DDDDDD">
+							<td style="font-size: 12px;" align="left">
+								<select onchange="vpLinkToggleName()" id="vplink-linkType">
+	<option value="Project Link">Project Link</option>
+	<option value="Page URL">Page URL</option>
+</select>
+							</td>
+							<td style="font-size: 12px;" align="right">
+								<input onclick="javascript: vpLinkToggleName()" id="vplink-checkbox" type="checkbox" />
+								<label for="vplink-checkbox">with Name</label>							</td>
+						</tr>
+					</table>
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<textarea id="vplink-text" style="width: 348px; height: 60px; border-color: #7EADD9; outline: none;"></textarea>				</td>
+			</tr>
+		</table>
+	</div>
+	<p class="PageTitle">
+		<span id="PageTitleText">
+			Web Wireframe - crear usuarios		</span>
+<a onclick="javascript: showVpLink('HOURGLASS.vpp://diagram/AFyuuVaGAqCMBa0V', 'crear usuarios\nHOURGLASS.vpp://diagram/AFyuuVaGAqCMBa0V', 'crear usuarios', this); return false;" style="padding-left: 16px; font-size: 12px" href="#"><img src="../images/icons/link.png" border="0"> link</a>	</p>
+	<div style="position: relative; padding-bottom: 20px;">
+		<table border="0" cellpadding="0" width="auto" cellspacing="0" style="position: absolute; top: 0; left: 0; z-index: 20;">
+			<tr>
+				<td>
+<a href="javascript:showWireframeStatesDialog()"><span class="TableContent ItemLink">Show State Overview</span></a>				</td>
+				<td width="10px">
+				</td>
+				<td>
+					<table border="0" cellpadding="0" width="100%" cellspacing="0" id="selectShapeQFyuuVaGAqCMBa0X">
+						<tr>
+							<td>
+<span class="TableContent">Jump to:</span>								<select class="TableContent" onChange="scrollWin('diagramQFyuuVaGAqCMBa0X', this.value);hideLinkPopup();showSpotLight('diagramQFyuuVaGAqCMBa0X', this.value)">
+<option value="">Please select an element</option>
+<option value="shape|209.0|2.0|596.0|378.0|#QFyuuVaGAqCMBa0X;q1yuuVaGAqCMBa0Y|#QFyuuVaGAqCMBa0X;q1yuuVaGAqCMBa0Y|q1yuuVaGAqCMBa0Y" id="optionq1yuuVaGAqCMBa0Y">Web Browser : Browser</option>
+<option value="shape|268.0|105.0|485.0|252.0|#QFyuuVaGAqCMBa0X;iIGuuVaGAqCMBa02|#QFyuuVaGAqCMBa0X;iIGuuVaGAqCMBa02|iIGuuVaGAqCMBa02" id="optioniIGuuVaGAqCMBa02">Panel : Panel</option>
+<option value="shape|426.0|174.0|210.0|30.0|#QFyuuVaGAqCMBa0X;b.D_jVaGAqDIPh4z|#QFyuuVaGAqCMBa0X;b.D_jVaGAqDIPh4z|b.D_jVaGAqDIPh4z" id="optionb.D_jVaGAqDIPh4z">Text Field : Text Field</option>
+<option value="shape|350.0|166.0|21.0|21.0|#QFyuuVaGAqCMBa0X;lCj_jVaGAqDIPh49|#QFyuuVaGAqCMBa0X;lCj_jVaGAqDIPh49|lCj_jVaGAqDIPh49" id="optionlCj_jVaGAqDIPh49">Rol  : Label</option>
+<option value="shape|604.0|277.0|100.0|30.0|#QFyuuVaGAqCMBa0X;ksr_jVaGAqDIPh5S|#QFyuuVaGAqCMBa0X;ksr_jVaGAqDIPh5S|ksr_jVaGAqDIPh5S" id="optionksr_jVaGAqDIPh5S">crear : Button</option>
+<option value="shape|2.0|201.0|472.0|104.0|#QFyuuVaGAqCMBa0X;MAgATVaGAqDIPh6C|#QFyuuVaGAqCMBa0X;MAgATVaGAqDIPh6C|MAgATVaGAqDIPh6C" id="optionMAgATVaGAqDIPh6C">ingrese el rol que desempeña : Annotation</option>
+</select>							</td>
+						</tr>
+					</table>
+				</td>
+			</tr>
+		</table>
+		<span data-value="QFyuuVaGAqCMBa0X" style="display: none;" id="defaultState">
+		</span>
+		<span data-value="Web Wireframe - crear usuarios -   abre un modulo con todos los usuarios" style="display: none;" id="defaultPageTitleText">
+		</span>
+		<table border="0" cellpadding="0" width="100%" cellspacing="0" style="position: relative; top: 24;">
+			<tr>
+				<td>
+					<img id="diagramQFyuuVaGAqCMBa0X" src="../images/crear_usuarios_abre_un_modulo_con_todos_los_usuarios.png" usemap="#diagramQFyuuVaGAqCMBa0X_map" class="Image" width="809" height="384"/>
+					<map name="diagramQFyuuVaGAqCMBa0X_map">
+<area imageId="diagramQFyuuVaGAqCMBa0X" coords="2, 201, 474, 305" coords2="2, 201, 474, 305" shape="rect" alt="ingrese el rol que desempeña:Annotation" id="areadiagramQFyuuVaGAqCMBa0X_map_MAgATVaGAqDIPh6C" href="#QFyuuVaGAqCMBa0X;MAgATVaGAqDIPh6C" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagramQFyuuVaGAqCMBa0X" coords="604, 277, 704, 307" coords2="604, 277, 704, 307" shape="rect" alt="crear:Button" id="areadiagramQFyuuVaGAqCMBa0X_map_ksr_jVaGAqDIPh5S" href="#QFyuuVaGAqCMBa0X;ksr_jVaGAqDIPh5S" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagramQFyuuVaGAqCMBa0X" coords="350, 166, 371, 187" coords2="350, 166, 371, 187" shape="rect" alt="Rol :Label" id="areadiagramQFyuuVaGAqCMBa0X_map_lCj_jVaGAqDIPh49" href="#QFyuuVaGAqCMBa0X;lCj_jVaGAqDIPh49" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagramQFyuuVaGAqCMBa0X" coords="426, 174, 636, 204" coords2="426, 174, 636, 204" shape="rect" alt="Text Field:Text Field" id="areadiagramQFyuuVaGAqCMBa0X_map_b.D_jVaGAqDIPh4z" href="#QFyuuVaGAqCMBa0X;b.D_jVaGAqDIPh4z" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagramQFyuuVaGAqCMBa0X" coords="268, 105, 753, 357" coords2="268, 105, 753, 357" shape="rect" alt="Panel:Panel" id="areadiagramQFyuuVaGAqCMBa0X_map_iIGuuVaGAqCMBa02" href="#QFyuuVaGAqCMBa0X;iIGuuVaGAqCMBa02" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagramQFyuuVaGAqCMBa0X" coords="209, 2, 805, 380" coords2="209, 2, 805, 380" shape="rect" alt="Web Browser:Browser" id="areadiagramQFyuuVaGAqCMBa0X_map_q1yuuVaGAqCMBa0Y" href="#QFyuuVaGAqCMBa0X;q1yuuVaGAqCMBa0Y" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+</map>
+				</td>
+			</tr>
+		</table>
+	</div>
+	<p>
+	</p>
+	<table border="0" cellpadding="0" width="100%" cellspacing="0">
+		<tr>
+			<td class="Category">
+				Elements			</td>
+		</tr>
+		<tr>
+			<td style="height: 5px">
+			</td>
+		</tr>
+	</table>
+	<table border="0" cellpadding="0" width="100%" cellspacing="0" id="elementsQFyuuVaGAqCMBa0X">
+		<tr>
+			<td colSpan="4" class="TableHeaderLine">
+			</td>
+		</tr>
+		<tr>
+			<td colSpan="4" class="TableHeaderLine1">
+			</td>
+		</tr>
+		<tr class="TableHeader">
+			<td class="TableCellSpaceHolder10Px">
+			</td>
+			<td width="30%">
+<span class="TableHeaderText">Display Text</span>			</td>
+			<td class="TableCellSpaceHolder20Px">
+			</td>
+			<td>
+<span class="TableHeaderText">Description</span>			</td>
+		</tr>
+		<tr>
+			<td colSpan="4" class="TableHeaderLine2">
+			</td>
+		</tr>
+		<tr class="TableRow1">
+			<td>
+			</td>
+			<td>
+				<span class="TableContent">
+					<div style="float: left; width: 18px !important;height: 18px !important;background-image:url(../images/icons/Browser.png) !important; background-image:url(''); filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../images/icons/Browser.png'); background-repeat: no-repeat;">
+					</div>
+					&nbsp; <span class="TableContent">Web Browser : Browser</span>				</span>
+<a name="QFyuuVaGAqCMBa0X;q1yuuVaGAqCMBa0Y"></a>			</td>
+			<td>
+			</td>
+			<td style="padding: 5px 0">
+<span class="TableContent Documentation"></span>			</td>
+		</tr>
+		<tr class="TableRow2">
+			<td>
+			</td>
+			<td>
+				<span class="TableContent">
+					<div style="float: left; width: 18px !important;height: 18px !important;background-image:url(../images/icons/Panel.png) !important; background-image:url(''); filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../images/icons/Panel.png'); background-repeat: no-repeat;">
+					</div>
+					&nbsp; <span class="TableContent">Panel : Panel</span>				</span>
+<a name="QFyuuVaGAqCMBa0X;iIGuuVaGAqCMBa02"></a>			</td>
+			<td>
+			</td>
+			<td style="padding: 5px 0">
+<span class="TableContent Documentation"></span>			</td>
+		</tr>
+		<tr class="TableRow1">
+			<td>
+			</td>
+			<td>
+				<span class="TableContent">
+					<div style="float: left; width: 18px !important;height: 18px !important;background-image:url(../images/icons/TextField.png) !important; background-image:url(''); filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../images/icons/TextField.png'); background-repeat: no-repeat;">
+					</div>
+					&nbsp; <span class="TableContent">Text Field : Text Field</span>				</span>
+<a name="QFyuuVaGAqCMBa0X;b.D_jVaGAqDIPh4z"></a>			</td>
+			<td>
+			</td>
+			<td style="padding: 5px 0">
+<span class="TableContent Documentation"></span>			</td>
+		</tr>
+		<tr class="TableRow2">
+			<td>
+			</td>
+			<td>
+				<span class="TableContent">
+					<div style="float: left; width: 18px !important;height: 18px !important;background-image:url(../images/icons/Label.png) !important; background-image:url(''); filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../images/icons/Label.png'); background-repeat: no-repeat;">
+					</div>
+					&nbsp; <span class="TableContent">Rol  : Label</span>				</span>
+<a name="QFyuuVaGAqCMBa0X;lCj_jVaGAqDIPh49"></a>			</td>
+			<td>
+			</td>
+			<td style="padding: 5px 0">
+<span class="TableContent Documentation"></span>			</td>
+		</tr>
+		<tr class="TableRow1">
+			<td>
+			</td>
+			<td>
+				<span class="TableContent">
+					<div style="float: left; width: 18px !important;height: 18px !important;background-image:url(../images/icons/Button.png) !important; background-image:url(''); filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../images/icons/Button.png'); background-repeat: no-repeat;">
+					</div>
+					&nbsp; <span class="TableContent">crear : Button</span>				</span>
+<a name="QFyuuVaGAqCMBa0X;ksr_jVaGAqDIPh5S"></a>			</td>
+			<td>
+			</td>
+			<td style="padding: 5px 0">
+<span class="TableContent Documentation"></span>			</td>
+		</tr>
+		<tr class="TableRow2">
+			<td>
+			</td>
+			<td>
+				<span class="TableContent">
+					<div style="float: left; width: 18px !important;height: 18px !important;background-image:url(../images/icons/Annotation.png) !important; background-image:url(''); filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../images/icons/Annotation.png'); background-repeat: no-repeat;">
+					</div>
+					&nbsp; <span class="TableContent">ingrese el rol que desempeña : Annotation</span>				</span>
+<a name="QFyuuVaGAqCMBa0X;MAgATVaGAqDIPh6C"></a>			</td>
+			<td>
+			</td>
+			<td style="padding: 5px 0">
+<span class="TableContent Documentation"></span>			</td>
+		</tr>
+	</table>
+	<table border="0" cellpadding="0" width="100%" cellspacing="0">
+		<tr>
+			<td class="TableCellSpaceHolder1PxTall">
+			</td>
+		</tr>
+		<tr>
+			<td class="TableFooter">
+			</td>
+		</tr>
+	</table>
+	<div style="width:370px; height:255px; position: fixed; _position: absolute; overflow: scroll; background-color: #F0F0F0; top: 100px; left: 100px; padding: 10px; display: none;" id="wireframeStatesDialog">
+		<span data-value="Web Wireframe - crear usuarios -   abre un modulo con todos los usuarios" style="display: none;" id="pageTitleTextQFyuuVaGAqCMBa0X">
+		</span>
+		<table border="0" cellpadding="0" width="100%" cellspacing="0" style=" left: 30; top: 30; width: 340; height: 225; position: absolute; z-index: 10; background: white; border: black 3px solid; padding: 15px 20px 10px 20px; text-align: center;">
+			<tr>
+				<td>
+<a href="javascript:okWireframeStatesDialog('selectShapeQFyuuVaGAqCMBa0X', 'diagramQFyuuVaGAqCMBa0X', 'none', 'elementsQFyuuVaGAqCMBa0X', 'PageTitleText', 'pageTitleTextQFyuuVaGAqCMBa0X')"><img src="../images/crear_usuarios_abre_un_modulo_con_todos_los_usuarios_preview.png" class="Image" style=" width: 300; height: 191; border: none !important;"/>
+</a>				</td>
+			</tr>
+			<tr>
+				<td>
+<a href="javascript:okWireframeStatesDialog('selectShapeQFyuuVaGAqCMBa0X', 'diagramQFyuuVaGAqCMBa0X', 'none', 'elementsQFyuuVaGAqCMBa0X', 'PageTitleText', 'pageTitleTextQFyuuVaGAqCMBa0X')"><span style="color: black !important" class="TableContent ItemLink">  abre un modulo con todos los usuarios</span></a>				</td>
+			</tr>
+		</table>
+	</div>
+	<div style="height: 20px">
+	</div>
+	<table border="0" cellpadding="0" width="100%" cellspacing="0">
+		<tr>
+			<td class="FooterLine">
+			</td>
+		</tr>
+	</table>
+	<div class="HeaderText">
+		HOURGLASS	</div>
+</body>
+</html>

@@ -1,0 +1,353 @@
+<html>
+<head>
+	<META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<link rel="stylesheet" href="report.css" type="text/css"/>
+	<title>Web Wireframe - Cargar archivos planos</title>
+	<script type="text/javascript" src="report.js"></script>
+	<script type="text/javascript" src="link_popup.js"></script>
+	<script type="text/javascript" src="tooltip.js"></script>
+</head>
+<body style="margin-left: 10px; margin-right: 10px; margin-top: 10px; margin-bottom: 10px;" onload="initPage();initDiagram();initWireframeDiagram();">
+	<div style="position:absolute; z-index:2; visibility:hidden;border-top: 2px #FF0000 solid;" id="spotlight_top">
+	</div>
+	<div style="position:absolute; z-index:2; visibility:hidden;border-top: 2px #FF0000 solid;" id="spotlight_bottom">
+	</div>
+	<div style="position:absolute; z-index:2; visibility:hidden;border-left: 2px #FF0000 solid;" id="spotlight_left">
+	</div>
+	<div style="position:absolute; z-index:2; visibility:hidden;border-left: 2px #FF0000 solid;" id="spotlight_right">
+	</div>
+	<canvas width="100" style="position:absolute; z-index:2; visibility:hidden" id="spotlight_c" height="100">
+	</canvas>
+	<div style="position:absolute; width:100px; height:100px; z-index:1; visibility:hidden" id="spotLightResourcesTop">
+		<table border="0" cellpadding="0" cellspacing="0">
+			<tr>
+				<td>
+<a href="#top"><img style="border:none" src="../images/icons/BackToTop.gif" alt="Back to top"/></a>				</td>
+				<td>
+<a href="javascript:clearSpotLightFromOpenSpecButton();"><img style="border:none" src="../images/icons/OpenSpecification.gif" alt="Open specification"/></a>				</td>
+			</tr>
+		</table>
+	</div>
+	<div style="position:absolute; width:100px; height:100px; z-index:1; visibility:hidden" id="spotLightResourcesRight">
+		<table border="0" cellpadding="0" cellspacing="0">
+			<tr>
+				<td>
+<a href="#top"><img style="border:none" src="../images/icons/BackToTop.gif" alt="Back to top"/></a>				</td>
+			</tr>
+			<tr>
+				<td>
+<a href="javascript:clearSpotLightFromOpenSpecButton();"><img style="border:none" src="../images/icons/OpenSpecification.gif" alt="Open specification"/></a>				</td>
+			</tr>
+		</table>
+	</div>
+	<div style="position:absolute;z-index:4;visibility:hidden" id="linkPopupMenuLayer">
+		<table border="0" width="100%" style="border-style:solid; border-width:1px; border-color:#000000; background:#FFFFFF; width:250px" id="linkPopupMenuTable">
+		</table>
+	</div>
+	<div style="position:absolute; z-index:1; visibility:hidden; " id="referenceIconLayer">
+		<table border="0" cellpadding="3" cellspacing="0" style="font-size:1;">
+			<tr>
+				<td>
+					<img src="../images/icons/Ref.gif" style="border:none" onclick="movePopupPositionToReferenceIconPosition();resetPopupForReference();switchPopupShowHideStatus();" />				</td>
+			</tr>
+		</table>
+	</div>
+	<div style="position:absolute; z-index:1; visibility:hidden; " id="subdiagramIconLayer">
+		<table border="0" cellpadding="3" cellspacing="0" style="font-size:1;">
+			<tr>
+				<td>
+					<img src="../images/icons/Subdiagram.gif" style="border:none" onclick="movePopupPositionToSubdiagramIconPosition();resetPopupForSubdiagram();switchPopupShowHideStatus();" />				</td>
+			</tr>
+		</table>
+	</div>
+	<div style="position:absolute; z-index:1; visibility:hidden; " id="transitorIconLayer">
+		<table border="0" cellpadding="3" cellspacing="0" style="font-size:1;">
+			<tr>
+				<td>
+					<img src="../images/icons/Transitor.gif" style="border:none" onclick="movePopupPositionToTransitorIconPosition();resetPopupForTransitor();switchPopupShowHideStatus();" />				</td>
+			</tr>
+		</table>
+	</div>
+	<div style="position:absolute; z-index:1; visibility:hidden; " id="documentationIconLayer">
+		<table border="0" cellpadding="3" cellspacing="0" style="font-size:1;">
+			<tr>
+				<td>
+					<img src="../images/icons/Documentation.png" style="border:none" />				</td>
+			</tr>
+		</table>
+	</div>
+	<div class="HeaderText">
+		HOURGLASS	</div>
+	<table border="0" cellpadding="0" width="100%" cellspacing="0">
+		<tr>
+			<td class="HeaderLine1">
+			</td>
+		</tr>
+		<tr>
+			<td class="HeaderLine2">
+			</td>
+		</tr>
+		<tr>
+			<td class="HeaderLine3">
+			</td>
+		</tr>
+	</table>
+	<div style="position:absolute; z-index:21; visibility:hidden" id="referencedBys">
+		<table border="0" width="100%" style="border-style:solid; border-width:1px; border-color:#000000; background:#FFFFFF; width:250px" id="referencedBysTable">
+		</table>
+	</div>
+	<div style="position:absolute; z-index:21; visibility:hidden" id="vplink">
+		<table border="1" cellpadding="0" cellspacing="0" bordercolor="#A9BFD3">
+			<tr>
+				<td>
+					<table border="0" cellpadding="0" width="100%" cellspacing="0">
+						<tr style="background:#DDDDDD">
+							<td style="font-size: 12px;" align="left">
+								<select onchange="vpLinkToggleName()" id="vplink-linkType">
+	<option value="Project Link">Project Link</option>
+	<option value="Page URL">Page URL</option>
+</select>
+							</td>
+							<td style="font-size: 12px;" align="right">
+								<input onclick="javascript: vpLinkToggleName()" id="vplink-checkbox" type="checkbox" />
+								<label for="vplink-checkbox">with Name</label>							</td>
+						</tr>
+					</table>
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<textarea id="vplink-text" style="width: 348px; height: 60px; border-color: #7EADD9; outline: none;"></textarea>				</td>
+			</tr>
+		</table>
+	</div>
+	<p class="PageTitle">
+		<span id="PageTitleText">
+			Web Wireframe - Cargar archivos planos		</span>
+<a onclick="javascript: showVpLink('HOURGLASS.vpp://diagram/UDt4PVaGAqBkBa0y', 'Cargar archivos planos\nHOURGLASS.vpp://diagram/UDt4PVaGAqBkBa0y', 'Cargar archivos planos', this); return false;" style="padding-left: 16px; font-size: 12px" href="#"><img src="../images/icons/link.png" border="0"> link</a>	</p>
+	<div style="position: relative; padding-bottom: 20px;">
+		<table border="0" cellpadding="0" width="auto" cellspacing="0" style="position: absolute; top: 0; left: 0; z-index: 20;">
+			<tr>
+				<td>
+<a href="javascript:showWireframeStatesDialog()"><span class="TableContent ItemLink">Show State Overview</span></a>				</td>
+				<td width="10px">
+				</td>
+				<td>
+					<table border="0" cellpadding="0" width="100%" cellspacing="0" id="selectShapeMDt4PVaGAqBkBa01">
+						<tr>
+							<td>
+<span class="TableContent">Jump to:</span>								<select class="TableContent" onChange="scrollWin('diagramMDt4PVaGAqBkBa01', this.value);hideLinkPopup();showSpotLight('diagramMDt4PVaGAqBkBa01', this.value)">
+<option value="">Please select an element</option>
+<option value="shape|2.0|2.0|1020.0|590.0|#MDt4PVaGAqBkBa01;QLt4PVaGAqBkBa02|#MDt4PVaGAqBkBa01;QLt4PVaGAqBkBa02|QLt4PVaGAqBkBa02" id="optionQLt4PVaGAqBkBa02">Web Browser : Browser</option>
+<option value="shape|191.0|108.0|641.0|397.0|#MDt4PVaGAqBkBa01;MlD4PVaGAqBkBa1c|#MDt4PVaGAqBkBa01;MlD4PVaGAqBkBa1c|MlD4PVaGAqBkBa1c" id="optionMlD4PVaGAqBkBa1c">Panel : Panel</option>
+<option value="shape|219.0|295.0|161.0|20.0|#MDt4PVaGAqBkBa01;SlD4PVaGAqBkBa12|#MDt4PVaGAqBkBa01;SlD4PVaGAqBkBa12|SlD4PVaGAqBkBa12" id="optionSlD4PVaGAqBkBa12">archivo plano
+
+
+
+ : Label</option>
+<option value="shape|456.0|128.0|135.0|20.0|#MDt4PVaGAqBkBa01;ilD4PVaGAqBkBa1y|#MDt4PVaGAqBkBa01;ilD4PVaGAqBkBa1y|ilD4PVaGAqBkBa1y" id="optionilD4PVaGAqBkBa1y">cargar archivo plano : Label</option>
+<option value="shape|449.0|295.0|125.0|20.0|#MDt4PVaGAqBkBa01;jvKkPVaGAqBkBa._|#MDt4PVaGAqBkBa01;jvKkPVaGAqBkBa._|jvKkPVaGAqBkBa._" id="optionjvKkPVaGAqBkBa._">Examinar mi equipo : Label</option>
+<option value="shape|701.0|446.0|105.0|43.0|#MDt4PVaGAqBkBa01;eCyUPVaGAqBkBbBK|#MDt4PVaGAqBkBa01;eCyUPVaGAqBkBbBK|eCyUPVaGAqBkBbBK" id="optioneCyUPVaGAqBkBbBK">cargar : Button</option>
+<option value="shape|573.0|251.0|1043.0|63.0|#MDt4PVaGAqBkBa01;DlekPVaGAqBkBa_c|#MDt4PVaGAqBkBa01;DlekPVaGAqBkBa_c|DlekPVaGAqBkBa_c" id="optionDlekPVaGAqBkBa_c">da click en examinar y selecciona el archivo que desea importar o exportar : Annotation</option>
+</select>							</td>
+						</tr>
+					</table>
+				</td>
+			</tr>
+		</table>
+		<span data-value="MDt4PVaGAqBkBa01" style="display: none;" id="defaultState">
+		</span>
+		<span data-value="Web Wireframe - Cargar archivos planos - abre un cuadro con todos los archivos de usuarios " style="display: none;" id="defaultPageTitleText">
+		</span>
+		<table border="0" cellpadding="0" width="100%" cellspacing="0" style="position: relative; top: 24;">
+			<tr>
+				<td>
+					<img id="diagramMDt4PVaGAqBkBa01" src="../images/Cargar_archivos_planos_abre_un_cuadro_con_todos_los_archivos_de_usuarios_.png" usemap="#diagramMDt4PVaGAqBkBa01_map" class="Image" width="1620" height="596"/>
+					<map name="diagramMDt4PVaGAqBkBa01_map">
+<area imageId="diagramMDt4PVaGAqBkBa01" coords="573, 251, 1616, 314" coords2="573, 251, 1616, 314" shape="rect" alt="da click en examinar y selecciona el archivo que desea importar o exportar:Annotation" id="areadiagramMDt4PVaGAqBkBa01_map_DlekPVaGAqBkBa_c" href="#MDt4PVaGAqBkBa01;DlekPVaGAqBkBa_c" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagramMDt4PVaGAqBkBa01" coords="701, 446, 806, 489" coords2="701, 446, 806, 489" shape="rect" alt="cargar:Button" id="areadiagramMDt4PVaGAqBkBa01_map_eCyUPVaGAqBkBbBK" href="#MDt4PVaGAqBkBa01;eCyUPVaGAqBkBbBK" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagramMDt4PVaGAqBkBa01" coords="449, 295, 574, 315" coords2="449, 295, 574, 315" shape="rect" alt="Examinar mi equipo:Label" id="areadiagramMDt4PVaGAqBkBa01_map_jvKkPVaGAqBkBa._" href="#MDt4PVaGAqBkBa01;jvKkPVaGAqBkBa._" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagramMDt4PVaGAqBkBa01" coords="456, 128, 591, 148" coords2="456, 128, 591, 148" shape="rect" alt="cargar archivo plano:Label" id="areadiagramMDt4PVaGAqBkBa01_map_ilD4PVaGAqBkBa1y" href="#MDt4PVaGAqBkBa01;ilD4PVaGAqBkBa1y" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagramMDt4PVaGAqBkBa01" coords="219, 295, 380, 315" coords2="219, 295, 380, 315" shape="rect" alt="archivo plano
+
+
+
+:Label" id="areadiagramMDt4PVaGAqBkBa01_map_SlD4PVaGAqBkBa12" href="#MDt4PVaGAqBkBa01;SlD4PVaGAqBkBa12" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagramMDt4PVaGAqBkBa01" coords="191, 108, 832, 505" coords2="191, 108, 832, 505" shape="rect" alt="Panel:Panel" id="areadiagramMDt4PVaGAqBkBa01_map_MlD4PVaGAqBkBa1c" href="#MDt4PVaGAqBkBa01;MlD4PVaGAqBkBa1c" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagramMDt4PVaGAqBkBa01" coords="2, 2, 1022, 592" coords2="2, 2, 1022, 592" shape="rect" alt="Web Browser:Browser" id="areadiagramMDt4PVaGAqBkBa01_map_QLt4PVaGAqBkBa02" href="#MDt4PVaGAqBkBa01;QLt4PVaGAqBkBa02" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+</map>
+				</td>
+			</tr>
+		</table>
+	</div>
+	<p>
+	</p>
+	<table border="0" cellpadding="0" width="100%" cellspacing="0">
+		<tr>
+			<td class="Category">
+				Elements			</td>
+		</tr>
+		<tr>
+			<td style="height: 5px">
+			</td>
+		</tr>
+	</table>
+	<table border="0" cellpadding="0" width="100%" cellspacing="0" id="elementsMDt4PVaGAqBkBa01">
+		<tr>
+			<td colSpan="4" class="TableHeaderLine">
+			</td>
+		</tr>
+		<tr>
+			<td colSpan="4" class="TableHeaderLine1">
+			</td>
+		</tr>
+		<tr class="TableHeader">
+			<td class="TableCellSpaceHolder10Px">
+			</td>
+			<td width="30%">
+<span class="TableHeaderText">Display Text</span>			</td>
+			<td class="TableCellSpaceHolder20Px">
+			</td>
+			<td>
+<span class="TableHeaderText">Description</span>			</td>
+		</tr>
+		<tr>
+			<td colSpan="4" class="TableHeaderLine2">
+			</td>
+		</tr>
+		<tr class="TableRow1">
+			<td>
+			</td>
+			<td>
+				<span class="TableContent">
+					<div style="float: left; width: 18px !important;height: 18px !important;background-image:url(../images/icons/Browser.png) !important; background-image:url(''); filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../images/icons/Browser.png'); background-repeat: no-repeat;">
+					</div>
+					&nbsp; <span class="TableContent">Web Browser : Browser</span>				</span>
+<a name="MDt4PVaGAqBkBa01;QLt4PVaGAqBkBa02"></a>			</td>
+			<td>
+			</td>
+			<td style="padding: 5px 0">
+<span class="TableContent Documentation"></span>			</td>
+		</tr>
+		<tr class="TableRow2">
+			<td>
+			</td>
+			<td>
+				<span class="TableContent">
+					<div style="float: left; width: 18px !important;height: 18px !important;background-image:url(../images/icons/Panel.png) !important; background-image:url(''); filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../images/icons/Panel.png'); background-repeat: no-repeat;">
+					</div>
+					&nbsp; <span class="TableContent">Panel : Panel</span>				</span>
+<a name="MDt4PVaGAqBkBa01;MlD4PVaGAqBkBa1c"></a>			</td>
+			<td>
+			</td>
+			<td style="padding: 5px 0">
+<span class="TableContent Documentation"></span>			</td>
+		</tr>
+		<tr class="TableRow1">
+			<td>
+			</td>
+			<td>
+				<span class="TableContent">
+					<div style="float: left; width: 18px !important;height: 18px !important;background-image:url(../images/icons/Label.png) !important; background-image:url(''); filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../images/icons/Label.png'); background-repeat: no-repeat;">
+					</div>
+					&nbsp; <span class="TableContent">archivo plano<br><br><br><br> : Label</span>				</span>
+<a name="MDt4PVaGAqBkBa01;SlD4PVaGAqBkBa12"></a>			</td>
+			<td>
+			</td>
+			<td style="padding: 5px 0">
+<span class="TableContent Documentation"></span>			</td>
+		</tr>
+		<tr class="TableRow2">
+			<td>
+			</td>
+			<td>
+				<span class="TableContent">
+					<div style="float: left; width: 18px !important;height: 18px !important;background-image:url(../images/icons/Label.png) !important; background-image:url(''); filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../images/icons/Label.png'); background-repeat: no-repeat;">
+					</div>
+					&nbsp; <span class="TableContent">cargar archivo plano : Label</span>				</span>
+<a name="MDt4PVaGAqBkBa01;ilD4PVaGAqBkBa1y"></a>			</td>
+			<td>
+			</td>
+			<td style="padding: 5px 0">
+<span class="TableContent Documentation"></span>			</td>
+		</tr>
+		<tr class="TableRow1">
+			<td>
+			</td>
+			<td>
+				<span class="TableContent">
+					<div style="float: left; width: 18px !important;height: 18px !important;background-image:url(../images/icons/Label.png) !important; background-image:url(''); filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../images/icons/Label.png'); background-repeat: no-repeat;">
+					</div>
+					&nbsp; <span class="TableContent">Examinar mi equipo : Label</span>				</span>
+<a name="MDt4PVaGAqBkBa01;jvKkPVaGAqBkBa._"></a>			</td>
+			<td>
+			</td>
+			<td style="padding: 5px 0">
+<span class="TableContent Documentation"></span>			</td>
+		</tr>
+		<tr class="TableRow2">
+			<td>
+			</td>
+			<td>
+				<span class="TableContent">
+					<div style="float: left; width: 18px !important;height: 18px !important;background-image:url(../images/icons/Button.png) !important; background-image:url(''); filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../images/icons/Button.png'); background-repeat: no-repeat;">
+					</div>
+					&nbsp; <span class="TableContent">cargar : Button</span>				</span>
+<a name="MDt4PVaGAqBkBa01;eCyUPVaGAqBkBbBK"></a>			</td>
+			<td>
+			</td>
+			<td style="padding: 5px 0">
+<span class="TableContent Documentation"></span>			</td>
+		</tr>
+		<tr class="TableRow1">
+			<td>
+			</td>
+			<td>
+				<span class="TableContent">
+					<div style="float: left; width: 18px !important;height: 18px !important;background-image:url(../images/icons/Annotation.png) !important; background-image:url(''); filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../images/icons/Annotation.png'); background-repeat: no-repeat;">
+					</div>
+					&nbsp; <span class="TableContent">da click en examinar y selecciona el archivo que desea importar o exportar : Annotation</span>				</span>
+<a name="MDt4PVaGAqBkBa01;DlekPVaGAqBkBa_c"></a>			</td>
+			<td>
+			</td>
+			<td style="padding: 5px 0">
+<span class="TableContent Documentation"></span>			</td>
+		</tr>
+	</table>
+	<table border="0" cellpadding="0" width="100%" cellspacing="0">
+		<tr>
+			<td class="TableCellSpaceHolder1PxTall">
+			</td>
+		</tr>
+		<tr>
+			<td class="TableFooter">
+			</td>
+		</tr>
+	</table>
+	<div style="width:370px; height:255px; position: fixed; _position: absolute; overflow: scroll; background-color: #F0F0F0; top: 100px; left: 100px; padding: 10px; display: none;" id="wireframeStatesDialog">
+		<span data-value="Web Wireframe - Cargar archivos planos - abre un cuadro con todos los archivos de usuarios " style="display: none;" id="pageTitleTextMDt4PVaGAqBkBa01">
+		</span>
+		<table border="0" cellpadding="0" width="100%" cellspacing="0" style=" left: 30; top: 30; width: 340; height: 225; position: absolute; z-index: 10; background: white; border: black 3px solid; padding: 15px 20px 10px 20px; text-align: center;">
+			<tr>
+				<td>
+<a href="javascript:okWireframeStatesDialog('selectShapeMDt4PVaGAqBkBa01', 'diagramMDt4PVaGAqBkBa01', 'none', 'elementsMDt4PVaGAqBkBa01', 'PageTitleText', 'pageTitleTextMDt4PVaGAqBkBa01')"><img src="../images/Cargar_archivos_planos_abre_un_cuadro_con_todos_los_archivos_de_usuarios_preview.png" class="Image" style=" width: 300; height: 174; border: none !important;"/>
+</a>				</td>
+			</tr>
+			<tr>
+				<td>
+<a href="javascript:okWireframeStatesDialog('selectShapeMDt4PVaGAqBkBa01', 'diagramMDt4PVaGAqBkBa01', 'none', 'elementsMDt4PVaGAqBkBa01', 'PageTitleText', 'pageTitleTextMDt4PVaGAqBkBa01')"><span style="color: black !important" class="TableContent ItemLink">abre un cuadro con todos los archivos de usuarios </span></a>				</td>
+			</tr>
+		</table>
+	</div>
+	<div style="height: 20px">
+	</div>
+	<table border="0" cellpadding="0" width="100%" cellspacing="0">
+		<tr>
+			<td class="FooterLine">
+			</td>
+		</tr>
+	</table>
+	<div class="HeaderText">
+		HOURGLASS	</div>
+</body>
+</html>

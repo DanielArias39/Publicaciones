@@ -1,0 +1,457 @@
+<html>
+<head>
+	<META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<link rel="stylesheet" href="report.css" type="text/css"/>
+	<title>Web Wireframe - consultar competencia</title>
+	<script type="text/javascript" src="report.js"></script>
+	<script type="text/javascript" src="link_popup.js"></script>
+	<script type="text/javascript" src="tooltip.js"></script>
+</head>
+<body style="margin-left: 10px; margin-right: 10px; margin-top: 10px; margin-bottom: 10px;" onload="initPage();initDiagram();initWireframeDiagram();">
+	<div style="position:absolute; z-index:2; visibility:hidden;border-top: 2px #FF0000 solid;" id="spotlight_top">
+	</div>
+	<div style="position:absolute; z-index:2; visibility:hidden;border-top: 2px #FF0000 solid;" id="spotlight_bottom">
+	</div>
+	<div style="position:absolute; z-index:2; visibility:hidden;border-left: 2px #FF0000 solid;" id="spotlight_left">
+	</div>
+	<div style="position:absolute; z-index:2; visibility:hidden;border-left: 2px #FF0000 solid;" id="spotlight_right">
+	</div>
+	<canvas width="100" style="position:absolute; z-index:2; visibility:hidden" id="spotlight_c" height="100">
+	</canvas>
+	<div style="position:absolute; width:100px; height:100px; z-index:1; visibility:hidden" id="spotLightResourcesTop">
+		<table border="0" cellpadding="0" cellspacing="0">
+			<tr>
+				<td>
+<a href="#top"><img style="border:none" src="../images/icons/BackToTop.gif" alt="Back to top"/></a>				</td>
+				<td>
+<a href="javascript:clearSpotLightFromOpenSpecButton();"><img style="border:none" src="../images/icons/OpenSpecification.gif" alt="Open specification"/></a>				</td>
+			</tr>
+		</table>
+	</div>
+	<div style="position:absolute; width:100px; height:100px; z-index:1; visibility:hidden" id="spotLightResourcesRight">
+		<table border="0" cellpadding="0" cellspacing="0">
+			<tr>
+				<td>
+<a href="#top"><img style="border:none" src="../images/icons/BackToTop.gif" alt="Back to top"/></a>				</td>
+			</tr>
+			<tr>
+				<td>
+<a href="javascript:clearSpotLightFromOpenSpecButton();"><img style="border:none" src="../images/icons/OpenSpecification.gif" alt="Open specification"/></a>				</td>
+			</tr>
+		</table>
+	</div>
+	<div style="position:absolute;z-index:4;visibility:hidden" id="linkPopupMenuLayer">
+		<table border="0" width="100%" style="border-style:solid; border-width:1px; border-color:#000000; background:#FFFFFF; width:250px" id="linkPopupMenuTable">
+		</table>
+	</div>
+	<div style="position:absolute; z-index:1; visibility:hidden; " id="referenceIconLayer">
+		<table border="0" cellpadding="3" cellspacing="0" style="font-size:1;">
+			<tr>
+				<td>
+					<img src="../images/icons/Ref.gif" style="border:none" onclick="movePopupPositionToReferenceIconPosition();resetPopupForReference();switchPopupShowHideStatus();" />				</td>
+			</tr>
+		</table>
+	</div>
+	<div style="position:absolute; z-index:1; visibility:hidden; " id="subdiagramIconLayer">
+		<table border="0" cellpadding="3" cellspacing="0" style="font-size:1;">
+			<tr>
+				<td>
+					<img src="../images/icons/Subdiagram.gif" style="border:none" onclick="movePopupPositionToSubdiagramIconPosition();resetPopupForSubdiagram();switchPopupShowHideStatus();" />				</td>
+			</tr>
+		</table>
+	</div>
+	<div style="position:absolute; z-index:1; visibility:hidden; " id="transitorIconLayer">
+		<table border="0" cellpadding="3" cellspacing="0" style="font-size:1;">
+			<tr>
+				<td>
+					<img src="../images/icons/Transitor.gif" style="border:none" onclick="movePopupPositionToTransitorIconPosition();resetPopupForTransitor();switchPopupShowHideStatus();" />				</td>
+			</tr>
+		</table>
+	</div>
+	<div style="position:absolute; z-index:1; visibility:hidden; " id="documentationIconLayer">
+		<table border="0" cellpadding="3" cellspacing="0" style="font-size:1;">
+			<tr>
+				<td>
+					<img src="../images/icons/Documentation.png" style="border:none" />				</td>
+			</tr>
+		</table>
+	</div>
+	<div class="HeaderText">
+		HOURGLASS	</div>
+	<table border="0" cellpadding="0" width="100%" cellspacing="0">
+		<tr>
+			<td class="HeaderLine1">
+			</td>
+		</tr>
+		<tr>
+			<td class="HeaderLine2">
+			</td>
+		</tr>
+		<tr>
+			<td class="HeaderLine3">
+			</td>
+		</tr>
+	</table>
+	<div style="position:absolute; z-index:21; visibility:hidden" id="referencedBys">
+		<table border="0" width="100%" style="border-style:solid; border-width:1px; border-color:#000000; background:#FFFFFF; width:250px" id="referencedBysTable">
+		</table>
+	</div>
+	<div style="position:absolute; z-index:21; visibility:hidden" id="vplink">
+		<table border="1" cellpadding="0" cellspacing="0" bordercolor="#A9BFD3">
+			<tr>
+				<td>
+					<table border="0" cellpadding="0" width="100%" cellspacing="0">
+						<tr style="background:#DDDDDD">
+							<td style="font-size: 12px;" align="left">
+								<select onchange="vpLinkToggleName()" id="vplink-linkType">
+	<option value="Project Link">Project Link</option>
+	<option value="Page URL">Page URL</option>
+</select>
+							</td>
+							<td style="font-size: 12px;" align="right">
+								<input onclick="javascript: vpLinkToggleName()" id="vplink-checkbox" type="checkbox" />
+								<label for="vplink-checkbox">with Name</label>							</td>
+						</tr>
+					</table>
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<textarea id="vplink-text" style="width: 348px; height: 60px; border-color: #7EADD9; outline: none;"></textarea>				</td>
+			</tr>
+		</table>
+	</div>
+	<p class="PageTitle">
+		<span id="PageTitleText">
+			Web Wireframe - consultar competencia		</span>
+<a onclick="javascript: showVpLink('HOURGLASS.vpp://diagram/nHJFY1aGAqESAUew', 'consultar competencia\nHOURGLASS.vpp://diagram/nHJFY1aGAqESAUew', 'consultar competencia', this); return false;" style="padding-left: 16px; font-size: 12px" href="#"><img src="../images/icons/link.png" border="0"> link</a>	</p>
+	<div style="position: relative; padding-bottom: 20px;">
+		<table border="0" cellpadding="0" width="auto" cellspacing="0" style="position: absolute; top: 0; left: 0; z-index: 20;">
+			<tr>
+				<td>
+<a href="javascript:showWireframeStatesDialog()"><span class="TableContent ItemLink">Show State Overview</span></a>				</td>
+				<td width="10px">
+				</td>
+				<td>
+					<table border="0" cellpadding="0" width="100%" cellspacing="0" id="selectShapeXHJFY1aGAqESAUey">
+						<tr>
+							<td>
+<span class="TableContent">Jump to:</span>								<select class="TableContent" onChange="scrollWin('diagramXHJFY1aGAqESAUey', this.value);hideLinkPopup();showSpotLight('diagramXHJFY1aGAqESAUey', this.value)">
+<option value="">Please select an element</option>
+<option value="shape|2.0|2.0|1020.0|590.0|#XHJFY1aGAqESAUey;CPJFY1aGAqESAUez|#XHJFY1aGAqESAUey;CPJFY1aGAqESAUez|CPJFY1aGAqESAUez" id="optionCPJFY1aGAqESAUez">Web Browser : Browser</option>
+<option value="shape|191.0|100.0|640.0|394.0|#XHJFY1aGAqESAUey;_w5FY1aGAqESAUfU|#XHJFY1aGAqESAUey;_w5FY1aGAqESAUfU|_w5FY1aGAqESAUfU" id="option_w5FY1aGAqESAUfU">Panel : Panel</option>
+<option value="shape|434.0|230.0|187.0|30.0|#XHJFY1aGAqESAUey;jw5FY1aGAqESAUfQ|#XHJFY1aGAqESAUey;jw5FY1aGAqESAUfQ|jw5FY1aGAqESAUfQ" id="optionjw5FY1aGAqESAUfQ">Text Field : Text Field</option>
+<option value="shape|434.0|280.0|181.0|30.0|#XHJFY1aGAqESAUey;YI5FY1aGAqESAUfs|#XHJFY1aGAqESAUey;YI5FY1aGAqESAUfs|YI5FY1aGAqESAUfs" id="optionYI5FY1aGAqESAUfs">Ejem: 1803189 : Text Field</option>
+<option value="shape|435.0|182.0|185.0|30.0|#XHJFY1aGAqESAUey;oI5FY1aGAqESAUfp|#XHJFY1aGAqESAUey;oI5FY1aGAqESAUfp|oI5FY1aGAqESAUfp" id="optionoI5FY1aGAqESAUfp">ejem228106 : Text Field</option>
+<option value="shape|704.0|439.0|120.0|40.0|#XHJFY1aGAqESAUey;II5FY1aGAqESAUfm|#XHJFY1aGAqESAUey;II5FY1aGAqESAUfm|II5FY1aGAqESAUfm" id="optionII5FY1aGAqESAUfm">consultar : Button</option>
+<option value="shape|417.0|119.0|244.0|20.0|#XHJFY1aGAqESAUey;wI5FY1aGAqESAUfi|#XHJFY1aGAqESAUey;wI5FY1aGAqESAUfi|wI5FY1aGAqESAUfi" id="optionwI5FY1aGAqESAUfi">consultar competencia
+ : Label</option>
+<option value="shape|241.0|182.0|177.0|17.0|#XHJFY1aGAqESAUey;QI5FY1aGAqESAUfe|#XHJFY1aGAqESAUey;QI5FY1aGAqESAUfe|QI5FY1aGAqESAUfe" id="optionQI5FY1aGAqESAUfe">codigo de la competencia
+
+
+
+
+ : Label</option>
+<option value="shape|247.0|240.0|150.0|20.0|#XHJFY1aGAqESAUey;gI5FY1aGAqESAUfa|#XHJFY1aGAqESAUey;gI5FY1aGAqESAUfa|gI5FY1aGAqESAUfa" id="optiongI5FY1aGAqESAUfa">denominacion
+ : Label</option>
+<option value="shape|247.0|286.0|150.0|20.0|#XHJFY1aGAqESAUey;AI5FY1aGAqESAUfW|#XHJFY1aGAqESAUey;AI5FY1aGAqESAUfW|AI5FY1aGAqESAUfW" id="optionAI5FY1aGAqESAUfW">codigo del programa
+ : Label</option>
+<option value="shape|615.0|169.0|694.0|41.0|#XHJFY1aGAqESAUey;nI5FY1aGAqESAUf4|#XHJFY1aGAqESAUey;nI5FY1aGAqESAUf4|nI5FY1aGAqESAUf4" id="optionnI5FY1aGAqESAUf4">ingrese el codigo de la competencia : Annotation</option>
+<option value="shape|616.0|223.0|626.0|41.0|#XHJFY1aGAqESAUey;Ao5FY1aGAqESAUf8|#XHJFY1aGAqESAUey;Ao5FY1aGAqESAUf8|Ao5FY1aGAqESAUf8" id="optionAo5FY1aGAqESAUf8">ingrese la denominacion : Annotation</option>
+<option value="shape|614.0|273.0|684.0|41.0|#XHJFY1aGAqESAUey;oo5FY1aGAqESAUgA|#XHJFY1aGAqESAUey;oo5FY1aGAqESAUgA|oo5FY1aGAqESAUgA" id="optionoo5FY1aGAqESAUgA">ingrese el codigo de el programa : Annotation</option>
+</select>							</td>
+						</tr>
+					</table>
+				</td>
+			</tr>
+		</table>
+		<span data-value="XHJFY1aGAqESAUey" style="display: none;" id="defaultState">
+		</span>
+		<span data-value="Web Wireframe - consultar competencia - abre un modulo con todas las competencias existentes" style="display: none;" id="defaultPageTitleText">
+		</span>
+		<table border="0" cellpadding="0" width="100%" cellspacing="0" style="position: relative; top: 24;">
+			<tr>
+				<td>
+					<img id="diagramXHJFY1aGAqESAUey" src="../images/consultar_competencia_abre_un_modulo_con_todas_las_competencias_existentes.png" usemap="#diagramXHJFY1aGAqESAUey_map" class="Image" width="1313" height="596"/>
+					<map name="diagramXHJFY1aGAqESAUey_map">
+<area imageId="diagramXHJFY1aGAqESAUey" coords="614, 273, 1298, 314" coords2="614, 273, 1298, 314" shape="rect" alt="ingrese el codigo de el programa:Annotation" id="areadiagramXHJFY1aGAqESAUey_map_oo5FY1aGAqESAUgA" href="#XHJFY1aGAqESAUey;oo5FY1aGAqESAUgA" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagramXHJFY1aGAqESAUey" coords="616, 223, 1242, 264" coords2="616, 223, 1242, 264" shape="rect" alt="ingrese la denominacion:Annotation" id="areadiagramXHJFY1aGAqESAUey_map_Ao5FY1aGAqESAUf8" href="#XHJFY1aGAqESAUey;Ao5FY1aGAqESAUf8" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagramXHJFY1aGAqESAUey" coords="615, 169, 1309, 210" coords2="615, 169, 1309, 210" shape="rect" alt="ingrese el codigo de la competencia:Annotation" id="areadiagramXHJFY1aGAqESAUey_map_nI5FY1aGAqESAUf4" href="#XHJFY1aGAqESAUey;nI5FY1aGAqESAUf4" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagramXHJFY1aGAqESAUey" coords="247, 286, 397, 306" coords2="247, 286, 397, 306" shape="rect" alt="codigo del programa
+:Label" id="areadiagramXHJFY1aGAqESAUey_map_AI5FY1aGAqESAUfW" href="#XHJFY1aGAqESAUey;AI5FY1aGAqESAUfW" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagramXHJFY1aGAqESAUey" coords="247, 240, 397, 260" coords2="247, 240, 397, 260" shape="rect" alt="denominacion
+:Label" id="areadiagramXHJFY1aGAqESAUey_map_gI5FY1aGAqESAUfa" href="#XHJFY1aGAqESAUey;gI5FY1aGAqESAUfa" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagramXHJFY1aGAqESAUey" coords="241, 182, 418, 199" coords2="241, 182, 418, 199" shape="rect" alt="codigo de la competencia
+
+
+
+
+:Label" id="areadiagramXHJFY1aGAqESAUey_map_QI5FY1aGAqESAUfe" href="#XHJFY1aGAqESAUey;QI5FY1aGAqESAUfe" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagramXHJFY1aGAqESAUey" coords="417, 119, 661, 139" coords2="417, 119, 661, 139" shape="rect" alt="consultar competencia
+:Label" id="areadiagramXHJFY1aGAqESAUey_map_wI5FY1aGAqESAUfi" href="#XHJFY1aGAqESAUey;wI5FY1aGAqESAUfi" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagramXHJFY1aGAqESAUey" coords="704, 439, 824, 479" coords2="704, 439, 824, 479" shape="rect" alt="consultar:Button" id="areadiagramXHJFY1aGAqESAUey_map_II5FY1aGAqESAUfm" href="#XHJFY1aGAqESAUey;II5FY1aGAqESAUfm" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagramXHJFY1aGAqESAUey" coords="435, 182, 620, 212" coords2="435, 182, 620, 212" shape="rect" alt="ejem228106:Text Field" id="areadiagramXHJFY1aGAqESAUey_map_oI5FY1aGAqESAUfp" href="#XHJFY1aGAqESAUey;oI5FY1aGAqESAUfp" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagramXHJFY1aGAqESAUey" coords="434, 280, 615, 310" coords2="434, 280, 615, 310" shape="rect" alt="Ejem: 1803189:Text Field" id="areadiagramXHJFY1aGAqESAUey_map_YI5FY1aGAqESAUfs" href="#XHJFY1aGAqESAUey;YI5FY1aGAqESAUfs" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagramXHJFY1aGAqESAUey" coords="434, 230, 621, 260" coords2="434, 230, 621, 260" shape="rect" alt="Text Field:Text Field" id="areadiagramXHJFY1aGAqESAUey_map_jw5FY1aGAqESAUfQ" href="#XHJFY1aGAqESAUey;jw5FY1aGAqESAUfQ" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagramXHJFY1aGAqESAUey" coords="191, 100, 831, 494" coords2="191, 100, 831, 494" shape="rect" alt="Panel:Panel" id="areadiagramXHJFY1aGAqESAUey_map__w5FY1aGAqESAUfU" href="#XHJFY1aGAqESAUey;_w5FY1aGAqESAUfU" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagramXHJFY1aGAqESAUey" coords="2, 2, 1022, 592" coords2="2, 2, 1022, 592" shape="rect" alt="Web Browser:Browser" id="areadiagramXHJFY1aGAqESAUey_map_CPJFY1aGAqESAUez" href="#XHJFY1aGAqESAUey;CPJFY1aGAqESAUez" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+</map>
+				</td>
+			</tr>
+		</table>
+	</div>
+	<p>
+	</p>
+	<table border="0" cellpadding="0" width="100%" cellspacing="0">
+		<tr>
+			<td class="Category">
+				Elements			</td>
+		</tr>
+		<tr>
+			<td style="height: 5px">
+			</td>
+		</tr>
+	</table>
+	<table border="0" cellpadding="0" width="100%" cellspacing="0" id="elementsXHJFY1aGAqESAUey">
+		<tr>
+			<td colSpan="4" class="TableHeaderLine">
+			</td>
+		</tr>
+		<tr>
+			<td colSpan="4" class="TableHeaderLine1">
+			</td>
+		</tr>
+		<tr class="TableHeader">
+			<td class="TableCellSpaceHolder10Px">
+			</td>
+			<td width="30%">
+<span class="TableHeaderText">Display Text</span>			</td>
+			<td class="TableCellSpaceHolder20Px">
+			</td>
+			<td>
+<span class="TableHeaderText">Description</span>			</td>
+		</tr>
+		<tr>
+			<td colSpan="4" class="TableHeaderLine2">
+			</td>
+		</tr>
+		<tr class="TableRow1">
+			<td>
+			</td>
+			<td>
+				<span class="TableContent">
+					<div style="float: left; width: 18px !important;height: 18px !important;background-image:url(../images/icons/Browser.png) !important; background-image:url(''); filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../images/icons/Browser.png'); background-repeat: no-repeat;">
+					</div>
+					&nbsp; <span class="TableContent">Web Browser : Browser</span>				</span>
+<a name="XHJFY1aGAqESAUey;CPJFY1aGAqESAUez"></a>			</td>
+			<td>
+			</td>
+			<td style="padding: 5px 0">
+<span class="TableContent Documentation"></span>			</td>
+		</tr>
+		<tr class="TableRow2">
+			<td>
+			</td>
+			<td>
+				<span class="TableContent">
+					<div style="float: left; width: 18px !important;height: 18px !important;background-image:url(../images/icons/Panel.png) !important; background-image:url(''); filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../images/icons/Panel.png'); background-repeat: no-repeat;">
+					</div>
+					&nbsp; <span class="TableContent">Panel : Panel</span>				</span>
+<a name="XHJFY1aGAqESAUey;_w5FY1aGAqESAUfU"></a>			</td>
+			<td>
+			</td>
+			<td style="padding: 5px 0">
+<span class="TableContent Documentation"></span>			</td>
+		</tr>
+		<tr class="TableRow1">
+			<td>
+			</td>
+			<td>
+				<span class="TableContent">
+					<div style="float: left; width: 18px !important;height: 18px !important;background-image:url(../images/icons/TextField.png) !important; background-image:url(''); filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../images/icons/TextField.png'); background-repeat: no-repeat;">
+					</div>
+					&nbsp; <span class="TableContent">Text Field : Text Field</span>				</span>
+<a name="XHJFY1aGAqESAUey;jw5FY1aGAqESAUfQ"></a>			</td>
+			<td>
+			</td>
+			<td style="padding: 5px 0">
+<span class="TableContent Documentation"></span>			</td>
+		</tr>
+		<tr class="TableRow2">
+			<td>
+			</td>
+			<td>
+				<span class="TableContent">
+					<div style="float: left; width: 18px !important;height: 18px !important;background-image:url(../images/icons/TextField.png) !important; background-image:url(''); filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../images/icons/TextField.png'); background-repeat: no-repeat;">
+					</div>
+					&nbsp; <span class="TableContent">Ejem: 1803189 : Text Field</span>				</span>
+<a name="XHJFY1aGAqESAUey;YI5FY1aGAqESAUfs"></a>			</td>
+			<td>
+			</td>
+			<td style="padding: 5px 0">
+<span class="TableContent Documentation"></span>			</td>
+		</tr>
+		<tr class="TableRow1">
+			<td>
+			</td>
+			<td>
+				<span class="TableContent">
+					<div style="float: left; width: 18px !important;height: 18px !important;background-image:url(../images/icons/TextField.png) !important; background-image:url(''); filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../images/icons/TextField.png'); background-repeat: no-repeat;">
+					</div>
+					&nbsp; <span class="TableContent">ejem228106 : Text Field</span>				</span>
+<a name="XHJFY1aGAqESAUey;oI5FY1aGAqESAUfp"></a>			</td>
+			<td>
+			</td>
+			<td style="padding: 5px 0">
+<span class="TableContent Documentation"></span>			</td>
+		</tr>
+		<tr class="TableRow2">
+			<td>
+			</td>
+			<td>
+				<span class="TableContent">
+					<div style="float: left; width: 18px !important;height: 18px !important;background-image:url(../images/icons/Button.png) !important; background-image:url(''); filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../images/icons/Button.png'); background-repeat: no-repeat;">
+					</div>
+					&nbsp; <span class="TableContent">consultar : Button</span>				</span>
+<a name="XHJFY1aGAqESAUey;II5FY1aGAqESAUfm"></a>			</td>
+			<td>
+			</td>
+			<td style="padding: 5px 0">
+<span class="TableContent Documentation"></span>			</td>
+		</tr>
+		<tr class="TableRow1">
+			<td>
+			</td>
+			<td>
+				<span class="TableContent">
+					<div style="float: left; width: 18px !important;height: 18px !important;background-image:url(../images/icons/Label.png) !important; background-image:url(''); filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../images/icons/Label.png'); background-repeat: no-repeat;">
+					</div>
+					&nbsp; <span class="TableContent">consultar competencia<br> : Label</span>				</span>
+<a name="XHJFY1aGAqESAUey;wI5FY1aGAqESAUfi"></a>			</td>
+			<td>
+			</td>
+			<td style="padding: 5px 0">
+<span class="TableContent Documentation"></span>			</td>
+		</tr>
+		<tr class="TableRow2">
+			<td>
+			</td>
+			<td>
+				<span class="TableContent">
+					<div style="float: left; width: 18px !important;height: 18px !important;background-image:url(../images/icons/Label.png) !important; background-image:url(''); filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../images/icons/Label.png'); background-repeat: no-repeat;">
+					</div>
+					&nbsp; <span class="TableContent">codigo de la competencia<br><br><br><br><br> : Label</span>				</span>
+<a name="XHJFY1aGAqESAUey;QI5FY1aGAqESAUfe"></a>			</td>
+			<td>
+			</td>
+			<td style="padding: 5px 0">
+<span class="TableContent Documentation"></span>			</td>
+		</tr>
+		<tr class="TableRow1">
+			<td>
+			</td>
+			<td>
+				<span class="TableContent">
+					<div style="float: left; width: 18px !important;height: 18px !important;background-image:url(../images/icons/Label.png) !important; background-image:url(''); filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../images/icons/Label.png'); background-repeat: no-repeat;">
+					</div>
+					&nbsp; <span class="TableContent">denominacion<br> : Label</span>				</span>
+<a name="XHJFY1aGAqESAUey;gI5FY1aGAqESAUfa"></a>			</td>
+			<td>
+			</td>
+			<td style="padding: 5px 0">
+<span class="TableContent Documentation"></span>			</td>
+		</tr>
+		<tr class="TableRow2">
+			<td>
+			</td>
+			<td>
+				<span class="TableContent">
+					<div style="float: left; width: 18px !important;height: 18px !important;background-image:url(../images/icons/Label.png) !important; background-image:url(''); filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../images/icons/Label.png'); background-repeat: no-repeat;">
+					</div>
+					&nbsp; <span class="TableContent">codigo del programa<br> : Label</span>				</span>
+<a name="XHJFY1aGAqESAUey;AI5FY1aGAqESAUfW"></a>			</td>
+			<td>
+			</td>
+			<td style="padding: 5px 0">
+<span class="TableContent Documentation"></span>			</td>
+		</tr>
+		<tr class="TableRow1">
+			<td>
+			</td>
+			<td>
+				<span class="TableContent">
+					<div style="float: left; width: 18px !important;height: 18px !important;background-image:url(../images/icons/Annotation.png) !important; background-image:url(''); filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../images/icons/Annotation.png'); background-repeat: no-repeat;">
+					</div>
+					&nbsp; <span class="TableContent">ingrese el codigo de la competencia : Annotation</span>				</span>
+<a name="XHJFY1aGAqESAUey;nI5FY1aGAqESAUf4"></a>			</td>
+			<td>
+			</td>
+			<td style="padding: 5px 0">
+<span class="TableContent Documentation"></span>			</td>
+		</tr>
+		<tr class="TableRow2">
+			<td>
+			</td>
+			<td>
+				<span class="TableContent">
+					<div style="float: left; width: 18px !important;height: 18px !important;background-image:url(../images/icons/Annotation.png) !important; background-image:url(''); filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../images/icons/Annotation.png'); background-repeat: no-repeat;">
+					</div>
+					&nbsp; <span class="TableContent">ingrese la denominacion : Annotation</span>				</span>
+<a name="XHJFY1aGAqESAUey;Ao5FY1aGAqESAUf8"></a>			</td>
+			<td>
+			</td>
+			<td style="padding: 5px 0">
+<span class="TableContent Documentation"></span>			</td>
+		</tr>
+		<tr class="TableRow1">
+			<td>
+			</td>
+			<td>
+				<span class="TableContent">
+					<div style="float: left; width: 18px !important;height: 18px !important;background-image:url(../images/icons/Annotation.png) !important; background-image:url(''); filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../images/icons/Annotation.png'); background-repeat: no-repeat;">
+					</div>
+					&nbsp; <span class="TableContent">ingrese el codigo de el programa : Annotation</span>				</span>
+<a name="XHJFY1aGAqESAUey;oo5FY1aGAqESAUgA"></a>			</td>
+			<td>
+			</td>
+			<td style="padding: 5px 0">
+<span class="TableContent Documentation"></span>			</td>
+		</tr>
+	</table>
+	<table border="0" cellpadding="0" width="100%" cellspacing="0">
+		<tr>
+			<td class="TableCellSpaceHolder1PxTall">
+			</td>
+		</tr>
+		<tr>
+			<td class="TableFooter">
+			</td>
+		</tr>
+	</table>
+	<div style="width:370px; height:255px; position: fixed; _position: absolute; overflow: scroll; background-color: #F0F0F0; top: 100px; left: 100px; padding: 10px; display: none;" id="wireframeStatesDialog">
+		<span data-value="Web Wireframe - consultar competencia - abre un modulo con todas las competencias existentes" style="display: none;" id="pageTitleTextXHJFY1aGAqESAUey">
+		</span>
+		<table border="0" cellpadding="0" width="100%" cellspacing="0" style=" left: 30; top: 30; width: 340; height: 225; position: absolute; z-index: 10; background: white; border: black 3px solid; padding: 15px 20px 10px 20px; text-align: center;">
+			<tr>
+				<td>
+<a href="javascript:okWireframeStatesDialog('selectShapeXHJFY1aGAqESAUey', 'diagramXHJFY1aGAqESAUey', 'none', 'elementsXHJFY1aGAqESAUey', 'PageTitleText', 'pageTitleTextXHJFY1aGAqESAUey')"><img src="../images/consultar_competencia_abre_un_modulo_con_todas_las_competencias_existentes_preview.png" class="Image" style=" width: 300; height: 174; border: none !important;"/>
+</a>				</td>
+			</tr>
+			<tr>
+				<td>
+<a href="javascript:okWireframeStatesDialog('selectShapeXHJFY1aGAqESAUey', 'diagramXHJFY1aGAqESAUey', 'none', 'elementsXHJFY1aGAqESAUey', 'PageTitleText', 'pageTitleTextXHJFY1aGAqESAUey')"><span style="color: black !important" class="TableContent ItemLink">abre un modulo con todas las competencias existentes</span></a>				</td>
+			</tr>
+		</table>
+	</div>
+	<div style="height: 20px">
+	</div>
+	<table border="0" cellpadding="0" width="100%" cellspacing="0">
+		<tr>
+			<td class="FooterLine">
+			</td>
+		</tr>
+	</table>
+	<div class="HeaderText">
+		HOURGLASS	</div>
+</body>
+</html>

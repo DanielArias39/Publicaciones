@@ -1,0 +1,465 @@
+<html>
+<head>
+	<META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<link rel="stylesheet" href="report.css" type="text/css"/>
+	<title>Web Wireframe - Consultar limitacion ambiente</title>
+	<script type="text/javascript" src="report.js"></script>
+	<script type="text/javascript" src="link_popup.js"></script>
+	<script type="text/javascript" src="tooltip.js"></script>
+</head>
+<body style="margin-left: 10px; margin-right: 10px; margin-top: 10px; margin-bottom: 10px;" onload="initPage();initDiagram();initWireframeDiagram();">
+	<div style="position:absolute; z-index:2; visibility:hidden;border-top: 2px #FF0000 solid;" id="spotlight_top">
+	</div>
+	<div style="position:absolute; z-index:2; visibility:hidden;border-top: 2px #FF0000 solid;" id="spotlight_bottom">
+	</div>
+	<div style="position:absolute; z-index:2; visibility:hidden;border-left: 2px #FF0000 solid;" id="spotlight_left">
+	</div>
+	<div style="position:absolute; z-index:2; visibility:hidden;border-left: 2px #FF0000 solid;" id="spotlight_right">
+	</div>
+	<canvas width="100" style="position:absolute; z-index:2; visibility:hidden" id="spotlight_c" height="100">
+	</canvas>
+	<div style="position:absolute; width:100px; height:100px; z-index:1; visibility:hidden" id="spotLightResourcesTop">
+		<table border="0" cellpadding="0" cellspacing="0">
+			<tr>
+				<td>
+<a href="#top"><img style="border:none" src="../images/icons/BackToTop.gif" alt="Back to top"/></a>				</td>
+				<td>
+<a href="javascript:clearSpotLightFromOpenSpecButton();"><img style="border:none" src="../images/icons/OpenSpecification.gif" alt="Open specification"/></a>				</td>
+			</tr>
+		</table>
+	</div>
+	<div style="position:absolute; width:100px; height:100px; z-index:1; visibility:hidden" id="spotLightResourcesRight">
+		<table border="0" cellpadding="0" cellspacing="0">
+			<tr>
+				<td>
+<a href="#top"><img style="border:none" src="../images/icons/BackToTop.gif" alt="Back to top"/></a>				</td>
+			</tr>
+			<tr>
+				<td>
+<a href="javascript:clearSpotLightFromOpenSpecButton();"><img style="border:none" src="../images/icons/OpenSpecification.gif" alt="Open specification"/></a>				</td>
+			</tr>
+		</table>
+	</div>
+	<div style="position:absolute;z-index:4;visibility:hidden" id="linkPopupMenuLayer">
+		<table border="0" width="100%" style="border-style:solid; border-width:1px; border-color:#000000; background:#FFFFFF; width:250px" id="linkPopupMenuTable">
+		</table>
+	</div>
+	<div style="position:absolute; z-index:1; visibility:hidden; " id="referenceIconLayer">
+		<table border="0" cellpadding="3" cellspacing="0" style="font-size:1;">
+			<tr>
+				<td>
+					<img src="../images/icons/Ref.gif" style="border:none" onclick="movePopupPositionToReferenceIconPosition();resetPopupForReference();switchPopupShowHideStatus();" />				</td>
+			</tr>
+		</table>
+	</div>
+	<div style="position:absolute; z-index:1; visibility:hidden; " id="subdiagramIconLayer">
+		<table border="0" cellpadding="3" cellspacing="0" style="font-size:1;">
+			<tr>
+				<td>
+					<img src="../images/icons/Subdiagram.gif" style="border:none" onclick="movePopupPositionToSubdiagramIconPosition();resetPopupForSubdiagram();switchPopupShowHideStatus();" />				</td>
+			</tr>
+		</table>
+	</div>
+	<div style="position:absolute; z-index:1; visibility:hidden; " id="transitorIconLayer">
+		<table border="0" cellpadding="3" cellspacing="0" style="font-size:1;">
+			<tr>
+				<td>
+					<img src="../images/icons/Transitor.gif" style="border:none" onclick="movePopupPositionToTransitorIconPosition();resetPopupForTransitor();switchPopupShowHideStatus();" />				</td>
+			</tr>
+		</table>
+	</div>
+	<div style="position:absolute; z-index:1; visibility:hidden; " id="documentationIconLayer">
+		<table border="0" cellpadding="3" cellspacing="0" style="font-size:1;">
+			<tr>
+				<td>
+					<img src="../images/icons/Documentation.png" style="border:none" />				</td>
+			</tr>
+		</table>
+	</div>
+	<div class="HeaderText">
+		HOURGLASS	</div>
+	<table border="0" cellpadding="0" width="100%" cellspacing="0">
+		<tr>
+			<td class="HeaderLine1">
+			</td>
+		</tr>
+		<tr>
+			<td class="HeaderLine2">
+			</td>
+		</tr>
+		<tr>
+			<td class="HeaderLine3">
+			</td>
+		</tr>
+	</table>
+	<div style="position:absolute; z-index:21; visibility:hidden" id="referencedBys">
+		<table border="0" width="100%" style="border-style:solid; border-width:1px; border-color:#000000; background:#FFFFFF; width:250px" id="referencedBysTable">
+		</table>
+	</div>
+	<div style="position:absolute; z-index:21; visibility:hidden" id="vplink">
+		<table border="1" cellpadding="0" cellspacing="0" bordercolor="#A9BFD3">
+			<tr>
+				<td>
+					<table border="0" cellpadding="0" width="100%" cellspacing="0">
+						<tr style="background:#DDDDDD">
+							<td style="font-size: 12px;" align="left">
+								<select onchange="vpLinkToggleName()" id="vplink-linkType">
+	<option value="Project Link">Project Link</option>
+	<option value="Page URL">Page URL</option>
+</select>
+							</td>
+							<td style="font-size: 12px;" align="right">
+								<input onclick="javascript: vpLinkToggleName()" id="vplink-checkbox" type="checkbox" />
+								<label for="vplink-checkbox">with Name</label>							</td>
+						</tr>
+					</table>
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<textarea id="vplink-text" style="width: 348px; height: 60px; border-color: #7EADD9; outline: none;"></textarea>				</td>
+			</tr>
+		</table>
+	</div>
+	<p class="PageTitle">
+		<span id="PageTitleText">
+			Web Wireframe - Consultar limitacion ambiente		</span>
+<a onclick="javascript: showVpLink('HOURGLASS.vpp://diagram/yks7y1aGAqAAIG3Y', 'Consultar limitacion ambiente\nHOURGLASS.vpp://diagram/yks7y1aGAqAAIG3Y', 'Consultar limitacion ambiente', this); return false;" style="padding-left: 16px; font-size: 12px" href="#"><img src="../images/icons/link.png" border="0"> link</a>	</p>
+	<div style="position: relative; padding-bottom: 20px;">
+		<table border="0" cellpadding="0" width="auto" cellspacing="0" style="position: absolute; top: 0; left: 0; z-index: 20;">
+			<tr>
+				<td>
+<a href="javascript:showWireframeStatesDialog()"><span class="TableContent ItemLink">Show State Overview</span></a>				</td>
+				<td width="10px">
+				</td>
+				<td>
+					<table border="0" cellpadding="0" width="100%" cellspacing="0" id="selectShapeKks7y1aGAqAAIG3a">
+						<tr>
+							<td>
+<span class="TableContent">Jump to:</span>								<select class="TableContent" onChange="scrollWin('diagramKks7y1aGAqAAIG3a', this.value);hideLinkPopup();showSpotLight('diagramKks7y1aGAqAAIG3a', this.value)">
+<option value="">Please select an element</option>
+<option value="shape|2.0|2.0|1020.0|590.0|#Kks7y1aGAqAAIG3a;kMs7y1aGAqAAIG3b|#Kks7y1aGAqAAIG3a;kMs7y1aGAqAAIG3b|kMs7y1aGAqAAIG3b" id="optionkMs7y1aGAqAAIG3b">Web Browser : Browser</option>
+<option value="shape|174.0|111.0|698.0|421.0|#Kks7y1aGAqAAIG3a;ziS7y1aGAqAAIG4C|#Kks7y1aGAqAAIG3a;ziS7y1aGAqAAIG4C|ziS7y1aGAqAAIG4C" id="optionziS7y1aGAqAAIG4C">Panel : Panel</option>
+<option value="shape|212.0|471.0|62.0|20.0|#Kks7y1aGAqAAIG3a;FiS7y1aGAqAAIG39|#Kks7y1aGAqAAIG3a;FiS7y1aGAqAAIG39|FiS7y1aGAqAAIG39" id="optionFiS7y1aGAqAAIG39">Ambiente : Label</option>
+<option value="shape|313.0|241.0|155.0|40.0|#Kks7y1aGAqAAIG3a;_iS7y1aGAqAAIG4x|#Kks7y1aGAqAAIG3a;_iS7y1aGAqAAIG4x|_iS7y1aGAqAAIG4x" id="option_iS7y1aGAqAAIG4x">Combo Box : Combo Box</option>
+<option value="shape|212.0|251.0|61.0|20.0|#Kks7y1aGAqAAIG3a;fiS7y1aGAqAAIG4t|#Kks7y1aGAqAAIG3a;fiS7y1aGAqAAIG4t|fiS7y1aGAqAAIG4t" id="optionfiS7y1aGAqAAIG4t">Programa : Label</option>
+<option value="shape|313.0|179.0|178.0|40.0|#Kks7y1aGAqAAIG3a;viS7y1aGAqAAIG4o|#Kks7y1aGAqAAIG3a;viS7y1aGAqAAIG4o|viS7y1aGAqAAIG4o" id="optionviS7y1aGAqAAIG4o">Combo Box : Combo Box</option>
+<option value="shape|212.0|191.0|165.0|20.0|#Kks7y1aGAqAAIG3a;LiS7y1aGAqAAIG4E|#Kks7y1aGAqAAIG3a;LiS7y1aGAqAAIG4E|LiS7y1aGAqAAIG4E" id="optionLiS7y1aGAqAAIG4E">Sede
+
+ : Label</option>
+<option value="shape|426.0|129.0|244.0|20.0|#Kks7y1aGAqAAIG3a;riS7y1aGAqAAIG4I|#Kks7y1aGAqAAIG3a;riS7y1aGAqAAIG4I|riS7y1aGAqAAIG4I" id="optionriS7y1aGAqAAIG4I">Consultar limitacion de ambiente : Label</option>
+<option value="shape|212.0|323.0|90.0|20.0|#Kks7y1aGAqAAIG3a;biS7y1aGAqAAIG4M|#Kks7y1aGAqAAIG3a;biS7y1aGAqAAIG4M|biS7y1aGAqAAIG4M" id="optionbiS7y1aGAqAAIG4M">Compentencia
+ : Label</option>
+<option value="shape|313.0|313.0|155.0|40.0|#Kks7y1aGAqAAIG3a;7iS7y1aGAqAAIG4Q|#Kks7y1aGAqAAIG3a;7iS7y1aGAqAAIG4Q|7iS7y1aGAqAAIG4Q" id="option7iS7y1aGAqAAIG4Q">Combo Box : Combo Box</option>
+<option value="shape|377.0|389.0|198.0|40.0|#Kks7y1aGAqAAIG3a;HiS7y1aGAqAAIG4V|#Kks7y1aGAqAAIG3a;HiS7y1aGAqAAIG4V|HiS7y1aGAqAAIG4V" id="optionHiS7y1aGAqAAIG4V">Combo Box : Combo Box</option>
+<option value="shape|200.0|399.0|164.0|20.0|#Kks7y1aGAqAAIG3a;XiS7y1aGAqAAIG4e|#Kks7y1aGAqAAIG3a;XiS7y1aGAqAAIG4e|XiS7y1aGAqAAIG4e" id="optionXiS7y1aGAqAAIG4e">Resultado de aprendizaje
+ : Label</option>
+<option value="shape|702.0|462.0|121.0|40.0|#Kks7y1aGAqAAIG3a;3iS7y1aGAqAAIG4i|#Kks7y1aGAqAAIG3a;3iS7y1aGAqAAIG4i|3iS7y1aGAqAAIG4i" id="option3iS7y1aGAqAAIG4i">Consultar : Button</option>
+<option value="shape|340.0|462.0|272.0|38.0|#Kks7y1aGAqAAIG3a;PiS7y1aGAqAAIG4l|#Kks7y1aGAqAAIG3a;PiS7y1aGAqAAIG4l|PiS7y1aGAqAAIG4l" id="optionPiS7y1aGAqAAIG4l">Text Field : Text Field</option>
+</select>							</td>
+						</tr>
+					</table>
+				</td>
+			</tr>
+		</table>
+		<span data-value="Kks7y1aGAqAAIG3a" style="display: none;" id="defaultState">
+		</span>
+		<span data-value="Web Wireframe - Consultar limitacion ambiente - abre un modulo con todos los ambientes existentes" style="display: none;" id="defaultPageTitleText">
+		</span>
+		<table border="0" cellpadding="0" width="100%" cellspacing="0" style="position: relative; top: 24;">
+			<tr>
+				<td>
+					<img id="diagramKks7y1aGAqAAIG3a" src="../images/Consultar_limitacion_ambiente_abre_un_modulo_con_todos_los_ambientes_existentes.png" usemap="#diagramKks7y1aGAqAAIG3a_map" class="Image" width="1026" height="596"/>
+					<map name="diagramKks7y1aGAqAAIG3a_map">
+<area imageId="diagramKks7y1aGAqAAIG3a" coords="340, 462, 612, 500" coords2="340, 462, 612, 500" shape="rect" alt="Text Field:Text Field" id="areadiagramKks7y1aGAqAAIG3a_map_PiS7y1aGAqAAIG4l" href="#Kks7y1aGAqAAIG3a;PiS7y1aGAqAAIG4l" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagramKks7y1aGAqAAIG3a" coords="702, 462, 823, 502" coords2="702, 462, 823, 502" shape="rect" alt="Consultar:Button" id="areadiagramKks7y1aGAqAAIG3a_map_3iS7y1aGAqAAIG4i" href="#Kks7y1aGAqAAIG3a;3iS7y1aGAqAAIG4i" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagramKks7y1aGAqAAIG3a" coords="200, 399, 364, 419" coords2="200, 399, 364, 419" shape="rect" alt="Resultado de aprendizaje
+:Label" id="areadiagramKks7y1aGAqAAIG3a_map_XiS7y1aGAqAAIG4e" href="#Kks7y1aGAqAAIG3a;XiS7y1aGAqAAIG4e" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagramKks7y1aGAqAAIG3a" coords="377, 389, 575, 429" coords2="377, 389, 575, 429" shape="rect" alt="Combo Box:Combo Box" id="areadiagramKks7y1aGAqAAIG3a_map_HiS7y1aGAqAAIG4V" href="#Kks7y1aGAqAAIG3a;HiS7y1aGAqAAIG4V" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagramKks7y1aGAqAAIG3a" coords="313, 313, 468, 353" coords2="313, 313, 468, 353" shape="rect" alt="Combo Box:Combo Box" id="areadiagramKks7y1aGAqAAIG3a_map_7iS7y1aGAqAAIG4Q" href="#Kks7y1aGAqAAIG3a;7iS7y1aGAqAAIG4Q" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagramKks7y1aGAqAAIG3a" coords="212, 323, 302, 343" coords2="212, 323, 302, 343" shape="rect" alt="Compentencia
+:Label" id="areadiagramKks7y1aGAqAAIG3a_map_biS7y1aGAqAAIG4M" href="#Kks7y1aGAqAAIG3a;biS7y1aGAqAAIG4M" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagramKks7y1aGAqAAIG3a" coords="426, 129, 670, 149" coords2="426, 129, 670, 149" shape="rect" alt="Consultar limitacion de ambiente:Label" id="areadiagramKks7y1aGAqAAIG3a_map_riS7y1aGAqAAIG4I" href="#Kks7y1aGAqAAIG3a;riS7y1aGAqAAIG4I" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagramKks7y1aGAqAAIG3a" coords="212, 191, 377, 211" coords2="212, 191, 377, 211" shape="rect" alt="Sede
+
+:Label" id="areadiagramKks7y1aGAqAAIG3a_map_LiS7y1aGAqAAIG4E" href="#Kks7y1aGAqAAIG3a;LiS7y1aGAqAAIG4E" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagramKks7y1aGAqAAIG3a" coords="313, 179, 491, 219" coords2="313, 179, 491, 219" shape="rect" alt="Combo Box:Combo Box" id="areadiagramKks7y1aGAqAAIG3a_map_viS7y1aGAqAAIG4o" href="#Kks7y1aGAqAAIG3a;viS7y1aGAqAAIG4o" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagramKks7y1aGAqAAIG3a" coords="212, 251, 273, 271" coords2="212, 251, 273, 271" shape="rect" alt="Programa:Label" id="areadiagramKks7y1aGAqAAIG3a_map_fiS7y1aGAqAAIG4t" href="#Kks7y1aGAqAAIG3a;fiS7y1aGAqAAIG4t" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagramKks7y1aGAqAAIG3a" coords="313, 241, 468, 281" coords2="313, 241, 468, 281" shape="rect" alt="Combo Box:Combo Box" id="areadiagramKks7y1aGAqAAIG3a_map__iS7y1aGAqAAIG4x" href="#Kks7y1aGAqAAIG3a;_iS7y1aGAqAAIG4x" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagramKks7y1aGAqAAIG3a" coords="212, 471, 274, 491" coords2="212, 471, 274, 491" shape="rect" alt="Ambiente:Label" id="areadiagramKks7y1aGAqAAIG3a_map_FiS7y1aGAqAAIG39" href="#Kks7y1aGAqAAIG3a;FiS7y1aGAqAAIG39" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagramKks7y1aGAqAAIG3a" coords="174, 111, 872, 532" coords2="174, 111, 872, 532" shape="rect" alt="Panel:Panel" id="areadiagramKks7y1aGAqAAIG3a_map_ziS7y1aGAqAAIG4C" href="#Kks7y1aGAqAAIG3a;ziS7y1aGAqAAIG4C" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagramKks7y1aGAqAAIG3a" coords="2, 2, 1022, 592" coords2="2, 2, 1022, 592" shape="rect" alt="Web Browser:Browser" id="areadiagramKks7y1aGAqAAIG3a_map_kMs7y1aGAqAAIG3b" href="#Kks7y1aGAqAAIG3a;kMs7y1aGAqAAIG3b" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+</map>
+				</td>
+			</tr>
+		</table>
+	</div>
+	<p>
+	</p>
+	<table border="0" cellpadding="0" width="100%" cellspacing="0">
+		<tr>
+			<td class="Category">
+				Elements			</td>
+		</tr>
+		<tr>
+			<td style="height: 5px">
+			</td>
+		</tr>
+	</table>
+	<table border="0" cellpadding="0" width="100%" cellspacing="0" id="elementsKks7y1aGAqAAIG3a">
+		<tr>
+			<td colSpan="4" class="TableHeaderLine">
+			</td>
+		</tr>
+		<tr>
+			<td colSpan="4" class="TableHeaderLine1">
+			</td>
+		</tr>
+		<tr class="TableHeader">
+			<td class="TableCellSpaceHolder10Px">
+			</td>
+			<td width="30%">
+<span class="TableHeaderText">Display Text</span>			</td>
+			<td class="TableCellSpaceHolder20Px">
+			</td>
+			<td>
+<span class="TableHeaderText">Description</span>			</td>
+		</tr>
+		<tr>
+			<td colSpan="4" class="TableHeaderLine2">
+			</td>
+		</tr>
+		<tr class="TableRow1">
+			<td>
+			</td>
+			<td>
+				<span class="TableContent">
+					<div style="float: left; width: 18px !important;height: 18px !important;background-image:url(../images/icons/Browser.png) !important; background-image:url(''); filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../images/icons/Browser.png'); background-repeat: no-repeat;">
+					</div>
+					&nbsp; <span class="TableContent">Web Browser : Browser</span>				</span>
+<a name="Kks7y1aGAqAAIG3a;kMs7y1aGAqAAIG3b"></a>			</td>
+			<td>
+			</td>
+			<td style="padding: 5px 0">
+<span class="TableContent Documentation"></span>			</td>
+		</tr>
+		<tr class="TableRow2">
+			<td>
+			</td>
+			<td>
+				<span class="TableContent">
+					<div style="float: left; width: 18px !important;height: 18px !important;background-image:url(../images/icons/Panel.png) !important; background-image:url(''); filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../images/icons/Panel.png'); background-repeat: no-repeat;">
+					</div>
+					&nbsp; <span class="TableContent">Panel : Panel</span>				</span>
+<a name="Kks7y1aGAqAAIG3a;ziS7y1aGAqAAIG4C"></a>			</td>
+			<td>
+			</td>
+			<td style="padding: 5px 0">
+<span class="TableContent Documentation"></span>			</td>
+		</tr>
+		<tr class="TableRow1">
+			<td>
+			</td>
+			<td>
+				<span class="TableContent">
+					<div style="float: left; width: 18px !important;height: 18px !important;background-image:url(../images/icons/Label.png) !important; background-image:url(''); filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../images/icons/Label.png'); background-repeat: no-repeat;">
+					</div>
+					&nbsp; <span class="TableContent">Ambiente : Label</span>				</span>
+<a name="Kks7y1aGAqAAIG3a;FiS7y1aGAqAAIG39"></a>			</td>
+			<td>
+			</td>
+			<td style="padding: 5px 0">
+<span class="TableContent Documentation"></span>			</td>
+		</tr>
+		<tr class="TableRow2">
+			<td>
+			</td>
+			<td>
+				<span class="TableContent">
+					<div style="float: left; width: 18px !important;height: 18px !important;background-image:url(../images/icons/ComboBox.png) !important; background-image:url(''); filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../images/icons/ComboBox.png'); background-repeat: no-repeat;">
+					</div>
+					&nbsp; <span class="TableContent">Combo Box : Combo Box</span>				</span>
+<a name="Kks7y1aGAqAAIG3a;_iS7y1aGAqAAIG4x"></a>			</td>
+			<td>
+			</td>
+			<td style="padding: 5px 0">
+<span class="TableContent Documentation"></span>			</td>
+		</tr>
+		<tr class="TableRow1">
+			<td>
+			</td>
+			<td>
+				<span class="TableContent">
+					<div style="float: left; width: 18px !important;height: 18px !important;background-image:url(../images/icons/Label.png) !important; background-image:url(''); filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../images/icons/Label.png'); background-repeat: no-repeat;">
+					</div>
+					&nbsp; <span class="TableContent">Programa : Label</span>				</span>
+<a name="Kks7y1aGAqAAIG3a;fiS7y1aGAqAAIG4t"></a>			</td>
+			<td>
+			</td>
+			<td style="padding: 5px 0">
+<span class="TableContent Documentation"></span>			</td>
+		</tr>
+		<tr class="TableRow2">
+			<td>
+			</td>
+			<td>
+				<span class="TableContent">
+					<div style="float: left; width: 18px !important;height: 18px !important;background-image:url(../images/icons/ComboBox.png) !important; background-image:url(''); filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../images/icons/ComboBox.png'); background-repeat: no-repeat;">
+					</div>
+					&nbsp; <span class="TableContent">Combo Box : Combo Box</span>				</span>
+<a name="Kks7y1aGAqAAIG3a;viS7y1aGAqAAIG4o"></a>			</td>
+			<td>
+			</td>
+			<td style="padding: 5px 0">
+<span class="TableContent Documentation"></span>			</td>
+		</tr>
+		<tr class="TableRow1">
+			<td>
+			</td>
+			<td>
+				<span class="TableContent">
+					<div style="float: left; width: 18px !important;height: 18px !important;background-image:url(../images/icons/Label.png) !important; background-image:url(''); filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../images/icons/Label.png'); background-repeat: no-repeat;">
+					</div>
+					&nbsp; <span class="TableContent">Sede<br><br> : Label</span>				</span>
+<a name="Kks7y1aGAqAAIG3a;LiS7y1aGAqAAIG4E"></a>			</td>
+			<td>
+			</td>
+			<td style="padding: 5px 0">
+<span class="TableContent Documentation"></span>			</td>
+		</tr>
+		<tr class="TableRow2">
+			<td>
+			</td>
+			<td>
+				<span class="TableContent">
+					<div style="float: left; width: 18px !important;height: 18px !important;background-image:url(../images/icons/Label.png) !important; background-image:url(''); filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../images/icons/Label.png'); background-repeat: no-repeat;">
+					</div>
+					&nbsp; <span class="TableContent">Consultar limitacion de ambiente : Label</span>				</span>
+<a name="Kks7y1aGAqAAIG3a;riS7y1aGAqAAIG4I"></a>			</td>
+			<td>
+			</td>
+			<td style="padding: 5px 0">
+<span class="TableContent Documentation"></span>			</td>
+		</tr>
+		<tr class="TableRow1">
+			<td>
+			</td>
+			<td>
+				<span class="TableContent">
+					<div style="float: left; width: 18px !important;height: 18px !important;background-image:url(../images/icons/Label.png) !important; background-image:url(''); filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../images/icons/Label.png'); background-repeat: no-repeat;">
+					</div>
+					&nbsp; <span class="TableContent">Compentencia<br> : Label</span>				</span>
+<a name="Kks7y1aGAqAAIG3a;biS7y1aGAqAAIG4M"></a>			</td>
+			<td>
+			</td>
+			<td style="padding: 5px 0">
+<span class="TableContent Documentation"></span>			</td>
+		</tr>
+		<tr class="TableRow2">
+			<td>
+			</td>
+			<td>
+				<span class="TableContent">
+					<div style="float: left; width: 18px !important;height: 18px !important;background-image:url(../images/icons/ComboBox.png) !important; background-image:url(''); filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../images/icons/ComboBox.png'); background-repeat: no-repeat;">
+					</div>
+					&nbsp; <span class="TableContent">Combo Box : Combo Box</span>				</span>
+<a name="Kks7y1aGAqAAIG3a;7iS7y1aGAqAAIG4Q"></a>			</td>
+			<td>
+			</td>
+			<td style="padding: 5px 0">
+<span class="TableContent Documentation"></span>			</td>
+		</tr>
+		<tr class="TableRow1">
+			<td>
+			</td>
+			<td>
+				<span class="TableContent">
+					<div style="float: left; width: 18px !important;height: 18px !important;background-image:url(../images/icons/ComboBox.png) !important; background-image:url(''); filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../images/icons/ComboBox.png'); background-repeat: no-repeat;">
+					</div>
+					&nbsp; <span class="TableContent">Combo Box : Combo Box</span>				</span>
+<a name="Kks7y1aGAqAAIG3a;HiS7y1aGAqAAIG4V"></a>			</td>
+			<td>
+			</td>
+			<td style="padding: 5px 0">
+<span class="TableContent Documentation"></span>			</td>
+		</tr>
+		<tr class="TableRow2">
+			<td>
+			</td>
+			<td>
+				<span class="TableContent">
+					<div style="float: left; width: 18px !important;height: 18px !important;background-image:url(../images/icons/Label.png) !important; background-image:url(''); filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../images/icons/Label.png'); background-repeat: no-repeat;">
+					</div>
+					&nbsp; <span class="TableContent">Resultado de aprendizaje<br> : Label</span>				</span>
+<a name="Kks7y1aGAqAAIG3a;XiS7y1aGAqAAIG4e"></a>			</td>
+			<td>
+			</td>
+			<td style="padding: 5px 0">
+<span class="TableContent Documentation"></span>			</td>
+		</tr>
+		<tr class="TableRow1">
+			<td>
+			</td>
+			<td>
+				<span class="TableContent">
+					<div style="float: left; width: 18px !important;height: 18px !important;background-image:url(../images/icons/Button.png) !important; background-image:url(''); filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../images/icons/Button.png'); background-repeat: no-repeat;">
+					</div>
+					&nbsp; <span class="TableContent">Consultar : Button</span>				</span>
+<a name="Kks7y1aGAqAAIG3a;3iS7y1aGAqAAIG4i"></a>			</td>
+			<td>
+			</td>
+			<td style="padding: 5px 0">
+<span class="TableContent Documentation"></span>			</td>
+		</tr>
+		<tr class="TableRow2">
+			<td>
+			</td>
+			<td>
+				<span class="TableContent">
+					<div style="float: left; width: 18px !important;height: 18px !important;background-image:url(../images/icons/TextField.png) !important; background-image:url(''); filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../images/icons/TextField.png'); background-repeat: no-repeat;">
+					</div>
+					&nbsp; <span class="TableContent">Text Field : Text Field</span>				</span>
+<a name="Kks7y1aGAqAAIG3a;PiS7y1aGAqAAIG4l"></a>			</td>
+			<td>
+			</td>
+			<td style="padding: 5px 0">
+<span class="TableContent Documentation"></span>			</td>
+		</tr>
+	</table>
+	<table border="0" cellpadding="0" width="100%" cellspacing="0">
+		<tr>
+			<td class="TableCellSpaceHolder1PxTall">
+			</td>
+		</tr>
+		<tr>
+			<td class="TableFooter">
+			</td>
+		</tr>
+	</table>
+	<div style="width:370px; height:255px; position: fixed; _position: absolute; overflow: scroll; background-color: #F0F0F0; top: 100px; left: 100px; padding: 10px; display: none;" id="wireframeStatesDialog">
+		<span data-value="Web Wireframe - Consultar limitacion ambiente - abre un modulo con todos los ambientes existentes" style="display: none;" id="pageTitleTextKks7y1aGAqAAIG3a">
+		</span>
+		<table border="0" cellpadding="0" width="100%" cellspacing="0" style=" left: 30; top: 30; width: 340; height: 225; position: absolute; z-index: 10; background: white; border: black 3px solid; padding: 15px 20px 10px 20px; text-align: center;">
+			<tr>
+				<td>
+<a href="javascript:okWireframeStatesDialog('selectShapeKks7y1aGAqAAIG3a', 'diagramKks7y1aGAqAAIG3a', 'none', 'elementsKks7y1aGAqAAIG3a', 'PageTitleText', 'pageTitleTextKks7y1aGAqAAIG3a')"><img src="../images/Consultar_limitacion_ambiente_abre_un_modulo_con_todos_los_ambientes_existentes_preview.png" class="Image" style=" width: 300; height: 174; border: none !important;"/>
+</a>				</td>
+			</tr>
+			<tr>
+				<td>
+<a href="javascript:okWireframeStatesDialog('selectShapeKks7y1aGAqAAIG3a', 'diagramKks7y1aGAqAAIG3a', 'none', 'elementsKks7y1aGAqAAIG3a', 'PageTitleText', 'pageTitleTextKks7y1aGAqAAIG3a')"><span style="color: black !important" class="TableContent ItemLink">abre un modulo con todos los ambientes existentes</span></a>				</td>
+			</tr>
+		</table>
+	</div>
+	<div style="height: 20px">
+	</div>
+	<table border="0" cellpadding="0" width="100%" cellspacing="0">
+		<tr>
+			<td class="FooterLine">
+			</td>
+		</tr>
+	</table>
+	<div class="HeaderText">
+		HOURGLASS	</div>
+</body>
+</html>

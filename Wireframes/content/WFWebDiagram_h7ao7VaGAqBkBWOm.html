@@ -1,0 +1,467 @@
+<html>
+<head>
+	<META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<link rel="stylesheet" href="report.css" type="text/css"/>
+	<title>Web Wireframe - Eliminar actividades del proyecto</title>
+	<script type="text/javascript" src="report.js"></script>
+	<script type="text/javascript" src="link_popup.js"></script>
+	<script type="text/javascript" src="tooltip.js"></script>
+</head>
+<body style="margin-left: 10px; margin-right: 10px; margin-top: 10px; margin-bottom: 10px;" onload="initPage();initDiagram();initWireframeDiagram();">
+	<div style="position:absolute; z-index:2; visibility:hidden;border-top: 2px #FF0000 solid;" id="spotlight_top">
+	</div>
+	<div style="position:absolute; z-index:2; visibility:hidden;border-top: 2px #FF0000 solid;" id="spotlight_bottom">
+	</div>
+	<div style="position:absolute; z-index:2; visibility:hidden;border-left: 2px #FF0000 solid;" id="spotlight_left">
+	</div>
+	<div style="position:absolute; z-index:2; visibility:hidden;border-left: 2px #FF0000 solid;" id="spotlight_right">
+	</div>
+	<canvas width="100" style="position:absolute; z-index:2; visibility:hidden" id="spotlight_c" height="100">
+	</canvas>
+	<div style="position:absolute; width:100px; height:100px; z-index:1; visibility:hidden" id="spotLightResourcesTop">
+		<table border="0" cellpadding="0" cellspacing="0">
+			<tr>
+				<td>
+<a href="#top"><img style="border:none" src="../images/icons/BackToTop.gif" alt="Back to top"/></a>				</td>
+				<td>
+<a href="javascript:clearSpotLightFromOpenSpecButton();"><img style="border:none" src="../images/icons/OpenSpecification.gif" alt="Open specification"/></a>				</td>
+			</tr>
+		</table>
+	</div>
+	<div style="position:absolute; width:100px; height:100px; z-index:1; visibility:hidden" id="spotLightResourcesRight">
+		<table border="0" cellpadding="0" cellspacing="0">
+			<tr>
+				<td>
+<a href="#top"><img style="border:none" src="../images/icons/BackToTop.gif" alt="Back to top"/></a>				</td>
+			</tr>
+			<tr>
+				<td>
+<a href="javascript:clearSpotLightFromOpenSpecButton();"><img style="border:none" src="../images/icons/OpenSpecification.gif" alt="Open specification"/></a>				</td>
+			</tr>
+		</table>
+	</div>
+	<div style="position:absolute;z-index:4;visibility:hidden" id="linkPopupMenuLayer">
+		<table border="0" width="100%" style="border-style:solid; border-width:1px; border-color:#000000; background:#FFFFFF; width:250px" id="linkPopupMenuTable">
+		</table>
+	</div>
+	<div style="position:absolute; z-index:1; visibility:hidden; " id="referenceIconLayer">
+		<table border="0" cellpadding="3" cellspacing="0" style="font-size:1;">
+			<tr>
+				<td>
+					<img src="../images/icons/Ref.gif" style="border:none" onclick="movePopupPositionToReferenceIconPosition();resetPopupForReference();switchPopupShowHideStatus();" />				</td>
+			</tr>
+		</table>
+	</div>
+	<div style="position:absolute; z-index:1; visibility:hidden; " id="subdiagramIconLayer">
+		<table border="0" cellpadding="3" cellspacing="0" style="font-size:1;">
+			<tr>
+				<td>
+					<img src="../images/icons/Subdiagram.gif" style="border:none" onclick="movePopupPositionToSubdiagramIconPosition();resetPopupForSubdiagram();switchPopupShowHideStatus();" />				</td>
+			</tr>
+		</table>
+	</div>
+	<div style="position:absolute; z-index:1; visibility:hidden; " id="transitorIconLayer">
+		<table border="0" cellpadding="3" cellspacing="0" style="font-size:1;">
+			<tr>
+				<td>
+					<img src="../images/icons/Transitor.gif" style="border:none" onclick="movePopupPositionToTransitorIconPosition();resetPopupForTransitor();switchPopupShowHideStatus();" />				</td>
+			</tr>
+		</table>
+	</div>
+	<div style="position:absolute; z-index:1; visibility:hidden; " id="documentationIconLayer">
+		<table border="0" cellpadding="3" cellspacing="0" style="font-size:1;">
+			<tr>
+				<td>
+					<img src="../images/icons/Documentation.png" style="border:none" />				</td>
+			</tr>
+		</table>
+	</div>
+	<div class="HeaderText">
+		HOURGLASS	</div>
+	<table border="0" cellpadding="0" width="100%" cellspacing="0">
+		<tr>
+			<td class="HeaderLine1">
+			</td>
+		</tr>
+		<tr>
+			<td class="HeaderLine2">
+			</td>
+		</tr>
+		<tr>
+			<td class="HeaderLine3">
+			</td>
+		</tr>
+	</table>
+	<div style="position:absolute; z-index:21; visibility:hidden" id="referencedBys">
+		<table border="0" width="100%" style="border-style:solid; border-width:1px; border-color:#000000; background:#FFFFFF; width:250px" id="referencedBysTable">
+		</table>
+	</div>
+	<div style="position:absolute; z-index:21; visibility:hidden" id="vplink">
+		<table border="1" cellpadding="0" cellspacing="0" bordercolor="#A9BFD3">
+			<tr>
+				<td>
+					<table border="0" cellpadding="0" width="100%" cellspacing="0">
+						<tr style="background:#DDDDDD">
+							<td style="font-size: 12px;" align="left">
+								<select onchange="vpLinkToggleName()" id="vplink-linkType">
+	<option value="Project Link">Project Link</option>
+	<option value="Page URL">Page URL</option>
+</select>
+							</td>
+							<td style="font-size: 12px;" align="right">
+								<input onclick="javascript: vpLinkToggleName()" id="vplink-checkbox" type="checkbox" />
+								<label for="vplink-checkbox">with Name</label>							</td>
+						</tr>
+					</table>
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<textarea id="vplink-text" style="width: 348px; height: 60px; border-color: #7EADD9; outline: none;"></textarea>				</td>
+			</tr>
+		</table>
+	</div>
+	<p class="PageTitle">
+		<span id="PageTitleText">
+			Web Wireframe - Eliminar actividades del proyecto		</span>
+<a onclick="javascript: showVpLink('HOURGLASS.vpp://diagram/h7ao7VaGAqBkBWOm', 'Eliminar actividades del proyecto\nHOURGLASS.vpp://diagram/h7ao7VaGAqBkBWOm', 'Eliminar actividades del proyecto', this); return false;" style="padding-left: 16px; font-size: 12px" href="#"><img src="../images/icons/link.png" border="0"> link</a>	</p>
+	<div style="position: relative; padding-bottom: 20px;">
+		<table border="0" cellpadding="0" width="auto" cellspacing="0" style="position: absolute; top: 0; left: 0; z-index: 20;">
+			<tr>
+				<td>
+<a href="javascript:showWireframeStatesDialog()"><span class="TableContent ItemLink">Show State Overview</span></a>				</td>
+				<td width="10px">
+				</td>
+				<td>
+					<table border="0" cellpadding="0" width="100%" cellspacing="0" id="selectShapeR7ao7VaGAqBkBWOo">
+						<tr>
+							<td>
+<span class="TableContent">Jump to:</span>								<select class="TableContent" onChange="scrollWin('diagramR7ao7VaGAqBkBWOo', this.value);hideLinkPopup();showSpotLight('diagramR7ao7VaGAqBkBWOo', this.value)">
+<option value="">Please select an element</option>
+<option value="shape|2.0|2.0|1086.0|666.0|#R7ao7VaGAqBkBWOo;y3ao7VaGAqBkBWOp|#R7ao7VaGAqBkBWOo;y3ao7VaGAqBkBWOp|y3ao7VaGAqBkBWOp" id="optiony3ao7VaGAqBkBWOp">Web Browser : Browser</option>
+<option value="shape|257.0|201.0|645.0|341.0|#R7ao7VaGAqBkBWOo;bUuo7VaGAqBkBWPK|#R7ao7VaGAqBkBWOo;bUuo7VaGAqBkBWPK|bUuo7VaGAqBkBWPK" id="optionbUuo7VaGAqBkBWPK">Panel : Panel</option>
+<option value="shape|487.0|284.0|275.0|38.0|#R7ao7VaGAqBkBWOo;DUuo7VaGAqBkBWPG|#R7ao7VaGAqBkBWOo;DUuo7VaGAqBkBWPG|DUuo7VaGAqBkBWPG" id="optionDUuo7VaGAqBkBWPG">Text Field : Text Field</option>
+<option value="shape|782.0|491.0|120.0|40.0|#R7ao7VaGAqBkBWOo;nUuo7VaGAqBkBWPq|#R7ao7VaGAqBkBWOo;nUuo7VaGAqBkBWPq|nUuo7VaGAqBkBWPq" id="optionnUuo7VaGAqBkBWPq">Eliminar : Button</option>
+<option value="shape|487.0|436.0|198.0|40.0|#R7ao7VaGAqBkBWOo;bUuo7VaGAqBkBWPM|#R7ao7VaGAqBkBWOo;bUuo7VaGAqBkBWPM|bUuo7VaGAqBkBWPM" id="optionbUuo7VaGAqBkBWPM">Combo Box : Combo Box</option>
+<option value="shape|292.0|436.0|153.0|20.0|#R7ao7VaGAqBkBWOo;7Uuo7VaGAqBkBWPV|#R7ao7VaGAqBkBWOo;7Uuo7VaGAqBkBWPV|7Uuo7VaGAqBkBWPV" id="option7Uuo7VaGAqBkBWPV">Numero de la actividad
+ : Label</option>
+<option value="shape|487.0|351.0|155.0|40.0|#R7ao7VaGAqBkBWOo;7Uuo7VaGAqBkBWPZ|#R7ao7VaGAqBkBWOo;7Uuo7VaGAqBkBWPZ|7Uuo7VaGAqBkBWPZ" id="option7Uuo7VaGAqBkBWPZ">Combo Box : Combo Box</option>
+<option value="shape|296.0|361.0|61.0|20.0|#R7ao7VaGAqBkBWOo;HUuo7VaGAqBkBWPe|#R7ao7VaGAqBkBWOo;HUuo7VaGAqBkBWPe|HUuo7VaGAqBkBWPe" id="optionHUuo7VaGAqBkBWPe">Estado
+ : Label</option>
+<option value="shape|441.0|219.0|245.0|20.0|#R7ao7VaGAqBkBWOo;HUuo7VaGAqBkBWPi|#R7ao7VaGAqBkBWOo;HUuo7VaGAqBkBWPi|HUuo7VaGAqBkBWPi" id="optionHUuo7VaGAqBkBWPi">Eliminar actividades de proyectos : Label</option>
+<option value="shape|292.0|292.0|165.0|20.0|#R7ao7VaGAqBkBWOo;nUuo7VaGAqBkBWPm|#R7ao7VaGAqBkBWOo;nUuo7VaGAqBkBWPm|nUuo7VaGAqBkBWPm" id="optionnUuo7VaGAqBkBWPm">Descripcion de actividad
+
+ : Label</option>
+<option value="shape|774.0|261.0|913.0|50.0|#R7ao7VaGAqBkBWOo;p0uo7VaGAqBkBWP2|#R7ao7VaGAqBkBWOo;p0uo7VaGAqBkBWP2|p0uo7VaGAqBkBWP2" id="optionp0uo7VaGAqBkBWP2">En este apartado el usuario ingresa la descripcion de la actividad : Annotation</option>
+<option value="shape|656.0|336.0|1031.0|43.0|#R7ao7VaGAqBkBWOo;N0uo7VaGAqBkBWP6|#R7ao7VaGAqBkBWOo;N0uo7VaGAqBkBWP6|N0uo7VaGAqBkBWP6" id="optionN0uo7VaGAqBkBWP6">en este apartado el usuario selecciona el estado de la actividad : Annotation</option>
+<option value="shape|686.0|421.0|1033.0|46.0|#R7ao7VaGAqBkBWOo;z0uo7VaGAqBkBWP.|#R7ao7VaGAqBkBWOo;z0uo7VaGAqBkBWP.|z0uo7VaGAqBkBWP." id="optionz0uo7VaGAqBkBWP.">en este apartado el usuario selecciona el numero de la actividad
+ : Annotation</option>
+<option value="shape|472.0|541.0|91.0|41.0|#R7ao7VaGAqBkBWOo;n0uo7VaGAqBkBWQC|#R7ao7VaGAqBkBWOo;n0uo7VaGAqBkBWQC|n0uo7VaGAqBkBWQC" id="optionn0uo7VaGAqBkBWQC">Annotation : Annotation</option>
+</select>							</td>
+						</tr>
+					</table>
+				</td>
+			</tr>
+		</table>
+		<span data-value="R7ao7VaGAqBkBWOo" style="display: none;" id="defaultState">
+		</span>
+		<span data-value="Web Wireframe - Eliminar actividades del proyecto - abre un modulo con todas las actividades del proyecto" style="display: none;" id="defaultPageTitleText">
+		</span>
+		<table border="0" cellpadding="0" width="100%" cellspacing="0" style="position: relative; top: 24;">
+			<tr>
+				<td>
+					<img id="diagramR7ao7VaGAqBkBWOo" src="../images/Eliminar_actividades_del_proyecto_abre_un_modulo_con_todas_las_actividades_del_proyecto.png" usemap="#diagramR7ao7VaGAqBkBWOo_map" class="Image" width="1723" height="672"/>
+					<map name="diagramR7ao7VaGAqBkBWOo_map">
+<area imageId="diagramR7ao7VaGAqBkBWOo" coords="472, 541, 563, 582" coords2="472, 541, 563, 582" shape="rect" alt="Annotation:Annotation" id="areadiagramR7ao7VaGAqBkBWOo_map_n0uo7VaGAqBkBWQC" href="#R7ao7VaGAqBkBWOo;n0uo7VaGAqBkBWQC" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagramR7ao7VaGAqBkBWOo" coords="686, 421, 1719, 467" coords2="686, 421, 1719, 467" shape="rect" alt="en este apartado el usuario selecciona el numero de la actividad
+:Annotation" id="areadiagramR7ao7VaGAqBkBWOo_map_z0uo7VaGAqBkBWP." href="#R7ao7VaGAqBkBWOo;z0uo7VaGAqBkBWP." onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagramR7ao7VaGAqBkBWOo" coords="656, 336, 1687, 379" coords2="656, 336, 1687, 379" shape="rect" alt="en este apartado el usuario selecciona el estado de la actividad:Annotation" id="areadiagramR7ao7VaGAqBkBWOo_map_N0uo7VaGAqBkBWP6" href="#R7ao7VaGAqBkBWOo;N0uo7VaGAqBkBWP6" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagramR7ao7VaGAqBkBWOo" coords="774, 261, 1687, 311" coords2="774, 261, 1687, 311" shape="rect" alt="En este apartado el usuario ingresa la descripcion de la actividad:Annotation" id="areadiagramR7ao7VaGAqBkBWOo_map_p0uo7VaGAqBkBWP2" href="#R7ao7VaGAqBkBWOo;p0uo7VaGAqBkBWP2" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagramR7ao7VaGAqBkBWOo" coords="292, 292, 457, 312" coords2="292, 292, 457, 312" shape="rect" alt="Descripcion de actividad
+
+:Label" id="areadiagramR7ao7VaGAqBkBWOo_map_nUuo7VaGAqBkBWPm" href="#R7ao7VaGAqBkBWOo;nUuo7VaGAqBkBWPm" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagramR7ao7VaGAqBkBWOo" coords="441, 219, 686, 239" coords2="441, 219, 686, 239" shape="rect" alt="Eliminar actividades de proyectos:Label" id="areadiagramR7ao7VaGAqBkBWOo_map_HUuo7VaGAqBkBWPi" href="#R7ao7VaGAqBkBWOo;HUuo7VaGAqBkBWPi" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagramR7ao7VaGAqBkBWOo" coords="296, 361, 357, 381" coords2="296, 361, 357, 381" shape="rect" alt="Estado
+:Label" id="areadiagramR7ao7VaGAqBkBWOo_map_HUuo7VaGAqBkBWPe" href="#R7ao7VaGAqBkBWOo;HUuo7VaGAqBkBWPe" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagramR7ao7VaGAqBkBWOo" coords="487, 351, 642, 391" coords2="487, 351, 642, 391" shape="rect" alt="Combo Box:Combo Box" id="areadiagramR7ao7VaGAqBkBWOo_map_7Uuo7VaGAqBkBWPZ" href="#R7ao7VaGAqBkBWOo;7Uuo7VaGAqBkBWPZ" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagramR7ao7VaGAqBkBWOo" coords="292, 436, 445, 456" coords2="292, 436, 445, 456" shape="rect" alt="Numero de la actividad
+:Label" id="areadiagramR7ao7VaGAqBkBWOo_map_7Uuo7VaGAqBkBWPV" href="#R7ao7VaGAqBkBWOo;7Uuo7VaGAqBkBWPV" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagramR7ao7VaGAqBkBWOo" coords="487, 436, 685, 476" coords2="487, 436, 685, 476" shape="rect" alt="Combo Box:Combo Box" id="areadiagramR7ao7VaGAqBkBWOo_map_bUuo7VaGAqBkBWPM" href="#R7ao7VaGAqBkBWOo;bUuo7VaGAqBkBWPM" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagramR7ao7VaGAqBkBWOo" coords="782, 491, 902, 531" coords2="782, 491, 902, 531" shape="rect" alt="Eliminar:Button" id="areadiagramR7ao7VaGAqBkBWOo_map_nUuo7VaGAqBkBWPq" href="#R7ao7VaGAqBkBWOo;nUuo7VaGAqBkBWPq" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagramR7ao7VaGAqBkBWOo" coords="487, 284, 762, 322" coords2="487, 284, 762, 322" shape="rect" alt="Text Field:Text Field" id="areadiagramR7ao7VaGAqBkBWOo_map_DUuo7VaGAqBkBWPG" href="#R7ao7VaGAqBkBWOo;DUuo7VaGAqBkBWPG" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagramR7ao7VaGAqBkBWOo" coords="257, 201, 902, 542" coords2="257, 201, 902, 542" shape="rect" alt="Panel:Panel" id="areadiagramR7ao7VaGAqBkBWOo_map_bUuo7VaGAqBkBWPK" href="#R7ao7VaGAqBkBWOo;bUuo7VaGAqBkBWPK" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagramR7ao7VaGAqBkBWOo" coords="2, 2, 1088, 668" coords2="2, 2, 1088, 668" shape="rect" alt="Web Browser:Browser" id="areadiagramR7ao7VaGAqBkBWOo_map_y3ao7VaGAqBkBWOp" href="#R7ao7VaGAqBkBWOo;y3ao7VaGAqBkBWOp" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+</map>
+				</td>
+			</tr>
+		</table>
+	</div>
+	<p>
+	</p>
+	<table border="0" cellpadding="0" width="100%" cellspacing="0">
+		<tr>
+			<td class="Category">
+				Elements			</td>
+		</tr>
+		<tr>
+			<td style="height: 5px">
+			</td>
+		</tr>
+	</table>
+	<table border="0" cellpadding="0" width="100%" cellspacing="0" id="elementsR7ao7VaGAqBkBWOo">
+		<tr>
+			<td colSpan="4" class="TableHeaderLine">
+			</td>
+		</tr>
+		<tr>
+			<td colSpan="4" class="TableHeaderLine1">
+			</td>
+		</tr>
+		<tr class="TableHeader">
+			<td class="TableCellSpaceHolder10Px">
+			</td>
+			<td width="30%">
+<span class="TableHeaderText">Display Text</span>			</td>
+			<td class="TableCellSpaceHolder20Px">
+			</td>
+			<td>
+<span class="TableHeaderText">Description</span>			</td>
+		</tr>
+		<tr>
+			<td colSpan="4" class="TableHeaderLine2">
+			</td>
+		</tr>
+		<tr class="TableRow1">
+			<td>
+			</td>
+			<td>
+				<span class="TableContent">
+					<div style="float: left; width: 18px !important;height: 18px !important;background-image:url(../images/icons/Browser.png) !important; background-image:url(''); filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../images/icons/Browser.png'); background-repeat: no-repeat;">
+					</div>
+					&nbsp; <span class="TableContent">Web Browser : Browser</span>				</span>
+<a name="R7ao7VaGAqBkBWOo;y3ao7VaGAqBkBWOp"></a>			</td>
+			<td>
+			</td>
+			<td style="padding: 5px 0">
+<span class="TableContent Documentation"></span>			</td>
+		</tr>
+		<tr class="TableRow2">
+			<td>
+			</td>
+			<td>
+				<span class="TableContent">
+					<div style="float: left; width: 18px !important;height: 18px !important;background-image:url(../images/icons/Panel.png) !important; background-image:url(''); filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../images/icons/Panel.png'); background-repeat: no-repeat;">
+					</div>
+					&nbsp; <span class="TableContent">Panel : Panel</span>				</span>
+<a name="R7ao7VaGAqBkBWOo;bUuo7VaGAqBkBWPK"></a>			</td>
+			<td>
+			</td>
+			<td style="padding: 5px 0">
+<span class="TableContent Documentation"></span>			</td>
+		</tr>
+		<tr class="TableRow1">
+			<td>
+			</td>
+			<td>
+				<span class="TableContent">
+					<div style="float: left; width: 18px !important;height: 18px !important;background-image:url(../images/icons/TextField.png) !important; background-image:url(''); filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../images/icons/TextField.png'); background-repeat: no-repeat;">
+					</div>
+					&nbsp; <span class="TableContent">Text Field : Text Field</span>				</span>
+<a name="R7ao7VaGAqBkBWOo;DUuo7VaGAqBkBWPG"></a>			</td>
+			<td>
+			</td>
+			<td style="padding: 5px 0">
+<span class="TableContent Documentation"></span>			</td>
+		</tr>
+		<tr class="TableRow2">
+			<td>
+			</td>
+			<td>
+				<span class="TableContent">
+					<div style="float: left; width: 18px !important;height: 18px !important;background-image:url(../images/icons/Button.png) !important; background-image:url(''); filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../images/icons/Button.png'); background-repeat: no-repeat;">
+					</div>
+					&nbsp; <span class="TableContent">Eliminar : Button</span>				</span>
+<a name="R7ao7VaGAqBkBWOo;nUuo7VaGAqBkBWPq"></a>			</td>
+			<td>
+			</td>
+			<td style="padding: 5px 0">
+<span class="TableContent Documentation"></span>			</td>
+		</tr>
+		<tr class="TableRow1">
+			<td>
+			</td>
+			<td>
+				<span class="TableContent">
+					<div style="float: left; width: 18px !important;height: 18px !important;background-image:url(../images/icons/ComboBox.png) !important; background-image:url(''); filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../images/icons/ComboBox.png'); background-repeat: no-repeat;">
+					</div>
+					&nbsp; <span class="TableContent">Combo Box : Combo Box</span>				</span>
+<a name="R7ao7VaGAqBkBWOo;bUuo7VaGAqBkBWPM"></a>			</td>
+			<td>
+			</td>
+			<td style="padding: 5px 0">
+<span class="TableContent Documentation"></span>			</td>
+		</tr>
+		<tr class="TableRow2">
+			<td>
+			</td>
+			<td>
+				<span class="TableContent">
+					<div style="float: left; width: 18px !important;height: 18px !important;background-image:url(../images/icons/Label.png) !important; background-image:url(''); filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../images/icons/Label.png'); background-repeat: no-repeat;">
+					</div>
+					&nbsp; <span class="TableContent">Numero de la actividad<br> : Label</span>				</span>
+<a name="R7ao7VaGAqBkBWOo;7Uuo7VaGAqBkBWPV"></a>			</td>
+			<td>
+			</td>
+			<td style="padding: 5px 0">
+<span class="TableContent Documentation"></span>			</td>
+		</tr>
+		<tr class="TableRow1">
+			<td>
+			</td>
+			<td>
+				<span class="TableContent">
+					<div style="float: left; width: 18px !important;height: 18px !important;background-image:url(../images/icons/ComboBox.png) !important; background-image:url(''); filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../images/icons/ComboBox.png'); background-repeat: no-repeat;">
+					</div>
+					&nbsp; <span class="TableContent">Combo Box : Combo Box</span>				</span>
+<a name="R7ao7VaGAqBkBWOo;7Uuo7VaGAqBkBWPZ"></a>			</td>
+			<td>
+			</td>
+			<td style="padding: 5px 0">
+<span class="TableContent Documentation"></span>			</td>
+		</tr>
+		<tr class="TableRow2">
+			<td>
+			</td>
+			<td>
+				<span class="TableContent">
+					<div style="float: left; width: 18px !important;height: 18px !important;background-image:url(../images/icons/Label.png) !important; background-image:url(''); filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../images/icons/Label.png'); background-repeat: no-repeat;">
+					</div>
+					&nbsp; <span class="TableContent">Estado<br> : Label</span>				</span>
+<a name="R7ao7VaGAqBkBWOo;HUuo7VaGAqBkBWPe"></a>			</td>
+			<td>
+			</td>
+			<td style="padding: 5px 0">
+<span class="TableContent Documentation"></span>			</td>
+		</tr>
+		<tr class="TableRow1">
+			<td>
+			</td>
+			<td>
+				<span class="TableContent">
+					<div style="float: left; width: 18px !important;height: 18px !important;background-image:url(../images/icons/Label.png) !important; background-image:url(''); filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../images/icons/Label.png'); background-repeat: no-repeat;">
+					</div>
+					&nbsp; <span class="TableContent">Eliminar actividades de proyectos : Label</span>				</span>
+<a name="R7ao7VaGAqBkBWOo;HUuo7VaGAqBkBWPi"></a>			</td>
+			<td>
+			</td>
+			<td style="padding: 5px 0">
+<span class="TableContent Documentation"></span>			</td>
+		</tr>
+		<tr class="TableRow2">
+			<td>
+			</td>
+			<td>
+				<span class="TableContent">
+					<div style="float: left; width: 18px !important;height: 18px !important;background-image:url(../images/icons/Label.png) !important; background-image:url(''); filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../images/icons/Label.png'); background-repeat: no-repeat;">
+					</div>
+					&nbsp; <span class="TableContent">Descripcion de actividad<br><br> : Label</span>				</span>
+<a name="R7ao7VaGAqBkBWOo;nUuo7VaGAqBkBWPm"></a>			</td>
+			<td>
+			</td>
+			<td style="padding: 5px 0">
+<span class="TableContent Documentation"></span>			</td>
+		</tr>
+		<tr class="TableRow1">
+			<td>
+			</td>
+			<td>
+				<span class="TableContent">
+					<div style="float: left; width: 18px !important;height: 18px !important;background-image:url(../images/icons/Annotation.png) !important; background-image:url(''); filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../images/icons/Annotation.png'); background-repeat: no-repeat;">
+					</div>
+					&nbsp; <span class="TableContent">En este apartado el usuario ingresa la descripcion de la actividad : Annotation</span>				</span>
+<a name="R7ao7VaGAqBkBWOo;p0uo7VaGAqBkBWP2"></a>			</td>
+			<td>
+			</td>
+			<td style="padding: 5px 0">
+<span class="TableContent Documentation"></span>			</td>
+		</tr>
+		<tr class="TableRow2">
+			<td>
+			</td>
+			<td>
+				<span class="TableContent">
+					<div style="float: left; width: 18px !important;height: 18px !important;background-image:url(../images/icons/Annotation.png) !important; background-image:url(''); filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../images/icons/Annotation.png'); background-repeat: no-repeat;">
+					</div>
+					&nbsp; <span class="TableContent">en este apartado el usuario selecciona el estado de la actividad : Annotation</span>				</span>
+<a name="R7ao7VaGAqBkBWOo;N0uo7VaGAqBkBWP6"></a>			</td>
+			<td>
+			</td>
+			<td style="padding: 5px 0">
+<span class="TableContent Documentation"></span>			</td>
+		</tr>
+		<tr class="TableRow1">
+			<td>
+			</td>
+			<td>
+				<span class="TableContent">
+					<div style="float: left; width: 18px !important;height: 18px !important;background-image:url(../images/icons/Annotation.png) !important; background-image:url(''); filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../images/icons/Annotation.png'); background-repeat: no-repeat;">
+					</div>
+					&nbsp; <span class="TableContent">en este apartado el usuario selecciona el numero de la actividad<br> : Annotation</span>				</span>
+<a name="R7ao7VaGAqBkBWOo;z0uo7VaGAqBkBWP."></a>			</td>
+			<td>
+			</td>
+			<td style="padding: 5px 0">
+<span class="TableContent Documentation"></span>			</td>
+		</tr>
+		<tr class="TableRow2">
+			<td>
+			</td>
+			<td>
+				<span class="TableContent">
+					<div style="float: left; width: 18px !important;height: 18px !important;background-image:url(../images/icons/Annotation.png) !important; background-image:url(''); filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../images/icons/Annotation.png'); background-repeat: no-repeat;">
+					</div>
+					&nbsp; <span class="TableContent">Annotation : Annotation</span>				</span>
+<a name="R7ao7VaGAqBkBWOo;n0uo7VaGAqBkBWQC"></a>			</td>
+			<td>
+			</td>
+			<td style="padding: 5px 0">
+<span class="TableContent Documentation"></span>			</td>
+		</tr>
+	</table>
+	<table border="0" cellpadding="0" width="100%" cellspacing="0">
+		<tr>
+			<td class="TableCellSpaceHolder1PxTall">
+			</td>
+		</tr>
+		<tr>
+			<td class="TableFooter">
+			</td>
+		</tr>
+	</table>
+	<div style="width:370px; height:255px; position: fixed; _position: absolute; overflow: scroll; background-color: #F0F0F0; top: 100px; left: 100px; padding: 10px; display: none;" id="wireframeStatesDialog">
+		<span data-value="Web Wireframe - Eliminar actividades del proyecto - abre un modulo con todas las actividades del proyecto" style="display: none;" id="pageTitleTextR7ao7VaGAqBkBWOo">
+		</span>
+		<table border="0" cellpadding="0" width="100%" cellspacing="0" style=" left: 30; top: 30; width: 340; height: 225; position: absolute; z-index: 10; background: white; border: black 3px solid; padding: 15px 20px 10px 20px; text-align: center;">
+			<tr>
+				<td>
+<a href="javascript:okWireframeStatesDialog('selectShapeR7ao7VaGAqBkBWOo', 'diagramR7ao7VaGAqBkBWOo', 'none', 'elementsR7ao7VaGAqBkBWOo', 'PageTitleText', 'pageTitleTextR7ao7VaGAqBkBWOo')"><img src="../images/Eliminar_actividades_del_proyecto_abre_un_modulo_con_todas_las_actividades_del_proyecto_preview.png" class="Image" style=" width: 300; height: 184; border: none !important;"/>
+</a>				</td>
+			</tr>
+			<tr>
+				<td>
+<a href="javascript:okWireframeStatesDialog('selectShapeR7ao7VaGAqBkBWOo', 'diagramR7ao7VaGAqBkBWOo', 'none', 'elementsR7ao7VaGAqBkBWOo', 'PageTitleText', 'pageTitleTextR7ao7VaGAqBkBWOo')"><span style="color: black !important" class="TableContent ItemLink">abre un modulo con todas las actividades del proyecto</span></a>				</td>
+			</tr>
+		</table>
+	</div>
+	<div style="height: 20px">
+	</div>
+	<table border="0" cellpadding="0" width="100%" cellspacing="0">
+		<tr>
+			<td class="FooterLine">
+			</td>
+		</tr>
+	</table>
+	<div class="HeaderText">
+		HOURGLASS	</div>
+</body>
+</html>

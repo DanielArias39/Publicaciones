@@ -1,0 +1,425 @@
+<html>
+<head>
+	<META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<link rel="stylesheet" href="report.css" type="text/css"/>
+	<title>Web Wireframe - Actualizar contraseña</title>
+	<script type="text/javascript" src="report.js"></script>
+	<script type="text/javascript" src="link_popup.js"></script>
+	<script type="text/javascript" src="tooltip.js"></script>
+</head>
+<body style="margin-left: 10px; margin-right: 10px; margin-top: 10px; margin-bottom: 10px;" onload="initPage();initDiagram();initWireframeDiagram();">
+	<div style="position:absolute; z-index:2; visibility:hidden;border-top: 2px #FF0000 solid;" id="spotlight_top">
+	</div>
+	<div style="position:absolute; z-index:2; visibility:hidden;border-top: 2px #FF0000 solid;" id="spotlight_bottom">
+	</div>
+	<div style="position:absolute; z-index:2; visibility:hidden;border-left: 2px #FF0000 solid;" id="spotlight_left">
+	</div>
+	<div style="position:absolute; z-index:2; visibility:hidden;border-left: 2px #FF0000 solid;" id="spotlight_right">
+	</div>
+	<canvas width="100" style="position:absolute; z-index:2; visibility:hidden" id="spotlight_c" height="100">
+	</canvas>
+	<div style="position:absolute; width:100px; height:100px; z-index:1; visibility:hidden" id="spotLightResourcesTop">
+		<table border="0" cellpadding="0" cellspacing="0">
+			<tr>
+				<td>
+<a href="#top"><img style="border:none" src="../images/icons/BackToTop.gif" alt="Back to top"/></a>				</td>
+				<td>
+<a href="javascript:clearSpotLightFromOpenSpecButton();"><img style="border:none" src="../images/icons/OpenSpecification.gif" alt="Open specification"/></a>				</td>
+			</tr>
+		</table>
+	</div>
+	<div style="position:absolute; width:100px; height:100px; z-index:1; visibility:hidden" id="spotLightResourcesRight">
+		<table border="0" cellpadding="0" cellspacing="0">
+			<tr>
+				<td>
+<a href="#top"><img style="border:none" src="../images/icons/BackToTop.gif" alt="Back to top"/></a>				</td>
+			</tr>
+			<tr>
+				<td>
+<a href="javascript:clearSpotLightFromOpenSpecButton();"><img style="border:none" src="../images/icons/OpenSpecification.gif" alt="Open specification"/></a>				</td>
+			</tr>
+		</table>
+	</div>
+	<div style="position:absolute;z-index:4;visibility:hidden" id="linkPopupMenuLayer">
+		<table border="0" width="100%" style="border-style:solid; border-width:1px; border-color:#000000; background:#FFFFFF; width:250px" id="linkPopupMenuTable">
+		</table>
+	</div>
+	<div style="position:absolute; z-index:1; visibility:hidden; " id="referenceIconLayer">
+		<table border="0" cellpadding="3" cellspacing="0" style="font-size:1;">
+			<tr>
+				<td>
+					<img src="../images/icons/Ref.gif" style="border:none" onclick="movePopupPositionToReferenceIconPosition();resetPopupForReference();switchPopupShowHideStatus();" />				</td>
+			</tr>
+		</table>
+	</div>
+	<div style="position:absolute; z-index:1; visibility:hidden; " id="subdiagramIconLayer">
+		<table border="0" cellpadding="3" cellspacing="0" style="font-size:1;">
+			<tr>
+				<td>
+					<img src="../images/icons/Subdiagram.gif" style="border:none" onclick="movePopupPositionToSubdiagramIconPosition();resetPopupForSubdiagram();switchPopupShowHideStatus();" />				</td>
+			</tr>
+		</table>
+	</div>
+	<div style="position:absolute; z-index:1; visibility:hidden; " id="transitorIconLayer">
+		<table border="0" cellpadding="3" cellspacing="0" style="font-size:1;">
+			<tr>
+				<td>
+					<img src="../images/icons/Transitor.gif" style="border:none" onclick="movePopupPositionToTransitorIconPosition();resetPopupForTransitor();switchPopupShowHideStatus();" />				</td>
+			</tr>
+		</table>
+	</div>
+	<div style="position:absolute; z-index:1; visibility:hidden; " id="documentationIconLayer">
+		<table border="0" cellpadding="3" cellspacing="0" style="font-size:1;">
+			<tr>
+				<td>
+					<img src="../images/icons/Documentation.png" style="border:none" />				</td>
+			</tr>
+		</table>
+	</div>
+	<div class="HeaderText">
+		HOURGLASS	</div>
+	<table border="0" cellpadding="0" width="100%" cellspacing="0">
+		<tr>
+			<td class="HeaderLine1">
+			</td>
+		</tr>
+		<tr>
+			<td class="HeaderLine2">
+			</td>
+		</tr>
+		<tr>
+			<td class="HeaderLine3">
+			</td>
+		</tr>
+	</table>
+	<div style="position:absolute; z-index:21; visibility:hidden" id="referencedBys">
+		<table border="0" width="100%" style="border-style:solid; border-width:1px; border-color:#000000; background:#FFFFFF; width:250px" id="referencedBysTable">
+		</table>
+	</div>
+	<div style="position:absolute; z-index:21; visibility:hidden" id="vplink">
+		<table border="1" cellpadding="0" cellspacing="0" bordercolor="#A9BFD3">
+			<tr>
+				<td>
+					<table border="0" cellpadding="0" width="100%" cellspacing="0">
+						<tr style="background:#DDDDDD">
+							<td style="font-size: 12px;" align="left">
+								<select onchange="vpLinkToggleName()" id="vplink-linkType">
+	<option value="Project Link">Project Link</option>
+	<option value="Page URL">Page URL</option>
+</select>
+							</td>
+							<td style="font-size: 12px;" align="right">
+								<input onclick="javascript: vpLinkToggleName()" id="vplink-checkbox" type="checkbox" />
+								<label for="vplink-checkbox">with Name</label>							</td>
+						</tr>
+					</table>
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<textarea id="vplink-text" style="width: 348px; height: 60px; border-color: #7EADD9; outline: none;"></textarea>				</td>
+			</tr>
+		</table>
+	</div>
+	<p class="PageTitle">
+		<span id="PageTitleText">
+			Web Wireframe - Actualizar contraseña		</span>
+<a onclick="javascript: showVpLink('HOURGLASS.vpp://diagram/F5BPbVaGAqDIPh50', 'Actualizar contrase&#xf1;a\nHOURGLASS.vpp://diagram/F5BPbVaGAqDIPh50', 'Actualizar contrase&#xf1;a', this); return false;" style="padding-left: 16px; font-size: 12px" href="#"><img src="../images/icons/link.png" border="0"> link</a>	</p>
+	<div style="position: relative; padding-bottom: 20px;">
+		<table border="0" cellpadding="0" width="auto" cellspacing="0" style="position: absolute; top: 0; left: 0; z-index: 20;">
+			<tr>
+				<td>
+<a href="javascript:showWireframeStatesDialog()"><span class="TableContent ItemLink">Show State Overview</span></a>				</td>
+				<td width="10px">
+				</td>
+				<td>
+					<table border="0" cellpadding="0" width="100%" cellspacing="0" id="selectShape15BPbVaGAqDIPh52">
+						<tr>
+							<td>
+<span class="TableContent">Jump to:</span>								<select class="TableContent" onChange="scrollWin('diagram15BPbVaGAqDIPh52', this.value);hideLinkPopup();showSpotLight('diagram15BPbVaGAqDIPh52', this.value)">
+<option value="">Please select an element</option>
+<option value="shape|2.0|2.0|596.0|378.0|#15BPbVaGAqDIPh52;eVBPbVaGAqDIPh53|#15BPbVaGAqDIPh52;eVBPbVaGAqDIPh53|eVBPbVaGAqDIPh53" id="optioneVBPbVaGAqDIPh53">Web Browser : Browser</option>
+<option value="shape|39.0|91.0|528.0|263.0|#15BPbVaGAqDIPh52;ut9PbVaGAqDIPh7t|#15BPbVaGAqDIPh52;ut9PbVaGAqDIPh7t|ut9PbVaGAqDIPh7t" id="optionut9PbVaGAqDIPh7t">Panel : Panel</option>
+<option value="shape|387.0|310.0|155.0|30.0|#15BPbVaGAqDIPh52;8t9PbVaGAqDIPh7p|#15BPbVaGAqDIPh52;8t9PbVaGAqDIPh7p|8t9PbVaGAqDIPh7p" id="option8t9PbVaGAqDIPh7p">Actualizar contraseña : Button</option>
+<option value="shape|75.0|259.0|20.0|21.0|#15BPbVaGAqDIPh52;Bt9PbVaGAqDIPh8A|#15BPbVaGAqDIPh52;Bt9PbVaGAqDIPh8A|Bt9PbVaGAqDIPh8A" id="optionBt9PbVaGAqDIPh8A">Id : Label</option>
+<option value="shape|55.0|185.0|61.0|21.0|#15BPbVaGAqDIPh52;Bt9PbVaGAqDIPh78|#15BPbVaGAqDIPh52;Bt9PbVaGAqDIPh78|Bt9PbVaGAqDIPh78" id="optionBt9PbVaGAqDIPh78">Apellidos : Label</option>
+<option value="shape|55.0|109.0|54.0|21.0|#15BPbVaGAqDIPh52;.t9PbVaGAqDIPh74|#15BPbVaGAqDIPh52;.t9PbVaGAqDIPh74|.t9PbVaGAqDIPh74" id="option.t9PbVaGAqDIPh74">Nombre : Label</option>
+<option value="shape|189.0|259.0|207.0|30.0|#15BPbVaGAqDIPh52;.t9PbVaGAqDIPh71|#15BPbVaGAqDIPh52;.t9PbVaGAqDIPh71|.t9PbVaGAqDIPh71" id="option.t9PbVaGAqDIPh71">Text Field : Text Field</option>
+<option value="shape|191.0|185.0|205.0|30.0|#15BPbVaGAqDIPh52;et9PbVaGAqDIPh7y|#15BPbVaGAqDIPh52;et9PbVaGAqDIPh7y|et9PbVaGAqDIPh7y" id="optionet9PbVaGAqDIPh7y">Text Field : Text Field</option>
+<option value="shape|189.0|111.0|207.0|30.0|#15BPbVaGAqDIPh52;ut9PbVaGAqDIPh7v|#15BPbVaGAqDIPh52;ut9PbVaGAqDIPh7v|ut9PbVaGAqDIPh7v" id="optionut9PbVaGAqDIPh7v">Text Field : Text Field</option>
+<option value="shape|387.0|102.0|411.0|41.0|#15BPbVaGAqDIPh52;4d9PbVaGAqDIPh8M|#15BPbVaGAqDIPh52;4d9PbVaGAqDIPh8M|4d9PbVaGAqDIPh8M" id="option4d9PbVaGAqDIPh8M">Ingrese nombre : Annotation</option>
+<option value="shape|387.0|174.0|437.0|41.0|#15BPbVaGAqDIPh52;id9PbVaGAqDIPh8Q|#15BPbVaGAqDIPh52;id9PbVaGAqDIPh8Q|id9PbVaGAqDIPh8Q" id="optionid9PbVaGAqDIPh8Q">Ingrese Apellidos : Annotation</option>
+<option value="shape|395.0|248.0|488.0|41.0|#15BPbVaGAqDIPh52;md9PbVaGAqDIPh8U|#15BPbVaGAqDIPh52;md9PbVaGAqDIPh8U|md9PbVaGAqDIPh8U" id="optionmd9PbVaGAqDIPh8U">Ingrese numero de documento : Annotation</option>
+</select>							</td>
+						</tr>
+					</table>
+				</td>
+			</tr>
+		</table>
+		<span data-value="15BPbVaGAqDIPh52" style="display: none;" id="defaultState">
+		</span>
+		<span data-value="Web Wireframe - Actualizar contrase&#xf1;a -  abre un modulo con los datos personales" style="display: none;" id="defaultPageTitleText">
+		</span>
+		<table border="0" cellpadding="0" width="100%" cellspacing="0" style="position: relative; top: 24;">
+			<tr>
+				<td>
+					<img id="diagram15BPbVaGAqDIPh52" src="../images/Actualizar_contrasea_abre_un_modulo_con_los_datos_personales.png" usemap="#diagram15BPbVaGAqDIPh52_map" class="Image" width="887" height="384"/>
+					<map name="diagram15BPbVaGAqDIPh52_map">
+<area imageId="diagram15BPbVaGAqDIPh52" coords="395, 248, 883, 289" coords2="395, 248, 883, 289" shape="rect" alt="Ingrese numero de documento:Annotation" id="areadiagram15BPbVaGAqDIPh52_map_md9PbVaGAqDIPh8U" href="#15BPbVaGAqDIPh52;md9PbVaGAqDIPh8U" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagram15BPbVaGAqDIPh52" coords="387, 174, 824, 215" coords2="387, 174, 824, 215" shape="rect" alt="Ingrese Apellidos:Annotation" id="areadiagram15BPbVaGAqDIPh52_map_id9PbVaGAqDIPh8Q" href="#15BPbVaGAqDIPh52;id9PbVaGAqDIPh8Q" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagram15BPbVaGAqDIPh52" coords="387, 102, 798, 143" coords2="387, 102, 798, 143" shape="rect" alt="Ingrese nombre:Annotation" id="areadiagram15BPbVaGAqDIPh52_map_4d9PbVaGAqDIPh8M" href="#15BPbVaGAqDIPh52;4d9PbVaGAqDIPh8M" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagram15BPbVaGAqDIPh52" coords="189, 111, 396, 141" coords2="189, 111, 396, 141" shape="rect" alt="Text Field:Text Field" id="areadiagram15BPbVaGAqDIPh52_map_ut9PbVaGAqDIPh7v" href="#15BPbVaGAqDIPh52;ut9PbVaGAqDIPh7v" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagram15BPbVaGAqDIPh52" coords="191, 185, 396, 215" coords2="191, 185, 396, 215" shape="rect" alt="Text Field:Text Field" id="areadiagram15BPbVaGAqDIPh52_map_et9PbVaGAqDIPh7y" href="#15BPbVaGAqDIPh52;et9PbVaGAqDIPh7y" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagram15BPbVaGAqDIPh52" coords="189, 259, 396, 289" coords2="189, 259, 396, 289" shape="rect" alt="Text Field:Text Field" id="areadiagram15BPbVaGAqDIPh52_map_.t9PbVaGAqDIPh71" href="#15BPbVaGAqDIPh52;.t9PbVaGAqDIPh71" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagram15BPbVaGAqDIPh52" coords="55, 109, 109, 130" coords2="55, 109, 109, 130" shape="rect" alt="Nombre:Label" id="areadiagram15BPbVaGAqDIPh52_map_.t9PbVaGAqDIPh74" href="#15BPbVaGAqDIPh52;.t9PbVaGAqDIPh74" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagram15BPbVaGAqDIPh52" coords="55, 185, 116, 206" coords2="55, 185, 116, 206" shape="rect" alt="Apellidos:Label" id="areadiagram15BPbVaGAqDIPh52_map_Bt9PbVaGAqDIPh78" href="#15BPbVaGAqDIPh52;Bt9PbVaGAqDIPh78" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagram15BPbVaGAqDIPh52" coords="75, 259, 95, 280" coords2="75, 259, 95, 280" shape="rect" alt="Id:Label" id="areadiagram15BPbVaGAqDIPh52_map_Bt9PbVaGAqDIPh8A" href="#15BPbVaGAqDIPh52;Bt9PbVaGAqDIPh8A" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagram15BPbVaGAqDIPh52" coords="387, 310, 542, 340" coords2="387, 310, 542, 340" shape="rect" alt="Actualizar contraseña:Button" id="areadiagram15BPbVaGAqDIPh52_map_8t9PbVaGAqDIPh7p" href="#15BPbVaGAqDIPh52;8t9PbVaGAqDIPh7p" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagram15BPbVaGAqDIPh52" coords="39, 91, 567, 354" coords2="39, 91, 567, 354" shape="rect" alt="Panel:Panel" id="areadiagram15BPbVaGAqDIPh52_map_ut9PbVaGAqDIPh7t" href="#15BPbVaGAqDIPh52;ut9PbVaGAqDIPh7t" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagram15BPbVaGAqDIPh52" coords="2, 2, 598, 380" coords2="2, 2, 598, 380" shape="rect" alt="Web Browser:Browser" id="areadiagram15BPbVaGAqDIPh52_map_eVBPbVaGAqDIPh53" href="#15BPbVaGAqDIPh52;eVBPbVaGAqDIPh53" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+</map>
+				</td>
+			</tr>
+		</table>
+	</div>
+	<p>
+	</p>
+	<table border="0" cellpadding="0" width="100%" cellspacing="0">
+		<tr>
+			<td class="Category">
+				Elements			</td>
+		</tr>
+		<tr>
+			<td style="height: 5px">
+			</td>
+		</tr>
+	</table>
+	<table border="0" cellpadding="0" width="100%" cellspacing="0" id="elements15BPbVaGAqDIPh52">
+		<tr>
+			<td colSpan="4" class="TableHeaderLine">
+			</td>
+		</tr>
+		<tr>
+			<td colSpan="4" class="TableHeaderLine1">
+			</td>
+		</tr>
+		<tr class="TableHeader">
+			<td class="TableCellSpaceHolder10Px">
+			</td>
+			<td width="30%">
+<span class="TableHeaderText">Display Text</span>			</td>
+			<td class="TableCellSpaceHolder20Px">
+			</td>
+			<td>
+<span class="TableHeaderText">Description</span>			</td>
+		</tr>
+		<tr>
+			<td colSpan="4" class="TableHeaderLine2">
+			</td>
+		</tr>
+		<tr class="TableRow1">
+			<td>
+			</td>
+			<td>
+				<span class="TableContent">
+					<div style="float: left; width: 18px !important;height: 18px !important;background-image:url(../images/icons/Browser.png) !important; background-image:url(''); filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../images/icons/Browser.png'); background-repeat: no-repeat;">
+					</div>
+					&nbsp; <span class="TableContent">Web Browser : Browser</span>				</span>
+<a name="15BPbVaGAqDIPh52;eVBPbVaGAqDIPh53"></a>			</td>
+			<td>
+			</td>
+			<td style="padding: 5px 0">
+<span class="TableContent Documentation"></span>			</td>
+		</tr>
+		<tr class="TableRow2">
+			<td>
+			</td>
+			<td>
+				<span class="TableContent">
+					<div style="float: left; width: 18px !important;height: 18px !important;background-image:url(../images/icons/Panel.png) !important; background-image:url(''); filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../images/icons/Panel.png'); background-repeat: no-repeat;">
+					</div>
+					&nbsp; <span class="TableContent">Panel : Panel</span>				</span>
+<a name="15BPbVaGAqDIPh52;ut9PbVaGAqDIPh7t"></a>			</td>
+			<td>
+			</td>
+			<td style="padding: 5px 0">
+<span class="TableContent Documentation"></span>			</td>
+		</tr>
+		<tr class="TableRow1">
+			<td>
+			</td>
+			<td>
+				<span class="TableContent">
+					<div style="float: left; width: 18px !important;height: 18px !important;background-image:url(../images/icons/Button.png) !important; background-image:url(''); filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../images/icons/Button.png'); background-repeat: no-repeat;">
+					</div>
+					&nbsp; <span class="TableContent">Actualizar contraseña : Button</span>				</span>
+<a name="15BPbVaGAqDIPh52;8t9PbVaGAqDIPh7p"></a>			</td>
+			<td>
+			</td>
+			<td style="padding: 5px 0">
+<span class="TableContent Documentation"></span>			</td>
+		</tr>
+		<tr class="TableRow2">
+			<td>
+			</td>
+			<td>
+				<span class="TableContent">
+					<div style="float: left; width: 18px !important;height: 18px !important;background-image:url(../images/icons/Label.png) !important; background-image:url(''); filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../images/icons/Label.png'); background-repeat: no-repeat;">
+					</div>
+					&nbsp; <span class="TableContent">Id : Label</span>				</span>
+<a name="15BPbVaGAqDIPh52;Bt9PbVaGAqDIPh8A"></a>			</td>
+			<td>
+			</td>
+			<td style="padding: 5px 0">
+<span class="TableContent Documentation"></span>			</td>
+		</tr>
+		<tr class="TableRow1">
+			<td>
+			</td>
+			<td>
+				<span class="TableContent">
+					<div style="float: left; width: 18px !important;height: 18px !important;background-image:url(../images/icons/Label.png) !important; background-image:url(''); filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../images/icons/Label.png'); background-repeat: no-repeat;">
+					</div>
+					&nbsp; <span class="TableContent">Apellidos : Label</span>				</span>
+<a name="15BPbVaGAqDIPh52;Bt9PbVaGAqDIPh78"></a>			</td>
+			<td>
+			</td>
+			<td style="padding: 5px 0">
+<span class="TableContent Documentation"></span>			</td>
+		</tr>
+		<tr class="TableRow2">
+			<td>
+			</td>
+			<td>
+				<span class="TableContent">
+					<div style="float: left; width: 18px !important;height: 18px !important;background-image:url(../images/icons/Label.png) !important; background-image:url(''); filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../images/icons/Label.png'); background-repeat: no-repeat;">
+					</div>
+					&nbsp; <span class="TableContent">Nombre : Label</span>				</span>
+<a name="15BPbVaGAqDIPh52;.t9PbVaGAqDIPh74"></a>			</td>
+			<td>
+			</td>
+			<td style="padding: 5px 0">
+<span class="TableContent Documentation"></span>			</td>
+		</tr>
+		<tr class="TableRow1">
+			<td>
+			</td>
+			<td>
+				<span class="TableContent">
+					<div style="float: left; width: 18px !important;height: 18px !important;background-image:url(../images/icons/TextField.png) !important; background-image:url(''); filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../images/icons/TextField.png'); background-repeat: no-repeat;">
+					</div>
+					&nbsp; <span class="TableContent">Text Field : Text Field</span>				</span>
+<a name="15BPbVaGAqDIPh52;.t9PbVaGAqDIPh71"></a>			</td>
+			<td>
+			</td>
+			<td style="padding: 5px 0">
+<span class="TableContent Documentation"></span>			</td>
+		</tr>
+		<tr class="TableRow2">
+			<td>
+			</td>
+			<td>
+				<span class="TableContent">
+					<div style="float: left; width: 18px !important;height: 18px !important;background-image:url(../images/icons/TextField.png) !important; background-image:url(''); filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../images/icons/TextField.png'); background-repeat: no-repeat;">
+					</div>
+					&nbsp; <span class="TableContent">Text Field : Text Field</span>				</span>
+<a name="15BPbVaGAqDIPh52;et9PbVaGAqDIPh7y"></a>			</td>
+			<td>
+			</td>
+			<td style="padding: 5px 0">
+<span class="TableContent Documentation"></span>			</td>
+		</tr>
+		<tr class="TableRow1">
+			<td>
+			</td>
+			<td>
+				<span class="TableContent">
+					<div style="float: left; width: 18px !important;height: 18px !important;background-image:url(../images/icons/TextField.png) !important; background-image:url(''); filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../images/icons/TextField.png'); background-repeat: no-repeat;">
+					</div>
+					&nbsp; <span class="TableContent">Text Field : Text Field</span>				</span>
+<a name="15BPbVaGAqDIPh52;ut9PbVaGAqDIPh7v"></a>			</td>
+			<td>
+			</td>
+			<td style="padding: 5px 0">
+<span class="TableContent Documentation"></span>			</td>
+		</tr>
+		<tr class="TableRow2">
+			<td>
+			</td>
+			<td>
+				<span class="TableContent">
+					<div style="float: left; width: 18px !important;height: 18px !important;background-image:url(../images/icons/Annotation.png) !important; background-image:url(''); filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../images/icons/Annotation.png'); background-repeat: no-repeat;">
+					</div>
+					&nbsp; <span class="TableContent">Ingrese nombre : Annotation</span>				</span>
+<a name="15BPbVaGAqDIPh52;4d9PbVaGAqDIPh8M"></a>			</td>
+			<td>
+			</td>
+			<td style="padding: 5px 0">
+<span class="TableContent Documentation"></span>			</td>
+		</tr>
+		<tr class="TableRow1">
+			<td>
+			</td>
+			<td>
+				<span class="TableContent">
+					<div style="float: left; width: 18px !important;height: 18px !important;background-image:url(../images/icons/Annotation.png) !important; background-image:url(''); filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../images/icons/Annotation.png'); background-repeat: no-repeat;">
+					</div>
+					&nbsp; <span class="TableContent">Ingrese Apellidos : Annotation</span>				</span>
+<a name="15BPbVaGAqDIPh52;id9PbVaGAqDIPh8Q"></a>			</td>
+			<td>
+			</td>
+			<td style="padding: 5px 0">
+<span class="TableContent Documentation"></span>			</td>
+		</tr>
+		<tr class="TableRow2">
+			<td>
+			</td>
+			<td>
+				<span class="TableContent">
+					<div style="float: left; width: 18px !important;height: 18px !important;background-image:url(../images/icons/Annotation.png) !important; background-image:url(''); filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../images/icons/Annotation.png'); background-repeat: no-repeat;">
+					</div>
+					&nbsp; <span class="TableContent">Ingrese numero de documento : Annotation</span>				</span>
+<a name="15BPbVaGAqDIPh52;md9PbVaGAqDIPh8U"></a>			</td>
+			<td>
+			</td>
+			<td style="padding: 5px 0">
+<span class="TableContent Documentation"></span>			</td>
+		</tr>
+	</table>
+	<table border="0" cellpadding="0" width="100%" cellspacing="0">
+		<tr>
+			<td class="TableCellSpaceHolder1PxTall">
+			</td>
+		</tr>
+		<tr>
+			<td class="TableFooter">
+			</td>
+		</tr>
+	</table>
+	<div style="width:370px; height:255px; position: fixed; _position: absolute; overflow: scroll; background-color: #F0F0F0; top: 100px; left: 100px; padding: 10px; display: none;" id="wireframeStatesDialog">
+		<span data-value="Web Wireframe - Actualizar contrase&#xf1;a -  abre un modulo con los datos personales" style="display: none;" id="pageTitleText15BPbVaGAqDIPh52">
+		</span>
+		<table border="0" cellpadding="0" width="100%" cellspacing="0" style=" left: 30; top: 30; width: 340; height: 225; position: absolute; z-index: 10; background: white; border: black 3px solid; padding: 15px 20px 10px 20px; text-align: center;">
+			<tr>
+				<td>
+<a href="javascript:okWireframeStatesDialog('selectShape15BPbVaGAqDIPh52', 'diagram15BPbVaGAqDIPh52', 'none', 'elements15BPbVaGAqDIPh52', 'PageTitleText', 'pageTitleText15BPbVaGAqDIPh52')"><img src="../images/Actualizar_contrasea_abre_un_modulo_con_los_datos_personales_preview.png" class="Image" style=" width: 300; height: 191; border: none !important;"/>
+</a>				</td>
+			</tr>
+			<tr>
+				<td>
+<a href="javascript:okWireframeStatesDialog('selectShape15BPbVaGAqDIPh52', 'diagram15BPbVaGAqDIPh52', 'none', 'elements15BPbVaGAqDIPh52', 'PageTitleText', 'pageTitleText15BPbVaGAqDIPh52')"><span style="color: black !important" class="TableContent ItemLink"> abre un modulo con los datos personales</span></a>				</td>
+			</tr>
+		</table>
+	</div>
+	<div style="height: 20px">
+	</div>
+	<table border="0" cellpadding="0" width="100%" cellspacing="0">
+		<tr>
+			<td class="FooterLine">
+			</td>
+		</tr>
+	</table>
+	<div class="HeaderText">
+		HOURGLASS	</div>
+</body>
+</html>

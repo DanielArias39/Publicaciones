@@ -1,0 +1,443 @@
+<html>
+<head>
+	<META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<link rel="stylesheet" href="report.css" type="text/css"/>
+	<title>Web Wireframe - Gestionar Sedes - Busqueda</title>
+	<script type="text/javascript" src="report.js"></script>
+	<script type="text/javascript" src="link_popup.js"></script>
+	<script type="text/javascript" src="tooltip.js"></script>
+</head>
+<body style="margin-left: 10px; margin-right: 10px; margin-top: 10px; margin-bottom: 10px;" onload="initPage();initDiagram();initWireframeDiagram();">
+	<div style="position:absolute; z-index:2; visibility:hidden;border-top: 2px #FF0000 solid;" id="spotlight_top">
+	</div>
+	<div style="position:absolute; z-index:2; visibility:hidden;border-top: 2px #FF0000 solid;" id="spotlight_bottom">
+	</div>
+	<div style="position:absolute; z-index:2; visibility:hidden;border-left: 2px #FF0000 solid;" id="spotlight_left">
+	</div>
+	<div style="position:absolute; z-index:2; visibility:hidden;border-left: 2px #FF0000 solid;" id="spotlight_right">
+	</div>
+	<canvas width="100" style="position:absolute; z-index:2; visibility:hidden" id="spotlight_c" height="100">
+	</canvas>
+	<div style="position:absolute; width:100px; height:100px; z-index:1; visibility:hidden" id="spotLightResourcesTop">
+		<table border="0" cellpadding="0" cellspacing="0">
+			<tr>
+				<td>
+<a href="#top"><img style="border:none" src="../images/icons/BackToTop.gif" alt="Back to top"/></a>				</td>
+				<td>
+<a href="javascript:clearSpotLightFromOpenSpecButton();"><img style="border:none" src="../images/icons/OpenSpecification.gif" alt="Open specification"/></a>				</td>
+			</tr>
+		</table>
+	</div>
+	<div style="position:absolute; width:100px; height:100px; z-index:1; visibility:hidden" id="spotLightResourcesRight">
+		<table border="0" cellpadding="0" cellspacing="0">
+			<tr>
+				<td>
+<a href="#top"><img style="border:none" src="../images/icons/BackToTop.gif" alt="Back to top"/></a>				</td>
+			</tr>
+			<tr>
+				<td>
+<a href="javascript:clearSpotLightFromOpenSpecButton();"><img style="border:none" src="../images/icons/OpenSpecification.gif" alt="Open specification"/></a>				</td>
+			</tr>
+		</table>
+	</div>
+	<div style="position:absolute;z-index:4;visibility:hidden" id="linkPopupMenuLayer">
+		<table border="0" width="100%" style="border-style:solid; border-width:1px; border-color:#000000; background:#FFFFFF; width:250px" id="linkPopupMenuTable">
+		</table>
+	</div>
+	<div style="position:absolute; z-index:1; visibility:hidden; " id="referenceIconLayer">
+		<table border="0" cellpadding="3" cellspacing="0" style="font-size:1;">
+			<tr>
+				<td>
+					<img src="../images/icons/Ref.gif" style="border:none" onclick="movePopupPositionToReferenceIconPosition();resetPopupForReference();switchPopupShowHideStatus();" />				</td>
+			</tr>
+		</table>
+	</div>
+	<div style="position:absolute; z-index:1; visibility:hidden; " id="subdiagramIconLayer">
+		<table border="0" cellpadding="3" cellspacing="0" style="font-size:1;">
+			<tr>
+				<td>
+					<img src="../images/icons/Subdiagram.gif" style="border:none" onclick="movePopupPositionToSubdiagramIconPosition();resetPopupForSubdiagram();switchPopupShowHideStatus();" />				</td>
+			</tr>
+		</table>
+	</div>
+	<div style="position:absolute; z-index:1; visibility:hidden; " id="transitorIconLayer">
+		<table border="0" cellpadding="3" cellspacing="0" style="font-size:1;">
+			<tr>
+				<td>
+					<img src="../images/icons/Transitor.gif" style="border:none" onclick="movePopupPositionToTransitorIconPosition();resetPopupForTransitor();switchPopupShowHideStatus();" />				</td>
+			</tr>
+		</table>
+	</div>
+	<div style="position:absolute; z-index:1; visibility:hidden; " id="documentationIconLayer">
+		<table border="0" cellpadding="3" cellspacing="0" style="font-size:1;">
+			<tr>
+				<td>
+					<img src="../images/icons/Documentation.png" style="border:none" />				</td>
+			</tr>
+		</table>
+	</div>
+	<div class="HeaderText">
+		HOURGLASS	</div>
+	<table border="0" cellpadding="0" width="100%" cellspacing="0">
+		<tr>
+			<td class="HeaderLine1">
+			</td>
+		</tr>
+		<tr>
+			<td class="HeaderLine2">
+			</td>
+		</tr>
+		<tr>
+			<td class="HeaderLine3">
+			</td>
+		</tr>
+	</table>
+	<div style="position:absolute; z-index:21; visibility:hidden" id="referencedBys">
+		<table border="0" width="100%" style="border-style:solid; border-width:1px; border-color:#000000; background:#FFFFFF; width:250px" id="referencedBysTable">
+		</table>
+	</div>
+	<div style="position:absolute; z-index:21; visibility:hidden" id="vplink">
+		<table border="1" cellpadding="0" cellspacing="0" bordercolor="#A9BFD3">
+			<tr>
+				<td>
+					<table border="0" cellpadding="0" width="100%" cellspacing="0">
+						<tr style="background:#DDDDDD">
+							<td style="font-size: 12px;" align="left">
+								<select onchange="vpLinkToggleName()" id="vplink-linkType">
+	<option value="Project Link">Project Link</option>
+	<option value="Page URL">Page URL</option>
+</select>
+							</td>
+							<td style="font-size: 12px;" align="right">
+								<input onclick="javascript: vpLinkToggleName()" id="vplink-checkbox" type="checkbox" />
+								<label for="vplink-checkbox">with Name</label>							</td>
+						</tr>
+					</table>
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<textarea id="vplink-text" style="width: 348px; height: 60px; border-color: #7EADD9; outline: none;"></textarea>				</td>
+			</tr>
+		</table>
+	</div>
+	<p class="PageTitle">
+		<span id="PageTitleText">
+			Web Wireframe - Gestionar Sedes - Busqueda		</span>
+<a onclick="javascript: showVpLink('HOURGLASS.vpp://diagram/SqM.RVaGAqBktCdE', 'Gestionar Sedes - Busqueda\nHOURGLASS.vpp://diagram/SqM.RVaGAqBktCdE', 'Gestionar Sedes - Busqueda', this); return false;" style="padding-left: 16px; font-size: 12px" href="#"><img src="../images/icons/link.png" border="0"> link</a>	</p>
+	<div style="position: relative; padding-bottom: 20px;">
+		<table border="0" cellpadding="0" width="auto" cellspacing="0" style="position: absolute; top: 0; left: 0; z-index: 20;">
+			<tr>
+				<td>
+<a href="javascript:showWireframeStatesDialog()"><span class="TableContent ItemLink">Show State Overview</span></a>				</td>
+				<td width="10px">
+				</td>
+				<td>
+					<table border="0" cellpadding="0" width="100%" cellspacing="0" id="selectShapeKqM.RVaGAqBktCdG">
+						<tr>
+							<td>
+<span class="TableContent">Jump to:</span>								<select class="TableContent" onChange="scrollWin('diagramKqM.RVaGAqBktCdG', this.value);hideLinkPopup();showSpotLight('diagramKqM.RVaGAqBktCdG', this.value)">
+<option value="">Please select an element</option>
+<option value="shape|257.0|2.0|583.0|454.0|#KqM.RVaGAqBktCdG;LGM.RVaGAqBktCdH|#KqM.RVaGAqBktCdG;LGM.RVaGAqBktCdH|LGM.RVaGAqBktCdH" id="optionLGM.RVaGAqBktCdH">Web Browser : Browser</option>
+<option value="shape|299.0|100.0|493.0|315.0|#KqM.RVaGAqBktCdG;80C.RVaGAqBktCd1|#KqM.RVaGAqBktCdG;80C.RVaGAqBktCd1|80C.RVaGAqBktCd1" id="option80C.RVaGAqBktCd1">Panel : Panel</option>
+<option value="shape|696.0|375.0|69.0|30.0|#KqM.RVaGAqBktCdG;A0C.RVaGAqBktCdx|#KqM.RVaGAqBktCdG;A0C.RVaGAqBktCdx|A0C.RVaGAqBktCdx" id="optionA0C.RVaGAqBktCdx">Buscar : Button</option>
+<option value="shape|475.0|299.0|129.0|30.0|#KqM.RVaGAqBktCdG;a0C.RVaGAqBktCeJ|#KqM.RVaGAqBktCdG;a0C.RVaGAqBktCeJ|a0C.RVaGAqBktCeJ" id="optiona0C.RVaGAqBktCeJ">Combo Box : Combo Box</option>
+<option value="shape|475.0|225.0|140.0|30.0|#KqM.RVaGAqBktCdG;K0C.RVaGAqBktCeG|#KqM.RVaGAqBktCdG;K0C.RVaGAqBktCeG|K0C.RVaGAqBktCeG" id="optionK0C.RVaGAqBktCeG">Ejem:cll45#33-63 : Text Field</option>
+<option value="shape|475.0|163.0|140.0|30.0|#KqM.RVaGAqBktCdG;y0C.RVaGAqBktCeD|#KqM.RVaGAqBktCdG;y0C.RVaGAqBktCeD|y0C.RVaGAqBktCeD" id="optiony0C.RVaGAqBktCeD">Ejem:SedeColombia : Text Field</option>
+<option value="shape|331.0|300.0|101.0|21.0|#KqM.RVaGAqBktCdG;S0C.RVaGAqBktCd_|#KqM.RVaGAqBktCdG;S0C.RVaGAqBktCd_|S0C.RVaGAqBktCd_" id="optionS0C.RVaGAqBktCd_">Estado de sede : Label</option>
+<option value="shape|327.0|234.0|118.0|21.0|#KqM.RVaGAqBktCdG;i0C.RVaGAqBktCd7|#KqM.RVaGAqBktCdG;i0C.RVaGAqBktCd7|i0C.RVaGAqBktCd7" id="optioni0C.RVaGAqBktCd7">Direccion de sede
+ : Label</option>
+<option value="shape|327.0|168.0|108.0|21.0|#KqM.RVaGAqBktCdG;80C.RVaGAqBktCd3|#KqM.RVaGAqBktCdG;80C.RVaGAqBktCd3|80C.RVaGAqBktCd3" id="option80C.RVaGAqBktCd3">Nombre de sede : Label</option>
+<option value="shape|602.0|89.0|512.0|85.0|#KqM.RVaGAqBktCdG;JUC.RVaGAqBktCdp|#KqM.RVaGAqBktCdG;JUC.RVaGAqBktCdp|JUC.RVaGAqBktCdp" id="optionJUC.RVaGAqBktCdp">Digite el nombre de la sede crear : Annotation</option>
+<option value="shape|591.0|256.0|501.0|56.0|#KqM.RVaGAqBktCdG;LUC.RVaGAqBktCdt|#KqM.RVaGAqBktCdG;LUC.RVaGAqBktCdt|LUC.RVaGAqBktCdt" id="optionLUC.RVaGAqBktCdt">Seleccione el estado de la sede : Annotation</option>
+<option value="shape|2.0|174.0|482.0|60.0|#KqM.RVaGAqBktCdG;P0C.RVaGAqBktCeW|#KqM.RVaGAqBktCdG;P0C.RVaGAqBktCeW|P0C.RVaGAqBktCeW" id="optionP0C.RVaGAqBktCeW">Digite la direccion de la sede : Annotation</option>
+<option value="shape|34.0|317.0|676.0|68.0|#KqM.RVaGAqBktCdG;zwS.RVaGAqBktCet|#KqM.RVaGAqBktCdG;zwS.RVaGAqBktCet|zwS.RVaGAqBktCet" id="optionzwS.RVaGAqBktCet">Slecciona la opcion buscar : Annotation</option>
+</select>							</td>
+						</tr>
+					</table>
+				</td>
+			</tr>
+		</table>
+		<span data-value="KqM.RVaGAqBktCdG" style="display: none;" id="defaultState">
+		</span>
+		<span data-value="Web Wireframe - Gestionar Sedes - Busqueda - abre un modulo con todas las sedes existente" style="display: none;" id="defaultPageTitleText">
+		</span>
+		<table border="0" cellpadding="0" width="100%" cellspacing="0" style="position: relative; top: 24;">
+			<tr>
+				<td>
+					<img id="diagramKqM.RVaGAqBktCdG" src="../images/Gestionar_Sedes_Busqueda_abre_un_modulo_con_todas_las_sedes_existente.png" usemap="#diagramKqM.RVaGAqBktCdG_map" class="Image" width="1118" height="460"/>
+					<map name="diagramKqM.RVaGAqBktCdG_map">
+<area imageId="diagramKqM.RVaGAqBktCdG" coords="34, 317, 710, 385" coords2="34, 317, 710, 385" shape="rect" alt="Slecciona la opcion buscar:Annotation" id="areadiagramKqM.RVaGAqBktCdG_map_zwS.RVaGAqBktCet" href="#KqM.RVaGAqBktCdG;zwS.RVaGAqBktCet" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagramKqM.RVaGAqBktCdG" coords="2, 174, 484, 234" coords2="2, 174, 484, 234" shape="rect" alt="Digite la direccion de la sede:Annotation" id="areadiagramKqM.RVaGAqBktCdG_map_P0C.RVaGAqBktCeW" href="#KqM.RVaGAqBktCdG;P0C.RVaGAqBktCeW" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagramKqM.RVaGAqBktCdG" coords="591, 256, 1092, 312" coords2="591, 256, 1092, 312" shape="rect" alt="Seleccione el estado de la sede:Annotation" id="areadiagramKqM.RVaGAqBktCdG_map_LUC.RVaGAqBktCdt" href="#KqM.RVaGAqBktCdG;LUC.RVaGAqBktCdt" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagramKqM.RVaGAqBktCdG" coords="602, 89, 1114, 174" coords2="602, 89, 1114, 174" shape="rect" alt="Digite el nombre de la sede crear:Annotation" id="areadiagramKqM.RVaGAqBktCdG_map_JUC.RVaGAqBktCdp" href="#KqM.RVaGAqBktCdG;JUC.RVaGAqBktCdp" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagramKqM.RVaGAqBktCdG" coords="327, 168, 435, 189" coords2="327, 168, 435, 189" shape="rect" alt="Nombre de sede:Label" id="areadiagramKqM.RVaGAqBktCdG_map_80C.RVaGAqBktCd3" href="#KqM.RVaGAqBktCdG;80C.RVaGAqBktCd3" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagramKqM.RVaGAqBktCdG" coords="327, 234, 445, 255" coords2="327, 234, 445, 255" shape="rect" alt="Direccion de sede
+:Label" id="areadiagramKqM.RVaGAqBktCdG_map_i0C.RVaGAqBktCd7" href="#KqM.RVaGAqBktCdG;i0C.RVaGAqBktCd7" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagramKqM.RVaGAqBktCdG" coords="331, 300, 432, 321" coords2="331, 300, 432, 321" shape="rect" alt="Estado de sede:Label" id="areadiagramKqM.RVaGAqBktCdG_map_S0C.RVaGAqBktCd_" href="#KqM.RVaGAqBktCdG;S0C.RVaGAqBktCd_" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagramKqM.RVaGAqBktCdG" coords="475, 163, 615, 193" coords2="475, 163, 615, 193" shape="rect" alt="Ejem:SedeColombia:Text Field" id="areadiagramKqM.RVaGAqBktCdG_map_y0C.RVaGAqBktCeD" href="#KqM.RVaGAqBktCdG;y0C.RVaGAqBktCeD" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagramKqM.RVaGAqBktCdG" coords="475, 225, 615, 255" coords2="475, 225, 615, 255" shape="rect" alt="Ejem:cll45#33-63:Text Field" id="areadiagramKqM.RVaGAqBktCdG_map_K0C.RVaGAqBktCeG" href="#KqM.RVaGAqBktCdG;K0C.RVaGAqBktCeG" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagramKqM.RVaGAqBktCdG" coords="475, 299, 604, 329" coords2="475, 299, 604, 329" shape="rect" alt="Combo Box:Combo Box" id="areadiagramKqM.RVaGAqBktCdG_map_a0C.RVaGAqBktCeJ" href="#KqM.RVaGAqBktCdG;a0C.RVaGAqBktCeJ" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagramKqM.RVaGAqBktCdG" coords="696, 375, 765, 405" coords2="696, 375, 765, 405" shape="rect" alt="Buscar:Button" id="areadiagramKqM.RVaGAqBktCdG_map_A0C.RVaGAqBktCdx" href="#KqM.RVaGAqBktCdG;A0C.RVaGAqBktCdx" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagramKqM.RVaGAqBktCdG" coords="299, 100, 792, 415" coords2="299, 100, 792, 415" shape="rect" alt="Panel:Panel" id="areadiagramKqM.RVaGAqBktCdG_map_80C.RVaGAqBktCd1" href="#KqM.RVaGAqBktCdG;80C.RVaGAqBktCd1" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagramKqM.RVaGAqBktCdG" coords="257, 2, 840, 456" coords2="257, 2, 840, 456" shape="rect" alt="Web Browser:Browser" id="areadiagramKqM.RVaGAqBktCdG_map_LGM.RVaGAqBktCdH" href="#KqM.RVaGAqBktCdG;LGM.RVaGAqBktCdH" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+</map>
+				</td>
+			</tr>
+		</table>
+	</div>
+	<p>
+	</p>
+	<table border="0" cellpadding="0" width="100%" cellspacing="0">
+		<tr>
+			<td class="Category">
+				Elements			</td>
+		</tr>
+		<tr>
+			<td style="height: 5px">
+			</td>
+		</tr>
+	</table>
+	<table border="0" cellpadding="0" width="100%" cellspacing="0" id="elementsKqM.RVaGAqBktCdG">
+		<tr>
+			<td colSpan="4" class="TableHeaderLine">
+			</td>
+		</tr>
+		<tr>
+			<td colSpan="4" class="TableHeaderLine1">
+			</td>
+		</tr>
+		<tr class="TableHeader">
+			<td class="TableCellSpaceHolder10Px">
+			</td>
+			<td width="30%">
+<span class="TableHeaderText">Display Text</span>			</td>
+			<td class="TableCellSpaceHolder20Px">
+			</td>
+			<td>
+<span class="TableHeaderText">Description</span>			</td>
+		</tr>
+		<tr>
+			<td colSpan="4" class="TableHeaderLine2">
+			</td>
+		</tr>
+		<tr class="TableRow1">
+			<td>
+			</td>
+			<td>
+				<span class="TableContent">
+					<div style="float: left; width: 18px !important;height: 18px !important;background-image:url(../images/icons/Browser.png) !important; background-image:url(''); filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../images/icons/Browser.png'); background-repeat: no-repeat;">
+					</div>
+					&nbsp; <span class="TableContent">Web Browser : Browser</span>				</span>
+<a name="KqM.RVaGAqBktCdG;LGM.RVaGAqBktCdH"></a>			</td>
+			<td>
+			</td>
+			<td style="padding: 5px 0">
+<span class="TableContent Documentation"></span>			</td>
+		</tr>
+		<tr class="TableRow2">
+			<td>
+			</td>
+			<td>
+				<span class="TableContent">
+					<div style="float: left; width: 18px !important;height: 18px !important;background-image:url(../images/icons/Panel.png) !important; background-image:url(''); filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../images/icons/Panel.png'); background-repeat: no-repeat;">
+					</div>
+					&nbsp; <span class="TableContent">Panel : Panel</span>				</span>
+<a name="KqM.RVaGAqBktCdG;80C.RVaGAqBktCd1"></a>			</td>
+			<td>
+			</td>
+			<td style="padding: 5px 0">
+<span class="TableContent Documentation"></span>			</td>
+		</tr>
+		<tr class="TableRow1">
+			<td>
+			</td>
+			<td>
+				<span class="TableContent">
+					<div style="float: left; width: 18px !important;height: 18px !important;background-image:url(../images/icons/Button.png) !important; background-image:url(''); filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../images/icons/Button.png'); background-repeat: no-repeat;">
+					</div>
+					&nbsp; <span class="TableContent">Buscar : Button</span>				</span>
+<a name="KqM.RVaGAqBktCdG;A0C.RVaGAqBktCdx"></a>			</td>
+			<td>
+			</td>
+			<td style="padding: 5px 0">
+<span class="TableContent Documentation"></span>			</td>
+		</tr>
+		<tr class="TableRow2">
+			<td>
+			</td>
+			<td>
+				<span class="TableContent">
+					<div style="float: left; width: 18px !important;height: 18px !important;background-image:url(../images/icons/ComboBox.png) !important; background-image:url(''); filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../images/icons/ComboBox.png'); background-repeat: no-repeat;">
+					</div>
+					&nbsp; <span class="TableContent">Combo Box : Combo Box</span>				</span>
+<a name="KqM.RVaGAqBktCdG;a0C.RVaGAqBktCeJ"></a>			</td>
+			<td>
+			</td>
+			<td style="padding: 5px 0">
+<span class="TableContent Documentation"></span>			</td>
+		</tr>
+		<tr class="TableRow1">
+			<td>
+			</td>
+			<td>
+				<span class="TableContent">
+					<div style="float: left; width: 18px !important;height: 18px !important;background-image:url(../images/icons/TextField.png) !important; background-image:url(''); filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../images/icons/TextField.png'); background-repeat: no-repeat;">
+					</div>
+					&nbsp; <span class="TableContent">Ejem:cll45#33-63 : Text Field</span>				</span>
+<a name="KqM.RVaGAqBktCdG;K0C.RVaGAqBktCeG"></a>			</td>
+			<td>
+			</td>
+			<td style="padding: 5px 0">
+<span class="TableContent Documentation"></span>			</td>
+		</tr>
+		<tr class="TableRow2">
+			<td>
+			</td>
+			<td>
+				<span class="TableContent">
+					<div style="float: left; width: 18px !important;height: 18px !important;background-image:url(../images/icons/TextField.png) !important; background-image:url(''); filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../images/icons/TextField.png'); background-repeat: no-repeat;">
+					</div>
+					&nbsp; <span class="TableContent">Ejem:SedeColombia : Text Field</span>				</span>
+<a name="KqM.RVaGAqBktCdG;y0C.RVaGAqBktCeD"></a>			</td>
+			<td>
+			</td>
+			<td style="padding: 5px 0">
+<span class="TableContent Documentation"></span>			</td>
+		</tr>
+		<tr class="TableRow1">
+			<td>
+			</td>
+			<td>
+				<span class="TableContent">
+					<div style="float: left; width: 18px !important;height: 18px !important;background-image:url(../images/icons/Label.png) !important; background-image:url(''); filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../images/icons/Label.png'); background-repeat: no-repeat;">
+					</div>
+					&nbsp; <span class="TableContent">Estado de sede : Label</span>				</span>
+<a name="KqM.RVaGAqBktCdG;S0C.RVaGAqBktCd_"></a>			</td>
+			<td>
+			</td>
+			<td style="padding: 5px 0">
+<span class="TableContent Documentation"></span>			</td>
+		</tr>
+		<tr class="TableRow2">
+			<td>
+			</td>
+			<td>
+				<span class="TableContent">
+					<div style="float: left; width: 18px !important;height: 18px !important;background-image:url(../images/icons/Label.png) !important; background-image:url(''); filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../images/icons/Label.png'); background-repeat: no-repeat;">
+					</div>
+					&nbsp; <span class="TableContent">Direccion de sede<br> : Label</span>				</span>
+<a name="KqM.RVaGAqBktCdG;i0C.RVaGAqBktCd7"></a>			</td>
+			<td>
+			</td>
+			<td style="padding: 5px 0">
+<span class="TableContent Documentation"></span>			</td>
+		</tr>
+		<tr class="TableRow1">
+			<td>
+			</td>
+			<td>
+				<span class="TableContent">
+					<div style="float: left; width: 18px !important;height: 18px !important;background-image:url(../images/icons/Label.png) !important; background-image:url(''); filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../images/icons/Label.png'); background-repeat: no-repeat;">
+					</div>
+					&nbsp; <span class="TableContent">Nombre de sede : Label</span>				</span>
+<a name="KqM.RVaGAqBktCdG;80C.RVaGAqBktCd3"></a>			</td>
+			<td>
+			</td>
+			<td style="padding: 5px 0">
+<span class="TableContent Documentation"></span>			</td>
+		</tr>
+		<tr class="TableRow2">
+			<td>
+			</td>
+			<td>
+				<span class="TableContent">
+					<div style="float: left; width: 18px !important;height: 18px !important;background-image:url(../images/icons/Annotation.png) !important; background-image:url(''); filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../images/icons/Annotation.png'); background-repeat: no-repeat;">
+					</div>
+					&nbsp; <span class="TableContent">Digite el nombre de la sede crear : Annotation</span>				</span>
+<a name="KqM.RVaGAqBktCdG;JUC.RVaGAqBktCdp"></a>			</td>
+			<td>
+			</td>
+			<td style="padding: 5px 0">
+<span class="TableContent Documentation"></span>			</td>
+		</tr>
+		<tr class="TableRow1">
+			<td>
+			</td>
+			<td>
+				<span class="TableContent">
+					<div style="float: left; width: 18px !important;height: 18px !important;background-image:url(../images/icons/Annotation.png) !important; background-image:url(''); filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../images/icons/Annotation.png'); background-repeat: no-repeat;">
+					</div>
+					&nbsp; <span class="TableContent">Seleccione el estado de la sede : Annotation</span>				</span>
+<a name="KqM.RVaGAqBktCdG;LUC.RVaGAqBktCdt"></a>			</td>
+			<td>
+			</td>
+			<td style="padding: 5px 0">
+<span class="TableContent Documentation"></span>			</td>
+		</tr>
+		<tr class="TableRow2">
+			<td>
+			</td>
+			<td>
+				<span class="TableContent">
+					<div style="float: left; width: 18px !important;height: 18px !important;background-image:url(../images/icons/Annotation.png) !important; background-image:url(''); filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../images/icons/Annotation.png'); background-repeat: no-repeat;">
+					</div>
+					&nbsp; <span class="TableContent">Digite la direccion de la sede : Annotation</span>				</span>
+<a name="KqM.RVaGAqBktCdG;P0C.RVaGAqBktCeW"></a>			</td>
+			<td>
+			</td>
+			<td style="padding: 5px 0">
+<span class="TableContent Documentation"></span>			</td>
+		</tr>
+		<tr class="TableRow1">
+			<td>
+			</td>
+			<td>
+				<span class="TableContent">
+					<div style="float: left; width: 18px !important;height: 18px !important;background-image:url(../images/icons/Annotation.png) !important; background-image:url(''); filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../images/icons/Annotation.png'); background-repeat: no-repeat;">
+					</div>
+					&nbsp; <span class="TableContent">Slecciona la opcion buscar : Annotation</span>				</span>
+<a name="KqM.RVaGAqBktCdG;zwS.RVaGAqBktCet"></a>			</td>
+			<td>
+			</td>
+			<td style="padding: 5px 0">
+<span class="TableContent Documentation"></span>			</td>
+		</tr>
+	</table>
+	<table border="0" cellpadding="0" width="100%" cellspacing="0">
+		<tr>
+			<td class="TableCellSpaceHolder1PxTall">
+			</td>
+		</tr>
+		<tr>
+			<td class="TableFooter">
+			</td>
+		</tr>
+	</table>
+	<div style="width:370px; height:255px; position: fixed; _position: absolute; overflow: scroll; background-color: #F0F0F0; top: 100px; left: 100px; padding: 10px; display: none;" id="wireframeStatesDialog">
+		<span data-value="Web Wireframe - Gestionar Sedes - Busqueda - abre un modulo con todas las sedes existente" style="display: none;" id="pageTitleTextKqM.RVaGAqBktCdG">
+		</span>
+		<table border="0" cellpadding="0" width="100%" cellspacing="0" style=" left: 30; top: 30; width: 340; height: 225; position: absolute; z-index: 10; background: white; border: black 3px solid; padding: 15px 20px 10px 20px; text-align: center;">
+			<tr>
+				<td>
+<a href="javascript:okWireframeStatesDialog('selectShapeKqM.RVaGAqBktCdG', 'diagramKqM.RVaGAqBktCdG', 'none', 'elementsKqM.RVaGAqBktCdG', 'PageTitleText', 'pageTitleTextKqM.RVaGAqBktCdG')"><img src="../images/Gestionar_Sedes_Busqueda_abre_un_modulo_con_todas_las_sedes_existente_preview.png" class="Image" style=" width: 256; height: 200; border: none !important;"/>
+</a>				</td>
+			</tr>
+			<tr>
+				<td>
+<a href="javascript:okWireframeStatesDialog('selectShapeKqM.RVaGAqBktCdG', 'diagramKqM.RVaGAqBktCdG', 'none', 'elementsKqM.RVaGAqBktCdG', 'PageTitleText', 'pageTitleTextKqM.RVaGAqBktCdG')"><span style="color: black !important" class="TableContent ItemLink">abre un modulo con todas las sedes existente</span></a>				</td>
+			</tr>
+		</table>
+	</div>
+	<div style="height: 20px">
+	</div>
+	<table border="0" cellpadding="0" width="100%" cellspacing="0">
+		<tr>
+			<td class="FooterLine">
+			</td>
+		</tr>
+	</table>
+	<div class="HeaderText">
+		HOURGLASS	</div>
+</body>
+</html>
